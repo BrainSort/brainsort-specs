@@ -14,7 +14,7 @@
 
 ## 📁 `brainsort-api/` (Raíz)
 
-- [ ] **T-BE-001**: Inicializar proyecto NestJS con adaptador Fastify (`@nestjs/platform-fastify`)
+- [x] **T-BE-001**: Inicializar proyecto NestJS con adaptador Fastify (`@nestjs/platform-fastify`)
 - [ ] **T-BE-002**: Configurar `package.json` con las dependencias especificadas: `@nestjs/common ^10.x`, `@nestjs/core ^10.x`, `@nestjs/platform-fastify ^10.x`, `@nestjs/swagger ^7.x`, `@nestjs/jwt ^10.x`, `@nestjs/passport ^10.x`, `@prisma/client ^5.x`, `bcrypt ^5.x`, `class-validator ^0.14.x`, `class-transformer ^0.5.x`, `passport ^0.7.x`, `passport-jwt ^4.x`
 - [ ] **T-BE-003**: Configurar `devDependencies`: `prisma ^5.x`, `@nestjs/testing ^10.x`, `typescript ^5.x`, `eslint ^8.57.0`, `prettier ^3.x`
 - [ ] **T-BE-004**: Configurar `tsconfig.json` y `tsconfig.build.json` para TypeScript
