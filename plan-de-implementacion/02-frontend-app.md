@@ -439,7 +439,8 @@ type BibliotecaResponse = paths['/api/biblioteca']['get']['responses']['200']['c
   "devDependencies": {
     "typescript": "^5.x",
     "openapi-typescript": "^7.x",
-    "eslint": "^9.x",
+    "eslint": "^8.57.0",
+    "eslint-config-expo": "^7.x",
     "prettier": "^3.x"
   }
 }

@@ -45,6 +45,12 @@ El motor de simulación calcula los pasos del algoritmo. El frontend actúa como
     "estadoActual": "Pausa",
     "pasoActual": 0
   },
+  "pseudocode": [
+    { "line": 1, "text": "PARA i = 0 HASTA n-1", "indent": 0 },
+    { "line": 2, "text": "PARA j = 0 HASTA n-i-1", "indent": 1 },
+    { "line": 3, "text": "SI arreglo[j] > arreglo[j+1]", "indent": 2 },
+    { "line": 4, "text": "INTERCAMBIAR(arreglo[j], arreglo[j+1])", "indent": 3 }
+  ],
   "totalPasos": 6,
   "pasos": [
     {
@@ -61,7 +67,7 @@ El motor de simulación calcula los pasos del algoritmo. El frontend actúa como
 ## 3. Data Models (Según Modelo del Dominio)
 - **Simulación**: `velocidadReproducción` (Float), `estadoActual` (String: Pausa/Play), `pasoActual` (Integer).
 - **ConjuntoDeDatos**: `valores` (Array), `tipoOrigen` (String: **Predeterminado/Personalizado**), `tamaño` (Integer).
-- **Algoritmo**: `nombre`, `descripción`, `complejidadTiempo` (String Big-O), `complejidadEspacio` (String Big-O), `pseudocódigo`, `categoría`.
+- **Algoritmo**: `nombre`, `descripción`, `complejidadTiempo` (String Big-O), `complejidadEspacio` (String Big-O), `categoría`. Pseudocódigo vive en el engine (CDR-001).
 
 ## 4. Frontend Rendering Strategy
 - Velocidad ajustable: múltiplos de 0.25 en rango [0.25, 2.0] (según Glosario).

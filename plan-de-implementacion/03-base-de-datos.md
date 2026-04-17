@@ -71,7 +71,8 @@ model Administrador {
 // ═══════════════════════════════════════
 // Entidad: Algoritmo
 // Modelo del Dominio: nombre, descripción, complejidadTiempo,
-//                     complejidadEspacio, pseudocódigo, categoría
+//                     complejidadEspacio, categoría
+// NOTA CDR-001: pseudocódigo migrado al engine (ver cambios-en-documentacion/CHANGELOG.md)
 // Asociaciones: contenido en BibliotecaDeAlgoritmos,
 //               tiene descrita Simulación, gestionado por Admin
 // ═══════════════════════════════════════
@@ -81,7 +82,7 @@ model Algoritmo {
   descripcion       String    @db.Text
   complejidadTiempo String    // Notación Big O, ej: "O(n²)"
   complejidadEspacio String   // Notación Big O, ej: "O(1)"
-  pseudocodigo      String    @db.Text
+  // pseudocodigo: Migrado al engine file (CDR-001). Ver engines/{nombre}.engine.ts
   categoria         CategoriaAlgoritmo
   activo            Boolean   @default(true)
   createdAt         DateTime  @default(now())
@@ -244,7 +245,7 @@ model RespuestaEjercicio {
 | Usuario | `Usuario` | `rol` como Enum. `contraseña` hasheada con bcrypt. |
 | Administrador | `Administrador` | Entidad **separada** con `credencialesAdmin` y `últimoAcceso`. |
 | BibliotecaDeAlgoritmos | — | Concepto virtual. Es una query sobre `Algoritmo` agrupada por `categoría`. `totalAlgoritmos` se calcula con `COUNT`. |
-| Algoritmo | `Algoritmo` | `nombre` único. `categoría` como Enum. |
+| Algoritmo | `Algoritmo` | `nombre` único. `categoría` como Enum. `pseudocódigo` migrado al engine file (CDR-001). |
 | Simulación | `SesionSimulacion` | El estado efímero (velocidad, paso, play/pause) vive en el **frontend**. Solo se persiste el progreso de la sesión. |
 | ConjuntoDeDatos | — | Efímero (generado en cada simulación). No se persiste. Los `valores`, `tipoOrigen` y `tamaño` se envían en la request y se procesan en memoria. |
 | EjercicioPredicción | `EjercicioPrediccion` | FK a `Algoritmo`. `dificultad` como Enum. |
@@ -270,8 +271,8 @@ model RespuestaEjercicio {
 ### ¿Por qué BibliotecaDeAlgoritmos no es una tabla?
 El Modelo del Dominio define `BibliotecaDeAlgoritmos` con `categorías[]` y `totalAlgoritmos`. Pero estos son **valores derivados**: las categorías son los valores únicos del campo `categoría` de `Algoritmo`, y `totalAlgoritmos` es un `COUNT(*)`. No hay datos propios que justifiquen una tabla separada.
 
-### ¿Por qué Simulación no se persiste completamente?
-La `Simulación` del dominio tiene `velocidadReproducción`, `estadoActual` y `pasoActual`. Estos son **estados efímeros de la UI** (play/pause, velocidad del slider, paso actual de la animación). No tiene sentido almacenarlos en PostgreSQL. Lo que sí se persiste es la `SesionSimulacion`: si el usuario completó la simulación, cuántos pasos vio, etc.
+### ¿Por qué `pseudocódigo` no está en la DB?
+El Modelo del Dominio original define `Algoritmo.pseudocódigo: Text`. Para 3 algoritmos funciona, pero BrainSort escalará a **120+ algoritmos**. El pseudocódigo debe estar sincronizado con el mapeo de líneas del engine (para que `lineaPseudocodigo` en cada `SimulationStep` sea correcto). Mantener ambos separados (DB + engine) es insostenible. Solución: el engine **posee** el pseudocódigo. Ver CDR-001 en `cambios-en-documentacion/CHANGELOG.md`.
 
 ### ¿Por qué ConjuntoDeDatos no se persiste?
 Los `valores` son generados dinámicamente (predeterminados: aleatorios de 8-15 elementos; personalizados: ingresados por el usuario). Son transitorios y se procesan en memoria. Almacenarlos no aporta valor.
@@ -301,17 +302,13 @@ async function main() {
     },
   });
 
-  // 2. Seed de algoritmos de ordenamiento
+  // 2. Seed de algoritmos (metadatos únicamente — pseudocódigo vive en engines/)
   const algoritmos = [
     {
       nombre: 'Bubble Sort',
       descripcion: 'Algoritmo de ordenamiento que compara elementos adyacentes e intercambia si están desordenados.',
       complejidadTiempo: 'O(n²)',
       complejidadEspacio: 'O(1)',
-      pseudocodigo: `PARA i = 0 HASTA n-1
-  PARA j = 0 HASTA n-i-1
-    SI arreglo[j] > arreglo[j+1]
-      INTERCAMBIAR(arreglo[j], arreglo[j+1])`,
       categoria: 'Ordenamiento',
     },
     {
@@ -319,12 +316,6 @@ async function main() {
       descripcion: 'Algoritmo que selecciona el menor elemento y lo coloca en su posición correcta.',
       complejidadTiempo: 'O(n²)',
       complejidadEspacio: 'O(1)',
-      pseudocodigo: `PARA i = 0 HASTA n-1
-  minIdx = i
-  PARA j = i+1 HASTA n
-    SI arreglo[j] < arreglo[minIdx]
-      minIdx = j
-  INTERCAMBIAR(arreglo[i], arreglo[minIdx])`,
       categoria: 'Ordenamiento',
     },
     {
@@ -332,13 +323,6 @@ async function main() {
       descripcion: 'Algoritmo que inserta cada elemento en su posición correcta dentro de la sublista ordenada.',
       complejidadTiempo: 'O(n²)',
       complejidadEspacio: 'O(1)',
-      pseudocodigo: `PARA i = 1 HASTA n
-  clave = arreglo[i]
-  j = i - 1
-  MIENTRAS j >= 0 Y arreglo[j] > clave
-    arreglo[j+1] = arreglo[j]
-    j = j - 1
-  arreglo[j+1] = clave`,
       categoria: 'Ordenamiento',
     },
   ];
@@ -351,7 +335,47 @@ async function main() {
     });
   }
 
-  // 3. Seed de insignias
+  // 3. Seed de ejercicios (1 por algoritmo — mínimo para probar flujo completo)
+  const bubbleSort = await prisma.algoritmo.findUnique({ where: { nombre: 'Bubble Sort' } });
+  const selectionSort = await prisma.algoritmo.findUnique({ where: { nombre: 'Selection Sort' } });
+  const insertionSort = await prisma.algoritmo.findUnique({ where: { nombre: 'Insertion Sort' } });
+
+  // Solo crear ejercicios si no existen (idempotente)
+  const ejerciciosExistentes = await prisma.ejercicioPrediccion.count();
+  if (ejerciciosExistentes === 0) {
+    const ejercicios = [
+      {
+        pregunta: 'Dado el arreglo [5, 2, 8, 1], ¿cuál es el resultado después de la primera pasada completa de Bubble Sort?',
+        respuestaCorrecta: '[2, 5, 1, 8]',
+        dificultad: 'Facil',
+        feedbackPositivo: '¡Correcto! En la primera pasada, Bubble Sort compara pares adyacentes: 5>2 (swap→[2,5,8,1]), 5<8 (no swap), 8>1 (swap→[2,5,1,8]). El 8 "burbujea" al final.',
+        feedbackNegativo: 'Incorrecto. Recuerda: Bubble Sort compara pares adyacentes de izquierda a derecha. Si el izquierdo es mayor, los intercambia. Al final de la primera pasada, el elemento más grande queda al final.',
+        algoritmoId: bubbleSort!.id,
+      },
+      {
+        pregunta: 'En Selection Sort, dado el arreglo [4, 7, 1, 3], ¿cuál es el primer intercambio que se realiza?',
+        respuestaCorrecta: 'Intercambiar 4 con 1',
+        dificultad: 'Facil',
+        feedbackPositivo: '¡Correcto! Selection Sort busca el mínimo en todo el arreglo (1 en posición 2) y lo intercambia con el primer elemento (4 en posición 0).',
+        feedbackNegativo: 'Incorrecto. Selection Sort recorre todo el arreglo buscando el elemento más pequeño, y luego lo intercambia con el elemento en la primera posición.',
+        algoritmoId: selectionSort!.id,
+      },
+      {
+        pregunta: 'En Insertion Sort, dado el arreglo [3, 1, 4, 2], ¿cuál es el estado del arreglo después de insertar el segundo elemento?',
+        respuestaCorrecta: '[1, 3, 4, 2]',
+        dificultad: 'Facil',
+        feedbackPositivo: '¡Correcto! Insertion Sort toma el segundo elemento (1), lo compara con el primero (3), y como 1 < 3, lo inserta antes. Resultado: [1, 3, 4, 2].',
+        feedbackNegativo: 'Incorrecto. Insertion Sort toma cada elemento y lo inserta en su posición correcta dentro de la sublista ya ordenada a su izquierda.',
+        algoritmoId: insertionSort!.id,
+      },
+    ];
+
+    for (const ej of ejercicios) {
+      await prisma.ejercicioPrediccion.create({ data: ej });
+    }
+  }
+
+  // 4. Seed de insignias
   const insignias = [
     { nombre: 'Primer Paso', descripcion: 'Completaste tu primera simulación', imagen: '/badges/first-step.svg', criterioDesbloqueo: 'Completar 1 simulación' },
     { nombre: 'Explorador', descripcion: 'Visualizaste 3 algoritmos diferentes', imagen: '/badges/explorer.svg', criterioDesbloqueo: 'Visualizar 3 algoritmos' },

@@ -16,7 +16,7 @@
 
 - [ ] **T-BE-001**: Inicializar proyecto NestJS con adaptador Fastify (`@nestjs/platform-fastify`)
 - [ ] **T-BE-002**: Configurar `package.json` con las dependencias especificadas: `@nestjs/common ^10.x`, `@nestjs/core ^10.x`, `@nestjs/platform-fastify ^10.x`, `@nestjs/swagger ^7.x`, `@nestjs/jwt ^10.x`, `@nestjs/passport ^10.x`, `@prisma/client ^5.x`, `bcrypt ^5.x`, `class-validator ^0.14.x`, `class-transformer ^0.5.x`, `passport ^0.7.x`, `passport-jwt ^4.x`
-- [ ] **T-BE-003**: Configurar `devDependencies`: `prisma ^5.x`, `@nestjs/testing ^10.x`, `typescript ^5.x`, `eslint ^9.x`, `prettier ^3.x`
+- [ ] **T-BE-003**: Configurar `devDependencies`: `prisma ^5.x`, `@nestjs/testing ^10.x`, `typescript ^5.x`, `eslint ^8.57.0`, `prettier ^3.x`
 - [ ] **T-BE-004**: Configurar `tsconfig.json` y `tsconfig.build.json` para TypeScript
 - [ ] **T-BE-005**: Configurar `nest-cli.json`
 - [ ] **T-BE-006**: Crear archivo `.env.example` con las variables: `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRATION` (15m), `JWT_REFRESH_EXPIRATION` (7d), `PORT` (3000), `NODE_ENV`, `FRONTEND_URLS`
@@ -31,7 +31,7 @@
 - [ ] **T-BE-010**: Definir modelo `Usuario` con campos: `id` (UUID), `nombre`, `correo` (unique), `rol` (Enum), `contrasena`, `createdAt`, `updatedAt`. Relaciones: `progreso` (1:1), `sesiones[]`, `respuestas[]`. Map: `"usuarios"`
 - [ ] **T-BE-011**: Definir Enum `Rol` con valores: `Estudiante`, `Profesor`, `Autodidacta`
 - [ ] **T-BE-012**: Definir modelo `Administrador` con campos: `id` (UUID), `nombre`, `correo` (unique), `contrasena`, `credencialesAdmin`, `ultimoAcceso`, `createdAt`, `updatedAt`. Map: `"administradores"`
-- [ ] **T-BE-013**: Definir modelo `Algoritmo` con campos: `id` (UUID), `nombre` (unique), `descripcion` (Text), `complejidadTiempo`, `complejidadEspacio`, `pseudocodigo` (Text), `categoria` (Enum), `activo` (default true), `createdAt`, `updatedAt`. Relaciones: `ejercicios[]`, `sesiones[]`. Map: `"algoritmos"`
+- [ ] **T-BE-013**: Definir modelo `Algoritmo` con campos: `id` (UUID), `nombre` (unique), `descripcion` (Text), `complejidadTiempo`, `complejidadEspacio`, `categoria` (Enum), `activo` (default true), `createdAt`, `updatedAt`. Relaciones: `ejercicios[]`, `sesiones[]`. Map: `"algoritmos"`. **CDR-001: pseudocodigo migrado al engine file**
 - [ ] **T-BE-014**: Definir Enum `CategoriaAlgoritmo` con valores: `Ordenamiento`, `Busqueda`, `EstructurasLineales`
 - [ ] **T-BE-015**: Definir modelo `EjercicioPrediccion` con campos: `id` (UUID), `pregunta` (Text), `respuestaCorrecta`, `dificultad` (Enum), `feedbackPositivo` (Text), `feedbackNegativo` (Text), `createdAt`. FK: `algoritmoId`. Relaciones: `algoritmo`, `respuestas[]`. Map: `"ejercicios_prediccion"`
 - [ ] **T-BE-016**: Definir Enum `DificultadEjercicio` con valores: `Facil`, `Medio`, `Dificil`
@@ -41,7 +41,7 @@
 - [ ] **T-BE-020**: Definir modelo `SesionSimulacion` con campos: `id` (UUID), `pasosCompletados` (default 0), `totalPasos`, `completada` (default false), `fechaInicio`, `fechaFin` (nullable). FKs: `usuarioId`, `algoritmoId`. Map: `"sesiones_simulacion"`
 - [ ] **T-BE-021**: Definir modelo `RespuestaEjercicio` con campos: `id` (UUID), `respuesta`, `correcto`, `puntosGanados` (default 0), `fechaRespuesta`. FKs: `usuarioId`, `ejercicioId`. Map: `"respuestas_ejercicio"`
 - [ ] **T-BE-022**: Ejecutar migración inicial: `npx prisma migrate dev --name init`
-- [ ] **T-BE-023**: Crear `seed.ts` con: (1) Administrador por defecto (`admin@brainsort.edu`, password hasheada con bcrypt, credencial `SUPER_ADMIN`), (2) 3 algoritmos de ordenamiento (Bubble Sort, Selection Sort, Insertion Sort) con sus pseudocódigos, (3) 4 insignias (Primer Paso, Explorador, Racha de 7, Maestro del Orden) con criterios de desbloqueo
+- [ ] **T-BE-023**: Crear `seed.ts` con: (1) Administrador por defecto (`admin@brainsort.edu`, password hasheada con bcrypt, credencial `SUPER_ADMIN`), (2) 3 algoritmos de ordenamiento (Bubble Sort, Selection Sort, Insertion Sort) — solo metadatos, **CDR-001: pseudocodigo vive en engines**, (3) 3 ejercicios de predicción (1 por algoritmo, dificultad Fácil), (4) 4 insignias (Primer Paso, Explorador, Racha de 7, Maestro del Orden) con criterios de desbloqueo
 
 ---
 
@@ -92,10 +92,13 @@
   - `refresh()`: Validar refresh token y generar nuevos tokens
 - [ ] **T-BE-039**: Crear `register.dto.ts` con validaciones: `@IsString() nombre`, `@IsEmail() correo`, `@IsEnum(['Estudiante', 'Profesor', 'Autodidacta']) rol`, `@IsString() @MinLength(8) contrasena`
 - [ ] **T-BE-040**: Crear `login.dto.ts` con campos: `correo`, `contrasena`
-- [ ] **T-BE-041**: Crear `jwt.strategy.ts` — Passport JWT strategy para validar tokens
+- [ ] **T-BE-041**: Crear `jwt.strategy.ts` — Passport JWT strategy para validar tokens. Soportar campo `tipo` (usuario | administrador) en payload
 - [ ] **T-BE-042**: Crear `jwt-auth.guard.ts` — Guard para verificar token en cada request protegido
-- [ ] **T-BE-043**: Crear `roles.guard.ts` — Guard RBAC para verificar roles (`@Roles('Administrador')`)
+- [ ] **T-BE-043**: Crear `roles.guard.ts` — Guard RBAC para verificar roles (`@Roles('Administrador')`). Verificar `tipo: "administrador"` en JWT + existencia del `sub` en tabla `administradores`
 - [ ] **T-BE-044**: Crear `roles.decorator.ts` — Custom decorator `@Roles()` para marcar endpoints con roles requeridos
+- [ ] **T-BE-091**: Modificar `auth.service.login()` para búsqueda dual: primero en tabla `usuarios`, si no existe buscar en tabla `administradores`. Mensaje genérico en error (nunca revelar si falla correo o contraseña). Actualizar `ultimoAcceso` del admin al login exitoso. (Ref: `admin-access-routing.spec.md` §2.2)
+- [ ] **T-BE-092**: Añadir campo `tipo: "usuario" | "administrador"` al payload JWT y al response de `POST /api/auth/login`. (Ref: `admin-access-routing.spec.md` §2.3)
+- [ ] **T-BE-093**: Crear `rate-limit.guard.ts` — Map en memoria de intentos fallidos de login por IP/correo. 5 intentos fallidos → bloqueo temporal de 15 minutos (429 Too Many Requests). (Ref: `architecture-auth.spec.md` L34)
 
 ---
 
@@ -123,7 +126,7 @@
   - CO1 `getLibrary()`: Consultar todos los algoritmos agrupados por `categoría`, retornar `categorías[]`, `totalAlgoritmos`, `algoritmos[]` (nombre, descripción ≤140 chars, complejidadTiempo, complejidadEspacio, categoría)
   - CO2 `getAlgoritmo()`: Obtener algoritmo por ID con pseudocódigo completo, crear/actualizar `SesionSimulacion` para asociar avance con cuenta actual
   - CRUD completo para Administrador
-- [ ] **T-BE-052**: Crear `create-algorithm.dto.ts` (Solo Administrador) con campos: nombre, descripcion, complejidadTiempo, complejidadEspacio, pseudocodigo, categoria
+- [ ] **T-BE-052**: Crear `create-algorithm.dto.ts` (Solo Administrador) con campos: nombre, descripcion, complejidadTiempo, complejidadEspacio, categoria. **CDR-001: pseudocodigo no se envía por API — vive en el engine file**
 - [ ] **T-BE-053**: Crear `algorithm-response.dto.ts` para formatear respuesta
 
 ---
@@ -148,11 +151,11 @@
 
 ### 📁 `src/simulations/engines/`
 
-- [ ] **T-BE-059**: Crear `engine.interface.ts` — Interfaz `SortEngine` con `name: string` y `execute(data: number[]): SimulationStep[]`. Interfaz `SimulationStep` con campos especificados
-- [ ] **T-BE-060**: Implementar `bubble-sort.engine.ts` — Engine de Bubble Sort que genera pasos paso a paso con tipoOperacion correspondiente
-- [ ] **T-BE-061**: Implementar `selection-sort.engine.ts` — Engine de Selection Sort que genera pasos paso a paso
-- [ ] **T-BE-062**: Implementar `insertion-sort.engine.ts` — Engine de Insertion Sort que genera pasos paso a paso
-- [ ] **T-BE-063**: Implementar timeout de seguridad: si un engine excede 10 segundos, abortar con error 408 (según HU-06)
+- [ ] **T-BE-059**: Crear `engine.interface.ts` — Interfaz `AlgorithmDefinition` con `meta` (nombre, descripcion, complejidadTiempo, complejidadEspacio, categoria), `pseudocode: PseudocodeLine[]` (line, text, indent), y `execute(data: number[]): SimulationStep[]`. Interfaz `SimulationStep` con campos especificados. **CDR-001: cada engine es auto-contenido (meta + pseudocódigo + lógica en 1 archivo)**
+- [ ] **T-BE-060**: Implementar `bubble-sort.engine.ts` — Engine auto-contenido de Bubble Sort: define `meta`, `pseudocode` (4 líneas con indent), y `execute()` que genera pasos con `lineaPseudocodigo` referenciando las líneas definidas en `pseudocode`
+- [ ] **T-BE-061**: Implementar `selection-sort.engine.ts` — Engine auto-contenido de Selection Sort: `pseudocode` (6 líneas), `execute()` con mapeo de líneas
+- [ ] **T-BE-062**: Implementar `insertion-sort.engine.ts` — Engine auto-contenido de Insertion Sort: `pseudocode` (7 líneas), `execute()` con mapeo de líneas
+- [ ] **T-BE-063**: Crear `engines/registry.ts` — Registro centralizado `Record<string, AlgorithmDefinition>` con función `getEngine(nombre)` que lanza `NotFoundException` si el engine no existe. Timeout de seguridad: si un engine excede 10 segundos, abortar con error 408 (HU-06)
 
 ---
 
@@ -190,7 +193,11 @@
 - [ ] **T-BE-074**: Crear `badges.controller.ts` con endpoints:
   - `GET /api/insignias` (Autenticado) — Todas las insignias disponibles
   - `GET /api/insignias/me` (Autenticado) — Insignias desbloqueadas por el usuario con `fechaObtencion`
-- [ ] **T-BE-075**: Crear `badges.service.ts` — Verifica criterios de desbloqueo de insignias
+- [ ] **T-BE-075**: Crear `badges.service.ts` — Implementar sistema de verificación de insignias (según `gamification-exercises.plan.md` §6):
+  - Método `checkAndAward(usuarioId)`: obtiene progreso + insignias ganadas + todas las insignias (con caché en memoria). Para cada insignia no ganada, evalúa `meetsRequirement()`.
+  - Map de reglas hardcoded: `"Completar 1 simulación"` → count sesiones completadas ≥1, `"Visualizar 3 algoritmos"` → count distinct algoritmoId ≥3, `"rachaDías >= 7"` → progreso.rachaDias ≥7, `"Completar todos los algoritmos de Ordenamiento"` → completados == total activos de categoría Ordenamiento.
+  - Caché `badgesCache` invalidada solo cuando el admin modifica insignias.
+  - Inyectar `BadgesService` en: `SimulationsService` (post-completar), `ExercisesService` (post-correcto), `ProgressService` (post-racha).
 - [ ] **T-BE-076**: Crear `badge-response.dto.ts`
 
 ---
@@ -199,8 +206,8 @@
 
 - [ ] **T-BE-077**: Crear `OfflineModule`
 - [ ] **T-BE-078**: Crear `offline.controller.ts` con endpoints:
-  - `GET /api/modules/offline` (Autenticado) — Lista módulos disponibles para descarga (algoritmoId, nombre, tamanoMB, version, wasmDisponible)
-  - `GET /api/modules/offline/:id/download` (Autenticado) — URL de descarga del módulo (url, wasmUrl, expiresIn)
+  - `GET /api/modules/offline` (Autenticado) — Lista módulos disponibles para descarga (algoritmoId, nombre, tamanoKB, version, descargado) **CDR-004**
+  - `GET /api/modules/offline/:id/download` (Autenticado) — Retorna JSON directo del módulo (meta, pseudocode, ejercicios). **CDR-004: sin bucket externo**
 - [ ] **T-BE-079**: Crear `offline.service.ts` — Genera URLs de descarga
 - [ ] **T-BE-080**: Crear `offline-module.dto.ts`
 
@@ -242,14 +249,14 @@
 
 ## 📁 `brainsort-app/` (Raíz)
 
-- [x] **T-FE-001**: Inicializar proyecto con Expo (React Native + React Native Web)
-- [x] **T-FE-002**: Configurar `package.json` con las dependencias especificadas: `expo ~51.x`, `react-native 0.74.x`, `react-native-web ~0.19.x`, `react-native-svg ^15.x`, `react-native-webview ^13.x`, `d3-scale ^4.x`, `d3-interpolate ^3.x`, `@tanstack/react-query ^5.x`, `@react-navigation/native ^6.x`, `@react-navigation/bottom-tabs ^6.x`, `@react-navigation/native-stack ^6.x`, `expo-sqlite ~14.x`, `expo-file-system ~17.x`, `expo-secure-store ~13.x`, `expo-font ~12.x`
-- [x] **T-FE-003**: Configurar `devDependencies`: `typescript ^5.x`, `openapi-typescript ^7.x`, `eslint ^9.x`, `prettier ^3.x`
-- [x] **T-FE-004**: Configurar `app.json` para Expo
-- [x] **T-FE-005**: Configurar `eas.json` para EAS Build
-- [x] **T-FE-006**: Configurar `babel.config.js`
-- [x] **T-FE-007**: Configurar `metro.config.js` (incluir resolución de `packages/core`)
-- [x] **T-FE-008**: Configurar `tsconfig.json`
+- [ ] **T-FE-001**: Inicializar proyecto con Expo (React Native + React Native Web)
+- [ ] **T-FE-002**: Configurar `package.json` con las dependencias especificadas: `expo ~51.x`, `react-native 0.74.x`, `react-native-web ~0.19.x`, `react-native-svg ^15.x`, `react-native-webview ^13.x`, `d3-scale ^4.x`, `d3-interpolate ^3.x`, `@tanstack/react-query ^5.x`, `@react-navigation/native ^6.x`, `@react-navigation/bottom-tabs ^6.x`, `@react-navigation/native-stack ^6.x`, `expo-sqlite ~14.x`, `expo-file-system ~17.x`, `expo-secure-store ~13.x`, `expo-font ~12.x`
+- [ ] **T-FE-003**: Configurar `devDependencies`: `typescript ^5.x`, `openapi-typescript ^7.x`, `eslint ^9.x`, `prettier ^3.x`
+- [ ] **T-FE-004**: Configurar `app.json` para Expo
+- [ ] **T-FE-005**: Configurar `eas.json` para EAS Build
+- [ ] **T-FE-006**: Configurar `babel.config.js`
+- [ ] **T-FE-007**: Configurar `metro.config.js` (incluir resolución de `packages/core`)
+- [ ] **T-FE-008**: Configurar `tsconfig.json`
 
 ---
 
@@ -259,11 +266,11 @@
 
 ### 📁 `packages/core/src/engines/`
 
-- [x] **T-FE-009**: Crear `engine.interface.ts` — Interfaz `SortEngine` con `name: string` y `execute(data: number[]): SimulationStep[]`
-- [x] **T-FE-010**: Implementar `bubble-sort.ts` — Engine de Bubble Sort que genera `SimulationStep[]` con `numeroPaso`, `tipoOperacion`, `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
-- [x] **T-FE-011**: Implementar `selection-sort.ts` — Engine de Selection Sort
-- [x] **T-FE-012**: Implementar `insertion-sort.ts` — Engine de Insertion Sort
-- [x] **T-FE-013**: Implementar `merge-sort.ts` — Engine de Merge Sort
+- [ ] **T-FE-009**: Crear `engine.interface.ts` — Interfaz `SortEngine` con `name: string` y `execute(data: number[]): SimulationStep[]`
+- [ ] **T-FE-010**: Implementar `bubble-sort.ts` — Engine de Bubble Sort que genera `SimulationStep[]` con `numeroPaso`, `tipoOperacion`, `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
+- [ ] **T-FE-011**: Implementar `selection-sort.ts` — Engine de Selection Sort
+- [ ] **T-FE-012**: Implementar `insertion-sort.ts` — Engine de Insertion Sort
+- [ ] **T-FE-013**: Implementar `merge-sort.ts` — Engine de Merge Sort
 
 ### 📁 `packages/core/src/math/`
 
@@ -397,7 +404,7 @@
 
 ## 📁 `brainsort-app/src/components/offline/`
 
-- [ ] **T-FE-078**: Crear `OfflineModuleCard.tsx` — Tarjeta de módulo descargable (nombre, tamañoMB, versión, wasmDisponible)
+- [ ] **T-FE-078**: Crear `OfflineModuleCard.tsx` — Tarjeta de módulo descargable (nombre, tamanoKB, versión, descargado). **CDR-004: sin wasmDisponible**
 - [ ] **T-FE-079**: Crear `DownloadProgress.tsx` — Barra de progreso de descarga
 - [ ] **T-FE-080**: Crear `SyncStatusBanner.tsx` — Estado de sincronización (pendiente / sincronizado)
 
@@ -431,10 +438,11 @@
 
 ## 📁 `brainsort-app/src/navigation/`
 
-- [x] **T-FE-088**: Crear `AppNavigator.tsx` — Navigator raíz que decide entre `AuthNavigator` (no autenticado) y `MainTabNavigator` (autenticado)
+- [ ] **T-FE-088**: Crear `AppNavigator.tsx` — Navigator raíz que decide entre `AuthNavigator` (no autenticado) y `MainTabNavigator` (autenticado)
 - [ ] **T-FE-089**: Crear `AuthNavigator.tsx` — Stack Navigator: WelcomeScreen → LoginScreen → RegisterScreen
 - [ ] **T-FE-090**: Crear `MainTabNavigator.tsx` — Bottom Tabs: Biblioteca | Progreso | Offline | Perfil
 - [ ] **T-FE-091**: Crear `LibraryStackNavigator.tsx` — Stack Navigator dentro del tab Biblioteca: LibraryScreen → AlgorithmDetailScreen → SimulationScreen
+- [ ] **T-FE-118**: Crear `AdminNavigator.tsx` — Stack/Tab Navigator exclusivo para administrador: AdminDashboard → ManageAlgorithms → ManageExercises → ViewUsers
 
 ---
 
@@ -468,6 +476,7 @@
 
 - [ ] **T-FE-097**: Crear `SimulationScreen.tsx` — Pantalla de simulación interactiva (HU-03, HU-04, HU-06, HU-07):
   - Cargar datos predeterminados: arreglo aleatorio 8-15 elementos
+  - Permitir ingresar **Datos Personalizados** manualmente en un input (Ref: Brecha HU-05)
   - Barras de altura proporcional al valor
   - Botón "Generar nuevos datos" (flujo alternativo HU-03)
   - Barra de control: Play/Pausa
@@ -501,6 +510,15 @@
 
 - [ ] **T-FE-102**: Crear `ProfileScreen.tsx` — Perfil del usuario
 - [ ] **T-FE-103**: Crear `SettingsScreen.tsx` — Configuración de la aplicación
+
+---
+
+## 📁 `brainsort-app/src/screens/admin/`
+
+- [ ] **T-FE-121**: Crear `AdminDashboardScreen.tsx` — Vista general: total de usuarios, algoritmos activos, ejercicios
+- [ ] **T-FE-122**: Crear `ManageAlgorithmsScreen.tsx` — CRUD de algoritmos
+- [ ] **T-FE-123**: Crear `ManageExercisesScreen.tsx` — CRUD de ejercicios de predicción por algoritmo
+- [ ] **T-FE-124**: Crear `ViewUsersScreen.tsx` — Lista paginada de usuarios registrados (solo lectura)
 
 ---
 
@@ -593,3 +611,51 @@
 
 - [ ] **T-DO-017**: Configurar ramas `main` (producción estable) y `dev` (integración continua)
 - [ ] **T-DO-018**: Establecer convención de features: `feature/<nombre>` → PR hacia `dev`. Ejemplos: `feature/auth-module`, `feature/library-ui`, `feature/simulation-engine`, `feature/gamification`, `feature/offline-sync`
+
+---
+
+# 🧪 Fase 5: Sandbox / Mini Juez (V1 — Prueba de Concepto)
+
+> **Spec**: [`sandbox-code-runner.plan.md`](../features/sandbox-code-runner.plan.md)
+> **Scope**: 100% frontend. Sin endpoints nuevos. Ejercicios hardcoded.
+> **Intérpretes**: MicroPython WASM (Python) + JSCPP (C++)
+
+---
+
+## 📁 `brainsort-app/src/features/sandbox/runner/`
+
+- [ ] **T-SB-001**: Crear `types.ts` — Tipos: `Language` (python | cpp), `TestCase` (input, expectedOutput), `Challenge` (id, titulo, descripcion, lenguaje, plantilla, testCases), `TestResult` (passed, output, expected, error), `RunResponse`
+- [ ] **T-SB-002**: Crear `sandbox-webview.html` — HTML sandboxed que carga MicroPython WASM + JSCPP. Escucha `message` de React Native, ejecuta código con el intérprete adecuado, compara stdout con expectedOutput, retorna resultados via `postMessage`
+- [ ] **T-SB-003**: Descargar assets estáticos: `micropython.js` + `micropython.wasm` (MicroPython WASM ~300KB) y `JSCPP.es5.min.js` (~200KB). Colocar en `assets/sandbox/`
+- [ ] **T-SB-004**: Crear `useSandboxRunner.ts` — Hook que: (1) mantiene ref al WebView, (2) envía payload `{action, language, code, testCases}` via `postMessage`, (3) recibe resultados via `onMessage`, (4) implementa timeout de 5s por ejecución con error legible ("Tiempo límite excedido"), (5) retorna `{ run, isRunning, results }`
+
+---
+
+## 📁 `brainsort-app/src/features/sandbox/components/`
+
+- [ ] **T-SB-005**: Crear `CodeEditor.tsx` — TextInput multilínea con font monoespaciada, número de líneas lateral, indentación automática básica (tab → 4 espacios). Recibe `value`, `onChange`, `language`
+- [ ] **T-SB-006**: Crear `LanguageSelector.tsx` — Toggle/segmented control con 2 opciones: Python 🐍 | C++ ⚙️. Cambia la plantilla de código y el lenguaje del runner
+- [ ] **T-SB-007**: Crear `TestResults.tsx` — Lista de resultados por test case: ícono ✅/❌, output esperado vs obtenido, tiempo de ejecución, mensaje de error si aplica
+- [ ] **T-SB-008**: Crear `OutputConsole.tsx` — Consola de salida con fondo oscuro, texto monoespaciado, muestra stdout y stderr del código ejecutado
+
+---
+
+## 📁 `brainsort-app/src/features/sandbox/`
+
+- [ ] **T-SB-009**: Crear `SandboxScreen.tsx` — Pantalla completa que integra: selección de challenge, CodeEditor, botón "▶ Ejecutar", TestResults, OutputConsole. Usa `useSandboxRunner` para la ejecución
+- [ ] **T-SB-010**: Crear `data/challenges.ts` — 6 ejercicios hardcoded (1 por algoritmo × 2 lenguajes): Bubble Sort Python, Bubble Sort C++, Selection Sort Python, Selection Sort C++, Insertion Sort Python, Insertion Sort C++. Cada uno con plantilla base y 3 test cases
+
+---
+
+## 📁 Navegación
+
+- [ ] **T-SB-011**: Agregar ruta `/(tabs)/sandbox` en el router de Expo — Tab "Código" con ícono de terminal. Navega a `SandboxScreen`
+
+---
+
+## 📁 Testing Sandbox
+
+- [ ] **T-SB-012**: Test: ejecutar Bubble Sort correcto en Python → 3/3 test cases pasan
+- [ ] **T-SB-013**: Test: ejecutar código con loop infinito → timeout de 5s se activa
+- [ ] **T-SB-014**: Test: ejecutar Bubble Sort correcto en C++ → 3/3 test cases pasan
+- [ ] **T-SB-015**: Test: ejecutar código con error de sintaxis → mensaje de error legible
