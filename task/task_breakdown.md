@@ -242,14 +242,14 @@
 
 ## 📁 `brainsort-app/` (Raíz)
 
-- [ ] **T-FE-001**: Inicializar proyecto con Expo (React Native + React Native Web)
-- [ ] **T-FE-002**: Configurar `package.json` con las dependencias especificadas: `expo ~51.x`, `react-native 0.74.x`, `react-native-web ~0.19.x`, `react-native-svg ^15.x`, `react-native-webview ^13.x`, `d3-scale ^4.x`, `d3-interpolate ^3.x`, `@tanstack/react-query ^5.x`, `@react-navigation/native ^6.x`, `@react-navigation/bottom-tabs ^6.x`, `@react-navigation/native-stack ^6.x`, `expo-sqlite ~14.x`, `expo-file-system ~17.x`, `expo-secure-store ~13.x`, `expo-font ~12.x`
-- [ ] **T-FE-003**: Configurar `devDependencies`: `typescript ^5.x`, `openapi-typescript ^7.x`, `eslint ^9.x`, `prettier ^3.x`
-- [ ] **T-FE-004**: Configurar `app.json` para Expo
-- [ ] **T-FE-005**: Configurar `eas.json` para EAS Build
-- [ ] **T-FE-006**: Configurar `babel.config.js`
-- [ ] **T-FE-007**: Configurar `metro.config.js` (incluir resolución de `packages/core`)
-- [ ] **T-FE-008**: Configurar `tsconfig.json`
+- [x] **T-FE-001**: Inicializar proyecto con Expo (React Native + React Native Web)
+- [x] **T-FE-002**: Configurar `package.json` con las dependencias especificadas: `expo ~51.x`, `react-native 0.74.x`, `react-native-web ~0.19.x`, `react-native-svg ^15.x`, `react-native-webview ^13.x`, `d3-scale ^4.x`, `d3-interpolate ^3.x`, `@tanstack/react-query ^5.x`, `@react-navigation/native ^6.x`, `@react-navigation/bottom-tabs ^6.x`, `@react-navigation/native-stack ^6.x`, `expo-sqlite ~14.x`, `expo-file-system ~17.x`, `expo-secure-store ~13.x`, `expo-font ~12.x`
+- [x] **T-FE-003**: Configurar `devDependencies`: `typescript ^5.x`, `openapi-typescript ^7.x`, `eslint ^9.x`, `prettier ^3.x`
+- [x] **T-FE-004**: Configurar `app.json` para Expo
+- [x] **T-FE-005**: Configurar `eas.json` para EAS Build
+- [x] **T-FE-006**: Configurar `babel.config.js`
+- [x] **T-FE-007**: Configurar `metro.config.js` (incluir resolución de `packages/core`)
+- [x] **T-FE-008**: Configurar `tsconfig.json`
 
 ---
 
@@ -259,23 +259,23 @@
 
 ### 📁 `packages/core/src/engines/`
 
-- [ ] **T-FE-009**: Crear `engine.interface.ts` — Interfaz `SortEngine` con `name: string` y `execute(data: number[]): SimulationStep[]`
-- [ ] **T-FE-010**: Implementar `bubble-sort.ts` — Engine de Bubble Sort que genera `SimulationStep[]` con `numeroPaso`, `tipoOperacion`, `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
-- [ ] **T-FE-011**: Implementar `selection-sort.ts` — Engine de Selection Sort
-- [ ] **T-FE-012**: Implementar `insertion-sort.ts` — Engine de Insertion Sort
-- [ ] **T-FE-013**: Implementar `merge-sort.ts` — Engine de Merge Sort
+- [x] **T-FE-009**: Crear `engine.interface.ts` — Interfaz `SortEngine` con `name: string` y `execute(data: number[]): SimulationStep[]`
+- [x] **T-FE-010**: Implementar `bubble-sort.ts` — Engine de Bubble Sort que genera `SimulationStep[]` con `numeroPaso`, `tipoOperacion`, `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
+- [x] **T-FE-011**: Implementar `selection-sort.ts` — Engine de Selection Sort
+- [x] **T-FE-012**: Implementar `insertion-sort.ts` — Engine de Insertion Sort
+- [x] **T-FE-013**: Implementar `merge-sort.ts` — Engine de Merge Sort
 
 ### 📁 `packages/core/src/math/`
 
-- [ ] **T-FE-014**: Crear `scales.ts` — Implementar `d3.scaleLinear()` para mapear valores de datos → coordenadas SVG
-- [ ] **T-FE-015**: Crear `transitions.ts` — Cálculos de interpolación para animaciones entre estados de las barras
-- [ ] **T-FE-016**: Crear `coordinates.ts` — Generación de coordenadas SVG (x, y, width, height) para las barras del gráfico
+- [x] **T-FE-014**: Crear `scales.ts` — Implementar `d3.scaleLinear()` para mapear valores de datos → coordenadas SVG
+- [x] **T-FE-015**: Crear `transitions.ts` — Cálculos de interpolación para animaciones entre estados de las barras
+- [x] **T-FE-016**: Crear `coordinates.ts` — Generación de coordenadas SVG (x, y, width, height) para las barras del gráfico
 
 ### 📁 `packages/core/src/types/`
 
-- [ ] **T-FE-017**: Crear `simulation.types.ts` — Tipos de simulación
-- [ ] **T-FE-018**: Crear `algorithm.types.ts` — Tipos de algoritmo
-- [ ] **T-FE-019**: Crear `step.types.ts` — Tipos de paso de simulación
+- [x] **T-FE-017**: Crear `simulation.types.ts` — Tipos de simulación
+- [x] **T-FE-018**: Crear `algorithm.types.ts` — Tipos de algoritmo
+- [x] **T-FE-019**: Crear `step.types.ts` — Tipos de paso de simulación
 
 ### 📁 `packages/core/src/validators/`
 
@@ -431,7 +431,7 @@
 
 ## 📁 `brainsort-app/src/navigation/`
 
-- [ ] **T-FE-088**: Crear `AppNavigator.tsx` — Navigator raíz que decide entre `AuthNavigator` (no autenticado) y `MainTabNavigator` (autenticado)
+- [x] **T-FE-088**: Crear `AppNavigator.tsx` — Navigator raíz que decide entre `AuthNavigator` (no autenticado) y `MainTabNavigator` (autenticado)
 - [ ] **T-FE-089**: Crear `AuthNavigator.tsx` — Stack Navigator: WelcomeScreen → LoginScreen → RegisterScreen
 - [ ] **T-FE-090**: Crear `MainTabNavigator.tsx` — Bottom Tabs: Biblioteca | Progreso | Offline | Perfil
 - [ ] **T-FE-091**: Crear `LibraryStackNavigator.tsx` — Stack Navigator dentro del tab Biblioteca: LibraryScreen → AlgorithmDetailScreen → SimulationScreen
