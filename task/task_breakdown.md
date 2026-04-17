@@ -266,11 +266,11 @@
 
 ### 📁 `packages/core/src/engines/`
 
-- [ ] **T-FE-009**: Crear `engine.interface.ts` — Interfaz `SortEngine` con `name: string` y `execute(data: number[]): SimulationStep[]`
-- [ ] **T-FE-010**: Implementar `bubble-sort.ts` — Engine de Bubble Sort que genera `SimulationStep[]` con `numeroPaso`, `tipoOperacion`, `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
-- [ ] **T-FE-011**: Implementar `selection-sort.ts` — Engine de Selection Sort
-- [ ] **T-FE-012**: Implementar `insertion-sort.ts` — Engine de Insertion Sort
-- [ ] **T-FE-013**: Implementar `merge-sort.ts` — Engine de Merge Sort
+- [x] **T-FE-009**: Crear `engine.interface.ts` — Interfaz `SortEngine` con `name: string` y `execute(data: number[]): SimulationStep[]`
+- [x] **T-FE-010**: Implementar `bubble-sort.ts` — Engine de Bubble Sort que genera `SimulationStep[]` con `numeroPaso`, `tipoOperacion`, `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
+- [x] **T-FE-011**: Implementar `selection-sort.ts` — Engine de Selection Sort
+- [x] **T-FE-012**: Implementar `insertion-sort.ts` — Engine de Insertion Sort
+- [x] **T-FE-013**: Implementar `merge-sort.ts` — Engine de Merge Sort
 
 ### 📁 `packages/core/src/math/`
 
@@ -286,12 +286,12 @@
 
 ### 📁 `packages/core/src/validators/`
 
-- [ ] **T-FE-020**: Crear `dataset.validator.ts` — Validación de datos de entrada para conjuntos de datos
+- [x] **T-FE-020**: Crear `dataset.validator.ts` — Validación de datos de entrada para conjuntos de datos
 
 ### 📁 `packages/core/`
 
-- [ ] **T-FE-021**: Crear `index.ts` — Barrel export de todos los módulos del core
-- [ ] **T-FE-022**: Configurar `package.json` y `tsconfig.json` del paquete core
+- [x] **T-FE-021**: Crear `index.ts` — Barrel export de todos los módulos del core
+- [x] **T-FE-022**: Configurar `package.json` y `tsconfig.json` del paquete core
 
 ---
 
