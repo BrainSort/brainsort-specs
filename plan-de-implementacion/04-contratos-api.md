@@ -70,7 +70,8 @@ Todos los endpoints usan el prefijo `/api`.
       "id": "uuid-123",
       "nombre": "Juan Pérez",
       "correo": "juan@mail.com",
-      "rol": "Estudiante"
+      "rol": "Estudiante",
+      "tipo": "usuario"
     }
   }
 }
@@ -105,7 +106,8 @@ Todos los endpoints usan el prefijo `/api`.
       "id": "uuid-123",
       "nombre": "Juan Pérez",
       "correo": "juan@mail.com",
-      "rol": "Estudiante"
+      "rol": "Estudiante",
+      "tipo": "usuario"
     }
   }
 }
@@ -213,11 +215,18 @@ Todos los endpoints usan el prefijo `/api`.
     "descripcion": "Algoritmo de ordenamiento que compara elementos adyacentes e intercambia si están desordenados. Recorre el arreglo múltiples veces...",
     "complejidadTiempo": "O(n²)",
     "complejidadEspacio": "O(1)",
-    "pseudocodigo": "PARA i = 0 HASTA n-1\n  PARA j = 0 HASTA n-i-1\n    SI arreglo[j] > arreglo[j+1]\n      INTERCAMBIAR(arreglo[j], arreglo[j+1])",
-    "categoria": "Ordenamiento"
+    "categoria": "Ordenamiento",
+    "pseudocode": [
+      { "line": 1, "text": "PARA i = 0 HASTA n-1", "indent": 0 },
+      { "line": 2, "text": "PARA j = 0 HASTA n-i-1", "indent": 1 },
+      { "line": 3, "text": "SI arreglo[j] > arreglo[j+1]", "indent": 2 },
+      { "line": 4, "text": "INTERCAMBIAR(arreglo[j], arreglo[j+1])", "indent": 3 }
+    ]
   }
 }
 ```
+
+> **Nota CDR-001**: `pseudocode[]` viene del engine file, no de la DB. El endpoint lo obtiene llamando a `getEngine(algoritmo.nombre).pseudocode`.
 
 **Efecto secundario**: Se crea/actualiza `SesionSimulacion` para asociar avance con la cuenta actual.
 
@@ -233,10 +242,11 @@ Todos los endpoints usan el prefijo `/api`.
   "descripcion": "Algoritmo divide y vencerás que divide el arreglo por mitades...",
   "complejidadTiempo": "O(n log n)",
   "complejidadEspacio": "O(n)",
-  "pseudocodigo": "FUNCION mergeSort(arreglo)\n  ...",
   "categoria": "Ordenamiento"
 }
 ```
+
+> **Nota CDR-001**: El admin registra metadatos en la DB. El pseudocódigo y la lógica del engine se agregan creando un archivo `engines/merge-sort.engine.ts` + registrándolo en `engines/registry.ts`.
 
 ---
 
@@ -277,6 +287,12 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
       "estadoActual": "Pausa",
       "pasoActual": 0
     },
+    "pseudocode": [
+      { "line": 1, "text": "PARA i = 0 HASTA n-1", "indent": 0 },
+      { "line": 2, "text": "PARA j = 0 HASTA n-i-1", "indent": 1 },
+      { "line": 3, "text": "SI arreglo[j] > arreglo[j+1]", "indent": 2 },
+      { "line": 4, "text": "INTERCAMBIAR(arreglo[j], arreglo[j+1])", "indent": 3 }
+    ],
     "totalPasos": 12,
     "pasos": [
       {
@@ -434,6 +450,8 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
 
 ## 8. Offline Module (`/api/modules`)
 
+> **CDR-004**: Sin bucket externo. El backend genera el JSON del módulo directamente desde el engine registrado.
+
 ### GET `/api/modules/offline`
 **Acceso**: Autenticado
 
@@ -444,9 +462,9 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
     {
       "algoritmoId": "uuid-bubble",
       "nombre": "Bubble Sort",
-      "tamanoMB": 2.3,
+      "tamanoKB": 12,
       "version": "1.0.0",
-      "wasmDisponible": true
+      "descargado": false
     }
   ]
 }
@@ -455,16 +473,42 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
 ### GET `/api/modules/offline/:id/download`
 **Acceso**: Autenticado
 
+> Retorna directamente el contenido del módulo como JSON. El frontend lo guarda en `expo-sqlite` (móvil) o `IndexedDB` (web) para uso sin conexión.
+
 **Response 200:**
 ```json
 {
   "data": {
-    "url": "https://brainsort-assets.example.com/bubble-sort-v1.0.0.json",
-    "wasmUrl": "https://brainsort-assets.example.com/bubble-sort-v1.0.0.wasm",
-    "expiresIn": 3600
+    "algoritmoId": "uuid-bubble",
+    "version": "1.0.0",
+    "meta": {
+      "nombre": "Bubble Sort",
+      "descripcion": "Algoritmo de ordenamiento que compara elementos adyacentes...",
+      "complejidadTiempo": "O(n²)",
+      "complejidadEspacio": "O(1)",
+      "categoria": "Ordenamiento"
+    },
+    "pseudocode": [
+      { "line": 1, "text": "PARA i = 0 HASTA n-1", "indent": 0 },
+      { "line": 2, "text": "PARA j = 0 HASTA n-i-1", "indent": 1 },
+      { "line": 3, "text": "SI arreglo[j] > arreglo[j+1]", "indent": 2 },
+      { "line": 4, "text": "INTERCAMBIAR(arreglo[j], arreglo[j+1])", "indent": 3 }
+    ],
+    "ejercicios": [
+      {
+        "id": "uuid-ej-1",
+        "pregunta": "Dado el arreglo [5, 2, 8, 1], ¿cuál es el resultado después de la primera pasada?",
+        "respuestaCorrecta": "[2, 5, 1, 8]",
+        "dificultad": "Facil",
+        "feedbackPositivo": "¡Correcto! ...",
+        "feedbackNegativo": "Incorrecto. ..."
+      }
+    ]
   }
 }
 ```
+
+> **Nota**: El engine de ejecución (`execute()`) NO se descarga — vive en `packages/core` del frontend y ya está instalado como parte de la app. Solo se descargan los datos (meta, pseudocódigo, ejercicios) para poder visualizarlos sin conexión.
 
 ---
 
@@ -509,7 +553,7 @@ Frontend                                        Backend
    │                                               │── bcrypt.hash(contrasena)
    │                                               │── INSERT Usuario
    │                                               │── INSERT ProgresoUsuario
-   │                                               │── jwt.sign({ userId, rol })
+   │                                               │── jwt.sign({ userId, rol, tipo: 'usuario' })
    │◄── 201 { token, refreshToken, usuario } ─────│
    │                                               │
    │── Guardar token (expo-secure-store / cookie) │

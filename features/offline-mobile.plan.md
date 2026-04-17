@@ -20,21 +20,40 @@ This feature adds a significant offline-first layer to the `brainsort-app` repos
   {
     "algoritmoId": "uuid-bubble-sort",
     "nombre": "Bubble Sort",
-    "tamanoMB": 2.3,
+    "tamanoKB": 12,
     "version": "1.0.0",
-    "wasmDisponible": true
+    "descargado": false
   }
 ]
 ```
 
-**Download Module Assets (Signed URL):**
+**Download Module Assets (Direct JSON):**
 ```json
 // GET /api/modules/offline/:id/download
 // Response -> 200 OK
 {
-  "url": "https://s3.amazonaws.com/brainsort-assets/bubble-sort-v1.0.0.json?signature=...",
-  "wasmUrl": "https://s3.amazonaws.com/brainsort-assets/bubble-sort-v1.0.0.wasm?signature=...",
-  "expiresIn": 3600
+  "algoritmoId": "uuid-bubble",
+  "version": "1.0.0",
+  "meta": {
+    "nombre": "Bubble Sort",
+    "descripcion": "Algoritmo de ordenamiento...",
+    "complejidadTiempo": "O(n²)",
+    "complejidadEspacio": "O(1)",
+    "categoria": "Ordenamiento"
+  },
+  "pseudocode": [
+    { "line": 1, "text": "PARA i = 0 HASTA n-1", "indent": 0 }
+  ],
+  "ejercicios": [
+    {
+      "id": "uuid-ej-1",
+      "pregunta": "Dado el arreglo [5, 2, 8, 1]...",
+      "respuestaCorrecta": "[2, 5, 1, 8]",
+      "dificultad": "Facil",
+      "feedbackPositivo": "¡Correcto!",
+      "feedbackNegativo": "Incorrecto."
+    }
+  ]
 }
 ```
 
@@ -62,8 +81,7 @@ This feature adds a significant offline-first layer to the `brainsort-app` repos
 - **OfflineModule** (client-side only, not in PostgreSQL):
   - `algoritmoId`: UUID
   - `version`: String
-  - `datosAlgoritmo`: JSON (pseudocode, complexity, metadata)
-  - `wasmBinary`: Blob (optional, Android only)
+  - `datosAlgoritmo`: JSON (pseudocode, complexity, metadata, ejercicios)
   - `fechaDescarga`: Date
   - `tamanoBytes`: Integer
 
@@ -85,16 +103,14 @@ This feature adds a significant offline-first layer to the `brainsort-app` repos
 
 **⚠️ Propuestas de extensión (NO en documentación original):**
 - **Workbox**: Tooling específico para Service Workers en PWA.
-- **@aws-sdk/s3-request-presigner**: Generación de URLs firmadas para descargas seguras. La doc. original solo dice "propia infraestructura".
 - **expo-secure-store**: Almacenamiento seguro de tokens en móvil.
 
 ## 5. WASM Strategy
-- WASM modules are **optional performance enhancements**, not required for core functionality.
-- JavaScript fallback is always available via `packages/core`.
-- WASM modules are pre-compiled for each sorting algorithm and hosted on the project's own infrastructure (20–50 MB per module) — según Doc. Arquitectura: "se sirven bajo demanda como descargas opcionales desde la propia infraestructura".
-- **Android**: WASM download is optional, triggered by user in Offline Manager.
-- **iOS**: WASM excluded entirely (Apple App Store restrictions on downloaded executable code). iOS uses JavaScript execution only.
-- **Web**: WASM loaded via `WebAssembly.instantiateStreaming()` when available, fallback to JS.
+> **Resuelto por Phase 5 Sandbox Plan**
+- WASM ya **no** se usa para los módulos de simulación (eso usa `packages/core`).
+- El uso de WASM está **confinado** al Sandbox/Mini-Juez como MicroPython compilado (assets estáticos) y JSCPP.
+- **Android & iOS**: Funciona en ambos. iOS soporta WASM en Safari/WKWebView sin problemas a partir de iOS 15, rompiendo la restricción previamente documentada.
+- **Web**: Funciona usando Service Workers y sandboxes estándar.
 
 ## 6. Security & Validation
 
@@ -103,8 +119,6 @@ This feature adds a significant offline-first layer to the `brainsort-app` repos
 - Validación estricta de datos mediante DTO Pattern en NestJS — según Doc. Arquitectura §2.4.4.
 
 **⚠️ Propuestas de extensión (NO en documentación original):**
-- Signed URLs for module downloads expire after 1 hour.
-- Module integrity verified via SHA-256 checksum comparison after download.
 - Offline progress data is cryptographically signed client-side to prevent tampering before sync.
 - expo-sqlite databases encrypted on-device.
 

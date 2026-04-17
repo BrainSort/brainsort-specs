@@ -5,187 +5,105 @@
 
 ---
 
-## 1. Ejercicios de Predicción — Datos Iniciales (Seed)
+## 1. ~~Ejercicios de Predicción — Datos Iniciales (Seed)~~ ✅ RESUELTO
 
-**Contexto**: El archivo `03-base-de-datos.md` define seed data para `Algoritmo` (3 algoritmos) e `Insignia` (4 insignias), pero **no incluye datos iniciales** para la entidad `EjercicioPrediccion`.
+> **Resuelto en**: `plan-de-implementacion/03-base-de-datos.md` §5 (seed.ts)
+>
+> **Resumen**: 1 ejercicio por algoritmo (Bubble Sort, Selection Sort, Insertion Sort) — dificultad Fácil. Mínimo necesario para probar el flujo completo de gamificación. Más ejercicios se agregarán cuando se expanda el catálogo de algoritmos.
 
-**Impacto**: Sin ejercicios pre-cargados, los endpoints `GET /api/ejercicios/:algoId` y `POST /api/ejercicios/:id/responder` retornarán listas vacías, haciendo la funcionalidad de gamificación inoperativa al inicio.
-
-**Decisión requerida**:
-- [ ] Definir al menos 3 ejercicios por algoritmo de ordenamiento.
-- [ ] Especificar: `pregunta`, `respuestaCorrecta`, `dificultad` (Facil/Medio/Dificil), `feedbackPositivo`, `feedbackNegativo`.
-- [ ] Asociar cada ejercicio a un `algoritmoId`.
-
-**Ejemplo de estructura esperada**:
-```json
-{
-  "pregunta": "Dado el arreglo [5, 2, 8, 1], ¿cuál es el resultado después de la primera pasada completa de Bubble Sort?",
-  "respuestaCorrecta": "[2, 5, 1, 8]",
-  "dificultad": "Facil",
-  "feedbackPositivo": "¡Correcto! Bubble Sort mueve el elemento mayor al final en cada pasada.",
-  "feedbackNegativo": "Incorrecto. Recuerda que Bubble Sort compara elementos adyacentes y los intercambia si están desordenados.",
-  "algoritmoId": "<uuid-bubble-sort>"
-}
-```
+- [x] Definir al menos 1 ejercicio por algoritmo de ordenamiento. → 3 ejercicios definidos (1 por algoritmo)
+- [x] Especificar: `pregunta`, `respuestaCorrecta`, `dificultad`, `feedbackPositivo`, `feedbackNegativo`. → Completo
+- [x] Asociar cada ejercicio a un `algoritmoId`. → Via `findUnique({ where: { nombre } })`
 
 ---
 
-## 2. Fórmula de Cálculo de Niveles
+## 2. ~~Fórmula de Cálculo de Niveles~~ ✅ RESUELTO
 
-**Contexto**: El modelo `ProgresoUsuario` tiene `nivelActual` (default 1) y `puntosTotales` (default 0). Los SPECS mencionan que el nivel se actualiza al ganar puntos, pero **no especifican la fórmula** o umbrales para subir de nivel.
+> **Resuelto en**: [`gamification-xp-progression.spec.md`](../features/gamification-xp-progression.spec.md) §3-§4
+>
+> **Resumen**: Fórmula cuadrática `XP_para_nivel(n) = 50n(n+1)`. XP marginal = `100n`. Nivel máximo = 32 (52,800 XP total). Tiers: Novato → Aprendiz → Intermedio → Avanzado → Experto → Maestro → Leyenda.
 
-**Impacto**: Sin esta definición, `progress.service.ts` y `exercises.service.ts` no pueden recalcular `nivelActual` correctamente.
-
-**Decisión requerida**:
-- [ ] Definir fórmula o tabla de umbrales (ej: `nivel = floor(puntosTotales / 100) + 1`).
-- [ ] ¿Existe un nivel máximo?
-- [ ] ¿Los niveles siguen una progresión lineal o exponencial?
-
-**Ejemplo de posibles estrategias**:
-| Estrategia | Fórmula | Nivel 1 | Nivel 5 | Nivel 10 |
-|---|---|---|---|---|
-| Lineal (100 pts c/u) | `floor(pts/100) + 1` | 0 pts | 400 pts | 900 pts |
-| Exponencial | `floor(sqrt(pts/50)) + 1` | 0 pts | 800 pts | 4,500 pts |
-| Por tabla | Definido manualmente | 0 pts | Personalizado | Personalizado |
+- [x] Definir fórmula o tabla de umbrales.
+- [x] ¿Existe un nivel máximo? → Sí, nivel 32.
+- [x] ¿Los niveles siguen una progresión lineal o exponencial? → Cuadrática (entre ambas).
 
 ---
 
-## 3. Puntos Otorgados por Tipo de Actividad
+## 3. ~~Puntos Otorgados por Tipo de Actividad~~ ✅ RESUELTO
 
-**Contexto**: Los SPECS mencionan "sumar puntos" al responder correctamente un ejercicio y en la sincronización, pero **no definen cuántos puntos** se otorgan por cada tipo de actividad. Solo aparece `25` en un ejemplo de response de ejercicio (04-contratos-api.md, línea 354).
+> **Resuelto en**: [`gamification-xp-progression.spec.md`](../features/gamification-xp-progression.spec.md) §5
+>
+> **Resumen**: Fácil=10, Medio=25, Difícil=50, Simulación=5, Reto diario=35, Bonus racha 7d=50, Bonus racha 30d=200. Anti-farming incluido.
 
-**Impacto**: Sin esta información, la lógica de `exercises.service.ts`, `progress.service.ts` y `sync.service.ts` no puede calcular puntos correctamente.
-
-**Decisión requerida**:
-- [ ] Puntos por ejercicio correcto (¿varía según dificultad?).
-- [ ] Puntos por simulación completada.
-- [ ] Puntos por racha de días (¿bonus?).
-- [ ] ¿Se otorgan puntos por sesiones sincronizadas offline?
-
-**Ejemplo de tabla necesaria**:
-| Actividad | Puntos |
-|---|---|
-| Ejercicio correcto (Fácil) | ¿? |
-| Ejercicio correcto (Medio) | ¿? |
-| Ejercicio correcto (Difícil) | ¿? |
-| Simulación completada | ¿? |
-| Bonus racha 7 días | ¿? |
+- [x] Puntos por ejercicio correcto (¿varía según dificultad?) → Sí: 10/25/50.
+- [x] Puntos por simulación completada → 5 XP.
+- [x] Puntos por racha de días (¿bonus?) → 50 XP a los 7 días, 200 XP a los 30 días.
+- [x] ¿Se otorgan puntos por sesiones sincronizadas offline? → Sí, 5 XP por simulación sincronizada completada.
 
 ---
 
-## 4. Criterios Exactos de Desbloqueo de Insignias
+## 4. ~~Criterios Exactos de Desbloqueo de Insignias~~ ✅ RESUELTO
 
-**Contexto**: El seed de `03-base-de-datos.md` define 4 insignias con `criterioDesbloqueo` como texto descriptivo:
-1. "Completar 1 simulación"
-2. "Visualizar 3 algoritmos"
-3. "rachaDías >= 7"
-4. "Completar todos los algoritmos de Ordenamiento"
+> **Resuelto en**: [`gamification-exercises.plan.md`](../features/gamification-exercises.plan.md) §6
+>
+> **Resumen**: Enfoque hardcoded — `criterioDesbloqueo` como string descriptivo en DB, evaluación con map de funciones booleanas en `BadgesService`. Verificación event-driven desde 3 triggers (simulación completada, ejercicio correcto, racha actualizada). Caché en memoria para insignias. ~4-6ms por check.
 
-Pero **no define reglas programáticas** formales (queries, condiciones, triggers).
-
-**Impacto**: `badges.service.ts` necesita saber exactamente cuándo verificar y otorgar insignias.
-
-**Decisión requerida**:
-- [ ] ¿Se verifican insignias automáticamente después de cada actividad o bajo demanda?
-- [ ] Para "Completar todos los algoritmos de Ordenamiento": ¿se requiere completar la simulación, los ejercicios, o ambos?
-- [ ] ¿Se pueden agregar insignias nuevas desde el panel de administrador?
-- [ ] Definir la lógica booleana exacta para cada criterio.
+- [x] ¿Se verifican insignias automáticamente después de cada actividad o bajo demanda? → Automáticamente, event-driven desde 3 puntos.
+- [x] Para "Completar todos los algoritmos de Ordenamiento": ¿se requiere completar la simulación, los ejercicios, o ambos? → Solo simulación completada (`SesionSimulacion.completada = true`).
+- [x] ¿Se pueden agregar insignias nuevas desde el panel de administrador? → No en V1. Se agregan por seed/migración.
+- [x] Definir la lógica booleana exacta para cada criterio. → Definida en §6.1 con queries Prisma equivalentes.
 
 ---
 
-## 5. Gestión de Autenticación del Administrador
+## 5. ~~Gestión de Autenticación del Administrador~~ ✅ RESUELTO
 
-**Contexto**: El modelo de datos define `Administrador` como entidad **separada** de `Usuario` (tabla `administradores` vs. tabla `usuarios`). Sin embargo, el `AuthModule` en `01-backend-api.md` solo describe lógica de login que busca por `correo` en la tabla `Usuario`.
+> **Resuelto en**: [`admin-access-routing.spec.md`](../features/admin-access-routing.spec.md)
+>
+> **Resumen**: Mismo endpoint `/api/auth/login`. Búsqueda secuencial: primero `usuarios`, luego `administradores`. JWT incluye campo `tipo: "usuario" | "administrador"`. Frontend redirige por `tipo` a `MainTabNavigator` o `AdminNavigator`.
 
-**Impacto**: No queda claro cómo se autentica un administrador en el sistema.
-
-**Decisión requerida**:
-- [ ] ¿El administrador usa el mismo endpoint `/api/auth/login`? Si es así, ¿el service busca primero en `Usuario` y luego en `Administrador`?
-- [ ] ¿O existe un endpoint separado como `/api/auth/admin/login`?
-- [ ] ¿El campo `credencialesAdmin` del modelo Administrador reemplaza al campo `rol` del modelo Usuario?
-- [ ] ¿Puede un Administrador tener también un registro en la tabla `Usuario`?
-
----
-
-## 6. Almacenamiento de Assets para Módulos Offline
-
-**Contexto**: El endpoint `GET /api/modules/offline/:id/download` retorna URLs de descarga:
-```json
-{
-  "url": "https://brainsort-assets.example.com/bubble-sort-v1.0.0.json",
-  "wasmUrl": "https://brainsort-assets.example.com/bubble-sort-v1.0.0.wasm",
-  "expiresIn": 3600
-}
-```
-
-Pero `brainsort-assets.example.com` es un **placeholder**. No se especifica el proveedor real de almacenamiento.
-
-**Impacto**: `offline.service.ts` no puede generar URLs reales de descarga sin saber dónde se alojan los archivos.
-
-**Decisión requerida**:
-- [ ] ¿Qué servicio de almacenamiento se usará? (AWS S3, Google Cloud Storage, Railway, Cloudflare R2, etc.)
-- [ ] ¿Las URLs serán pre-firmadas (signed URLs) con expiración?
-- [ ] ¿Los archivos se generan estáticamente o se construyen dinámicamente?
-- [ ] ¿Presupuesto estimado para almacenamiento?
+- [x] ¿El administrador usa el mismo endpoint `/api/auth/login`? → Sí, búsqueda dual secuencial.
+- [x] ¿O existe un endpoint separado? → No, se usa el mismo endpoint.
+- [x] ¿El campo `credencialesAdmin` reemplaza al campo `rol`? → No, el JWT lleva `tipo` + `rol` (para admin, `rol="Administrador"`).
+- [x] ¿Puede un Administrador tener también un registro en `Usuario`? → No, son entidades mutuamente exclusivas.
 
 ---
 
-## 7. WASM: Compilación y Módulos Soportados
+## 6. ~~Almacenamiento de Assets para Módulos Offline~~ ✅ RESUELTO
 
-**Contexto**: La documentación menciona:
-- Emscripten SDK para compilar intérpretes C++/Python → WebAssembly.
-- Solo Android soporta WASM (iOS excluido por restricciones Apple).
-- Módulos WASM opcionales de 20-50 MB cada uno.
+> **Resuelto en**: `plan-de-implementacion/04-contratos-api.md` §8, `cambios-en-documentacion/CHANGELOG.md` CDR-004
+>
+> **Resumen**: Sin bucket externo. El backend genera el JSON del módulo directamente desde el engine registrado (`AlgorithmDefinition`) + ejercicios de la DB. El frontend lo guarda en `expo-sqlite` (móvil) o `IndexedDB` (web). El engine de ejecución (`execute()`) ya está instalado como parte de la app en `packages/core`.
 
-Pero **no se detalla**:
-- Qué intérpretes específicos compilar.
-- Qué flujo de build usar.
-- Qué funcionalidad exacta se ejecuta en WASM vs. JS/TS.
-
-**Impacto**: No se pueden crear los módulos WASM ni el pipeline de compilación.
-
-**Decisión requerida**:
-- [ ] ¿Qué intérpretes compilar a WASM? (ej: CPython, MicroPython, Clang REPL)
-- [ ] ¿Para qué se usarán? (ej: permitir al usuario escribir código en C++/Python para ejecutar algoritmos)
-- [ ] ¿Cuál es la versión target de cada intérprete?
-- [ ] ¿Se necesita un CI pipeline separado para la compilación WASM?
+- [x] ¿Qué servicio de almacenamiento se usará? → Ninguno externo. El backend sirve el JSON directamente.
+- [x] ¿Las URLs serán pre-firmadas? → No aplica. No hay URLs externas.
+- [x] ¿Los archivos se generan estáticamente o dinámicamente? → Dinámicamente desde el engine + DB.
+- [x] ¿Presupuesto estimado? → $0. Se sirve desde el mismo Railway.
 
 ---
 
-## 8. Mapeo de Líneas de Pseudocódigo para Engines
+## 7. ~~WASM: Compilación y Módulos Soportados~~ ✅ RESUELTO
 
-**Contexto**: Cada `SimulationStep` incluye `lineaPseudocodigo` (número de línea del pseudocódigo que se está ejecutando). El seed de `03-base-de-datos.md` define el pseudocódigo de 3 algoritmos, pero **solo Bubble Sort tiene ejemplo** de mapeo en el response de simulación.
+> **Resuelto en**: [`sandbox-code-runner.plan.md`](../features/sandbox-code-runner.plan.md)
+>
+> **Resumen**: V1 usa **MicroPython WASM** (~300KB) para Python y **JSCPP** (~200KB, JS puro) para C++ dentro de un WebView sandboxed. 100% frontend, sin backend nuevo. Ejercicios hardcoded. Funciona en Android, iOS y Web. V2 profundizará con más ejercicios, integración con XP, y editor avanzado.
 
-**Impacto**: Los engines de Selection Sort e Insertion Sort no pueden generar `lineaPseudocodigo` correctamente sin un mapeo explícito.
+- [x] ¿Qué intérpretes compilar a WASM? → MicroPython para Python, JSCPP (JS) para C++
+- [x] ¿Para qué se usarán? → Mini juez local: el usuario escribe código para resolver ejercicios algorítmicos
+- [x] ¿Se necesita un CI pipeline separado? → No. Los assets se descargan pre-compilados
+- [x] ¿iOS excluido? → No. WKWebView soporta WASM. Se probará en V1
 
-**Decisión requerida**:
-- [ ] Definir el mapeo línea-por-línea del pseudocódigo de **Selection Sort**.
-- [ ] Definir el mapeo línea-por-línea del pseudocódigo de **Insertion Sort**.
-- [ ] ¿Se numera desde 1 o desde 0?
-- [ ] ¿Cada operación del engine corresponde exactamente a una línea, o pueden existir pasos intermedios?
+---
 
-**Pseudocódigos a mapear**:
+## 8. ~~Mapeo de Líneas de Pseudocódigo para Engines~~ ✅ RESUELTO
 
-### Selection Sort
-```
-Línea 1: PARA i = 0 HASTA n-1
-Línea 2:   minIdx = i
-Línea 3:   PARA j = i+1 HASTA n
-Línea 4:     SI arreglo[j] < arreglo[minIdx]
-Línea 5:       minIdx = j
-Línea 6:   INTERCAMBIAR(arreglo[i], arreglo[minIdx])
-```
+> **Resuelto en**: `cambios-en-documentacion/CHANGELOG.md` CDR-001, `01-backend-api.md` §2.4
+>
+> **Resumen**: Patrón **Engine Auto-Contenido** — cada engine define su `pseudocode: PseudocodeLine[]` junto con la lógica de `execute()`. Las líneas de pseudocódigo están co-localizadas con el código que las referencia, por lo que es **imposible** que se desincronicen. Escala a 120+ algoritmos. Indexado desde 1. Solo operaciones visibles generan steps.
 
-### Insertion Sort
-```
-Línea 1: PARA i = 1 HASTA n
-Línea 2:   clave = arreglo[i]
-Línea 3:   j = i - 1
-Línea 4:   MIENTRAS j >= 0 Y arreglo[j] > clave
-Línea 5:     arreglo[j+1] = arreglo[j]
-Línea 6:     j = j - 1
-Línea 7:   arreglo[j+1] = clave
-```
+- [x] Definir el mapeo línea-por-línea del pseudocódigo de **Selection Sort**. → 6 líneas definidas en `selection-sort.engine.ts`
+- [x] Definir el mapeo línea-por-línea del pseudocódigo de **Insertion Sort**. → 7 líneas definidas en `insertion-sort.engine.ts`
+- [x] ¿Se numera desde 1 o desde 0? → Desde 1 (humano-legible)
+- [x] ¿Cada operación del engine corresponde exactamente a una línea? → Solo las operaciones visibles (comparación, intercambio, inserción) generan steps. Loops y control no generan steps.
 
 ---
 
@@ -193,11 +111,11 @@ Línea 7:   arreglo[j+1] = clave
 
 | # | Tema | Prioridad | Bloquea |
 |---|---|---|---|
-| 1 | Seed de ejercicios | 🔴 Alta | Gamificación completa |
-| 2 | Fórmula de niveles | 🔴 Alta | ProgressService, ExercisesService |
-| 3 | Puntos por actividad | 🔴 Alta | ProgressService, ExercisesService, SyncService |
-| 4 | Criterios de insignias | 🟡 Media | BadgesService |
-| 5 | Auth de Administrador | 🔴 Alta | AuthModule, CRUD de algoritmos |
-| 6 | Storage de assets offline | 🟡 Media | OfflineService |
-| 7 | WASM compilación | 🟢 Baja | Módulos WASM Android (feature opcional) |
-| 8 | Mapeo pseudocódigo | 🟡 Media | Engines Selection/Insertion Sort |
+| 1 | ~~Seed de ejercicios~~ | ✅ Resuelto | `03-base-de-datos.md` §5 (1 por algoritmo) |
+| 2 | ~~Fórmula de niveles~~ | ✅ Resuelto | [`gamification-xp-progression.spec.md`](../features/gamification-xp-progression.spec.md) |
+| 3 | ~~Puntos por actividad~~ | ✅ Resuelto | [`gamification-xp-progression.spec.md`](../features/gamification-xp-progression.spec.md) |
+| 4 | ~~Criterios de insignias~~ | ✅ Resuelto | [`gamification-exercises.plan.md`](../features/gamification-exercises.plan.md) §6 |
+| 5 | ~~Auth de Administrador~~ | ✅ Resuelto | [`admin-access-routing.spec.md`](../features/admin-access-routing.spec.md) |
+| 6 | ~~Storage de assets offline~~ | ✅ Resuelto | CDR-004 JSON directo del backend |
+| 7 | ~~WASM compilación~~ | ✅ Resuelto | [`sandbox-code-runner.plan.md`](../features/sandbox-code-runner.plan.md) |
+| 8 | ~~Mapeo pseudocódigo~~ | ✅ Resuelto | CDR-001 Engine Auto-Contenido |
