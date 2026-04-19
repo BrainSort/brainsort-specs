@@ -371,9 +371,9 @@
 
 ## 📁 `brainsort-app/src/components/algorithm/`
 
-- [ ] **T-FE-061**: Crear `AlgorithmCard.tsx` — Tarjeta con: nombre, dificultad, descripción truncada a ≤140 chars (HU-01)
-- [ ] **T-FE-062**: Crear `CategoryFilter.tsx` — Filtro por categoría: Ordenamiento, Búsqueda, Estructuras Lineales (HU-01)
-- [ ] **T-FE-063**: Crear `DifficultyBadge.tsx` — Indicador visual de dificultad del algoritmo
+- [x] **T-FE-061**: Crear `AlgorithmCard.tsx` — Tarjeta con: nombre, dificultad, descripción truncada a ≤140 chars (HU-01)
+- [x] **T-FE-062**: Crear `CategoryFilter.tsx` — Filtro por categoría: Ordenamiento, Búsqueda, Estructuras Lineales (HU-01)
+- [x] **T-FE-063**: Crear `DifficultyBadge.tsx` — Indicador visual de dificultad del algoritmo
 
 ---
 
@@ -439,8 +439,8 @@
 
 - [ ] **T-FE-088**: Crear `AppNavigator.tsx` — Navigator raíz que decide entre `AuthNavigator` (no autenticado) y `MainTabNavigator` (autenticado)
 - [ ] **T-FE-089**: Crear `AuthNavigator.tsx` — Stack Navigator: WelcomeScreen → LoginScreen → RegisterScreen
-- [ ] **T-FE-090**: Crear `MainTabNavigator.tsx` — Bottom Tabs: Biblioteca | Progreso | Offline | Perfil
-- [ ] **T-FE-091**: Crear `LibraryStackNavigator.tsx` — Stack Navigator dentro del tab Biblioteca: LibraryScreen → AlgorithmDetailScreen → SimulationScreen
+- [x] **T-FE-090**: Crear `MainTabNavigator.tsx` — Bottom Tabs: Biblioteca | Progreso | Offline | Perfil
+- [x] **T-FE-091**: Crear `LibraryStackNavigator.tsx` — Stack Navigator dentro del tab Biblioteca: LibraryScreen → AlgorithmDetailScreen → SimulationScreen
 - [ ] **T-FE-118**: Crear `AdminNavigator.tsx` — Stack/Tab Navigator exclusivo para administrador: AdminDashboard → ManageAlgorithms → ManageExercises → ViewUsers
 
 ---
@@ -455,14 +455,14 @@
 
 ## 📁 `brainsort-app/src/screens/library/`
 
-- [ ] **T-FE-095**: Crear `LibraryScreen.tsx` — Dashboard/Biblioteca principal (HU-01):
+- [x] **T-FE-095**: Crear `LibraryScreen.tsx` — Dashboard/Biblioteca principal (HU-01):
   - Mostrar categorías: Ordenamiento, Búsqueda, Estructuras Lineales
   - Tarjetas con: nombre, dificultad, descripción ≤140 chars
   - Filtros por categoría (CategoryFilter)
   - Lazy Loading de imágenes
   - Responsive: adapta columnas según ancho (useResponsiveColumns)
   - Tiempo de navegación → seleccionar algoritmo < 15 segundos
-- [ ] **T-FE-096**: Crear `AlgorithmDetailScreen.tsx` — Vista de detalle + entorno de simulación (HU-02):
+- [x] **T-FE-096**: Crear `AlgorithmDetailScreen.tsx` — Vista de detalle + entorno de simulación (HU-02):
   - Mostrar título en cabecera
   - Spinner temático durante carga
   - Si "Próximamente" → modal informativo (flujo alternativo)
