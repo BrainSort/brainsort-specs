@@ -249,14 +249,13 @@
 
 ## 📁 `brainsort-app/` (Raíz)
 
-- [ ] **T-FE-001**: Inicializar proyecto con Expo (React Native + React Native Web)
-- [ ] **T-FE-002**: Configurar `package.json` con las dependencias especificadas: `expo ~51.x`, `react-native 0.74.x`, `react-native-web ~0.19.x`, `react-native-svg ^15.x`, `react-native-webview ^13.x`, `d3-scale ^4.x`, `d3-interpolate ^3.x`, `@tanstack/react-query ^5.x`, `@react-navigation/native ^6.x`, `@react-navigation/bottom-tabs ^6.x`, `@react-navigation/native-stack ^6.x`, `expo-sqlite ~14.x`, `expo-file-system ~17.x`, `expo-secure-store ~13.x`, `expo-font ~12.x`
-- [ ] **T-FE-003**: Configurar `devDependencies`: `typescript ^5.x`, `openapi-typescript ^7.x`, `eslint ^9.x`, `prettier ^3.x`
-- [ ] **T-FE-004**: Configurar `app.json` para Expo
-- [ ] **T-FE-005**: Configurar `eas.json` para EAS Build
-- [ ] **T-FE-006**: Configurar `babel.config.js`
-- [ ] **T-FE-007**: Configurar `metro.config.js` (incluir resolución de `packages/core`)
-- [ ] **T-FE-008**: Configurar `tsconfig.json`
+- [x] **T-FE-002**: Configurar `package.json` con las dependencias especificadas: `expo ~51.x`, `react-native 0.74.x`, `react-native-web ~0.19.x`, `react-native-svg ^15.x`, `react-native-webview ^13.x`, `d3-scale ^4.x`, `d3-interpolate ^3.x`, `@tanstack/react-query ^5.x`, `@react-navigation/native ^6.x`, `@react-navigation/bottom-tabs ^6.x`, `@react-navigation/native-stack ^6.x`, `expo-sqlite ~14.x`, `expo-file-system ~17.x`, `expo-secure-store ~13.x`, `expo-font ~12.x`
+- [x] **T-FE-003**: Configurar `devDependencies`: `typescript ^5.x`, `openapi-typescript ^7.x`, `eslint ^9.x`, `prettier ^3.x`
+- [x] **T-FE-004**: Configurar `app.json` para Expo
+- [x] **T-FE-005**: Configurar `eas.json` para EAS Build
+- [x] **T-FE-006**: Configurar `babel.config.js`
+- [x] **T-FE-007**: Configurar `metro.config.js` (incluir resolución de `packages/core`)
+- [x] **T-FE-008**: Configurar `tsconfig.json`
 
 ---
 
@@ -297,30 +296,30 @@
 
 ## 📁 `brainsort-app/src/styles/`
 
-- [ ] **T-FE-023**: Crear `colors.ts` — Paleta de colores del proyecto, incluyendo colores de simulación: Azul `#4A90D9` (base/idle), Amarillo `#F5A623` (comparación), Rojo `#D0021B` (intercambio), Verde `#7ED321` (final)
-- [ ] **T-FE-024**: Crear `typography.ts` — Sistema de tipografías
-- [ ] **T-FE-025**: Crear `spacing.ts` — Sistema de espaciado
-- [ ] **T-FE-026**: Crear `theme.ts` — Tema unificado Web/Móvil (dark/light)
+- [X] **T-FE-023**: Crear `colors.ts` — Paleta de colores del proyecto, incluyendo colores de simulación: Azul `#4A90D9` (base/idle), Amarillo `#F5A623` (comparación), Rojo `#D0021B` (intercambio), Verde `#7ED321` (final)
+- [X] **T-FE-024**: Crear `typography.ts` — Sistema de tipografías
+- [X] **T-FE-025**: Crear `spacing.ts` — Sistema de espaciado
+- [X] **T-FE-026**: Crear `theme.ts` — Tema unificado Web/Móvil (dark/light)
 
 ---
 
 ## 📁 `brainsort-app/src/utils/`
 
-- [ ] **T-FE-027**: Crear `platform.ts` — Detección de plataforma (web/ios/android)
-- [ ] **T-FE-028**: Crear `formatters.ts` — Formateo de números y fechas
-- [ ] **T-FE-029**: Crear `validators.ts` — Validaciones de UI
+- [X] **T-FE-027**: Crear `platform.ts` — Detección de plataforma (web/ios/android)
+- [X] **T-FE-028**: Crear `formatters.ts` — Formateo de números y fechas
+- [X] **T-FE-029**: Crear `validators.ts` — Validaciones de UI
 
 ---
 
 ## 📁 `brainsort-app/src/generated/`
 
-- [ ] **T-FE-030**: Configurar script para generar `api-types.ts` desde el contrato Swagger del backend usando `npx openapi-typescript`
+- [X] **T-FE-030**: Configurar script para generar `api-types.ts` desde el contrato Swagger del backend usando `npx openapi-typescript`
 
 ---
 
 ## 📁 `brainsort-app/src/context/`
 
-- [ ] **T-FE-031**: Crear `AuthContext.tsx` — Contexto global con: usuario actual, tokens (access + refresh), rol
+- [X] **T-FE-031**: Crear `AuthContext.tsx` — Contexto global con: usuario actual, tokens (access + refresh), rol
 - [ ] **T-FE-032**: Crear `SimulationContext.tsx` — Contexto de estado de simulación activa
 - [ ] **T-FE-033**: Crear `ThemeContext.tsx` — Contexto de tema visual (dark/light)
 
