@@ -18,7 +18,7 @@
 - [x] **T-BE-002**: Configurar `package.json` con las dependencias especificadas: `@nestjs/common ^10.x`, `@nestjs/core ^10.x`, `@nestjs/platform-fastify ^10.x`, `@nestjs/swagger ^7.x`, `@nestjs/jwt ^10.x`, `@nestjs/passport ^10.x`, `@prisma/client ^5.x`, `bcrypt ^5.x`, `class-validator ^0.14.x`, `class-transformer ^0.5.x`, `passport ^0.7.x`, `passport-jwt ^4.x`
 - [x] **T-BE-003**: Configurar `devDependencies`: `prisma ^5.x`, `@nestjs/testing ^10.x`, `typescript ^5.x`, `eslint ^8.57.0`, `prettier ^3.x`
 - [x] **T-BE-004**: Configurar `tsconfig.json` y `tsconfig.build.json` para TypeScript
-- [ ] **T-BE-005**: Configurar `nest-cli.json`
+- [X] **T-BE-005**: Configurar `nest-cli.json`
 - [ ] **T-BE-006**: Crear archivo `.env.example` con las variables: `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRATION` (15m), `JWT_REFRESH_EXPIRATION` (7d), `PORT` (3000), `NODE_ENV`, `FRONTEND_URLS`
 - [ ] **T-BE-007**: Crear `Dockerfile` multi-stage (base → deps → build → production) con Node 20-slim, usando `npm ci --omit=dev`, `npx prisma generate`, `npm run build`, exponiendo puerto 3000
 - [ ] **T-BE-008**: Crear `docker-compose.yml` para desarrollo local con servicios `api` (build local, puerto 3000, hot-reload) y `db` (postgres:15, usuario/password brainsort, volumen `pgdata`)
@@ -320,22 +320,22 @@
 ## 📁 `brainsort-app/src/context/`
 
 - [X] **T-FE-031**: Crear `AuthContext.tsx` — Contexto global con: usuario actual, tokens (access + refresh), rol
-- [ ] **T-FE-032**: Crear `SimulationContext.tsx` — Contexto de estado de simulación activa
-- [ ] **T-FE-033**: Crear `ThemeContext.tsx` — Contexto de tema visual (dark/light)
+- [x] **T-FE-032**: Crear `SimulationContext.tsx` — Contexto de estado de simulación activa
+- [x] **T-FE-033**: Crear `ThemeContext.tsx` — Contexto de tema visual (dark/light)
 
 ---
 
 ## 📁 `brainsort-app/src/services/`
 
-- [ ] **T-FE-034**: Crear `api.ts` — Instancia base de fetch/axios con interceptores para JWT (adjuntar `Authorization: Bearer <token>` en headers) y manejo de errores
-- [ ] **T-FE-035**: Crear `auth.service.ts` — Consumir `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/refresh`
-- [ ] **T-FE-036**: Crear `library.service.ts` — Consumir `GET /api/biblioteca`, `GET /api/algoritmos/:id`
-- [ ] **T-FE-037**: Crear `simulation.service.ts` — Consumir `POST /api/simulaciones`
-- [ ] **T-FE-038**: Crear `exercise.service.ts` — Consumir `GET /api/ejercicios/:algoId`, `POST /api/ejercicios/:id/responder`
-- [ ] **T-FE-039**: Crear `progress.service.ts` — Consumir `GET /api/progreso/me`, `GET /api/ranking`
-- [ ] **T-FE-040**: Crear `badges.service.ts` — Consumir `GET /api/insignias`, `GET /api/insignias/me`
-- [ ] **T-FE-041**: Crear `offline.service.ts` — Consumir `GET /api/modules/offline`, `GET /api/modules/offline/:id/download`
-- [ ] **T-FE-042**: Crear `sync.service.ts` — Consumir `POST /api/progress/sync`
+- [x] **T-FE-034**: Crear `api.ts` — Instancia base de fetch/axios con interceptores para JWT (adjuntar `Authorization: Bearer <token>` en headers) y manejo de errores
+- [x] **T-FE-035**: Crear `auth.service.ts` — Consumir `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/refresh`
+- [x] **T-FE-036**: Crear `library.service.ts` — Consumir `GET /api/biblioteca`, `GET /api/algoritmos/:id`
+- [x] **T-FE-037**: Crear `simulation.service.ts` — Consumir `POST /api/simulaciones`
+- [x] **T-FE-038**: Crear `exercise.service.ts` — Consumir `GET /api/ejercicios/:algoId`, `POST /api/ejercicios/:id/responder`
+- [x] **T-FE-039**: Crear `progress.service.ts` — Consumir `GET /api/progreso/me`, `GET /api/ranking`
+- [x] **T-FE-040**: Crear `badges.service.ts` — Consumir `GET /api/insignias`, `GET /api/insignias/me`
+- [x] **T-FE-041**: Crear `offline.service.ts` — Consumir `GET /api/modules/offline`, `GET /api/modules/offline/:id/download`
+- [x] **T-FE-042**: Crear `sync.service.ts` — Consumir `POST /api/progress/sync`
 
 ---
 
@@ -343,29 +343,29 @@
 
 > Custom Hooks = ViewModel en patrón MVVM. Los Screens nunca contienen lógica de negocio.
 
-- [ ] **T-FE-043**: Crear `useAuth.ts` — Login, register, logout, token management (almacenar en expo-secure-store en móvil, HttpOnly cookies en web)
-- [ ] **T-FE-044**: Crear `useLibrary.ts` — Fetch biblioteca, filtrar por categoría
-- [ ] **T-FE-045**: Crear `useAlgorithm.ts` — Fetch detalle de algoritmo por ID
-- [ ] **T-FE-046**: Crear `useSimulation.ts` — Estado de simulación: play/pause, velocidad, paso actual
-- [ ] **T-FE-047**: Crear `useSimulationEngine.ts` — Ejecuta engine de `packages/core`, genera `SimulationStep[]`
-- [ ] **T-FE-048**: Crear `useAnimationController.ts` — Controla timing de animaciones con `requestAnimationFrame`, avanza pasos según `velocidadReproducción`
-- [ ] **T-FE-049**: Crear `useExercise.ts` — Fetch y responder ejercicios de predicción
-- [ ] **T-FE-050**: Crear `useProgress.ts` — Progreso, ranking, insignias del usuario
-- [ ] **T-FE-051**: Crear `useOfflineModules.ts` — Descargar/eliminar módulos offline
-- [ ] **T-FE-052**: Crear `useSync.ts` — Sincronización de progreso offline (detectar conectividad via NetInfo, enviar cola pendiente)
-- [ ] **T-FE-053**: Crear `useDataset.ts` — Generación y validación de conjuntos de datos
-- [ ] **T-FE-054**: Crear `useResponsiveColumns.ts` — Hook para responsive: 4 columnas (≥1024px), 3 (≥768px), 2 (≥480px), 1 (<480px)
+- [x] **T-FE-043**: Crear `useAuth.ts` — Login, register, logout, token management (almacenar en expo-secure-store en móvil, HttpOnly cookies en web)
+- [x] **T-FE-044**: Crear `useLibrary.ts` — Fetch biblioteca, filtrar por categoría
+- [x] **T-FE-045**: Crear `useAlgorithm.ts` — Fetch detalle de algoritmo por ID
+- [x] **T-FE-046**: Crear `useSimulation.ts` — Estado de simulación: play/pause, velocidad, paso actual
+- [x] **T-FE-047**: Crear `useSimulationEngine.ts` — Ejecuta engine de `packages/core`, genera `SimulationStep[]`
+- [x] **T-FE-048**: Crear `useAnimationController.ts` — Controla timing de animaciones con `requestAnimationFrame`, avanza pasos según `velocidadReproducción`
+- [x] **T-FE-049**: Crear `useExercise.ts` — Fetch y responder ejercicios de predicción
+- [x] **T-FE-050**: Crear `useProgress.ts` — Progreso, ranking, insignias del usuario
+- [x] **T-FE-051**: Crear `useOfflineModules.ts` — Descargar/eliminar módulos offline
+- [x] **T-FE-052**: Crear `useSync.ts` — Sincronización de progreso offline (detectar conectividad via NetInfo, enviar cola pendiente)
+- [x] **T-FE-053**: Crear `useDataset.ts` — Generación y validación de conjuntos de datos
+- [x] **T-FE-054**: Crear `useResponsiveColumns.ts` — Hook para responsive: 4 columnas (≥1024px), 3 (≥768px), 2 (≥480px), 1 (<480px)
 
 ---
 
 ## 📁 `brainsort-app/src/components/common/`
 
-- [ ] **T-FE-055**: Crear `Button.tsx` — Componente botón reutilizable
-- [ ] **T-FE-056**: Crear `Card.tsx` — Componente tarjeta reutilizable
-- [ ] **T-FE-057**: Crear `Input.tsx` — Componente de entrada de texto
-- [ ] **T-FE-058**: Crear `Spinner.tsx` — Indicador de carga temático (HU-02)
-- [ ] **T-FE-059**: Crear `Toast.tsx` — Notificación no intrusiva que auto-desaparece a los 5 segundos (HU-07)
-- [ ] **T-FE-060**: Crear `Modal.tsx` — Componente modal reutilizable
+- [x] **T-FE-055**: Crear `Button.tsx` — Componente botón reutilizable
+- [x] **T-FE-056**: Crear `Card.tsx` — Componente tarjeta reutilizable
+- [x] **T-FE-057**: Crear `Input.tsx` — Componente de entrada de texto
+- [x] **T-FE-058**: Crear `Spinner.tsx` — Indicador de carga temático (HU-02)
+- [x] **T-FE-059**: Crear `Toast.tsx` — Notificación no intrusiva que auto-desaparece a los 5 segundos (HU-07)
+- [x] **T-FE-060**: Crear `Modal.tsx` — Componente modal reutilizable
 
 ---
 
