@@ -437,8 +437,8 @@
 
 ## 📁 `brainsort-app/src/navigation/`
 
-- [ ] **T-FE-088**: Crear `AppNavigator.tsx` — Navigator raíz que decide entre `AuthNavigator` (no autenticado) y `MainTabNavigator` (autenticado)
-- [ ] **T-FE-089**: Crear `AuthNavigator.tsx` — Stack Navigator: WelcomeScreen → LoginScreen → RegisterScreen
+- [x] **T-FE-088**: Crear `AppNavigator.tsx` — Navigator raíz que decide entre `AuthNavigator` (no autenticado) y `MainTabNavigator` (autenticado)
+- [x] **T-FE-089**: Crear `AuthNavigator.tsx` — Stack Navigator: WelcomeScreen → LoginScreen → RegisterScreen
 - [x] **T-FE-090**: Crear `MainTabNavigator.tsx` — Bottom Tabs: Biblioteca | Progreso | Offline | Perfil
 - [x] **T-FE-091**: Crear `LibraryStackNavigator.tsx` — Stack Navigator dentro del tab Biblioteca: LibraryScreen → AlgorithmDetailScreen → SimulationScreen
 - [ ] **T-FE-118**: Crear `AdminNavigator.tsx` — Stack/Tab Navigator exclusivo para administrador: AdminDashboard → ManageAlgorithms → ManageExercises → ViewUsers
@@ -447,9 +447,9 @@
 
 ## 📁 `brainsort-app/src/screens/auth/`
 
-- [ ] **T-FE-092**: Crear `WelcomeScreen.tsx` — Pantalla de bienvenida (consumir hook `useAuth`)
-- [ ] **T-FE-093**: Crear `LoginScreen.tsx` — Pantalla de login con campos: correo, contraseña. Consumir `useAuth.login()`
-- [ ] **T-FE-094**: Crear `RegisterScreen.tsx` — Pantalla de registro con campos: nombre, correo, rol (Estudiante/Profesor/Autodidacta), contraseña (min 8 chars). Consumir `useAuth.register()`
+- [x] **T-FE-092**: Crear `WelcomeScreen.tsx` — Pantalla de bienvenida (consumir hook `useAuth`)
+- [x] **T-FE-093**: Crear `LoginScreen.tsx` — Pantalla de login con campos: correo, contraseña. Consumir `useAuth.login()`
+- [x] **T-FE-094**: Crear `RegisterScreen.tsx` — Pantalla de registro con campos: nombre, correo, rol (Estudiante/Profesor/Autodidacta), contraseña (min 8 chars). Consumir `useAuth.register()`
 
 ---
 
