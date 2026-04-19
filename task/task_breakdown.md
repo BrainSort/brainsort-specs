@@ -115,7 +115,7 @@
 
 ### 📁 `src/algorithms/`
 
-- [ ] **T-BE-049**: Crear `AlgorithmsModule`
+- [x] **T-BE-049**: Crear `AlgorithmsModule`
 - [ ] **T-BE-050**: Crear `algorithms.controller.ts` con endpoints:
   - `GET /api/biblioteca` (Público/Autenticado) — CO1: getLibrary() — Lista completa de algoritmos por categoría
   - `GET /api/algoritmos/:id` (Autenticado) — CO2: getAlgoritmo() — Detalle del algoritmo con pseudocódigo
@@ -127,7 +127,7 @@
   - CO2 `getAlgoritmo()`: Obtener algoritmo por ID con pseudocódigo completo, crear/actualizar `SesionSimulacion` para asociar avance con cuenta actual
   - CRUD completo para Administrador
 - [ ] **T-BE-052**: Crear `create-algorithm.dto.ts` (Solo Administrador) con campos: nombre, descripcion, complejidadTiempo, complejidadEspacio, categoria. **CDR-001: pseudocodigo no se envía por API — vive en el engine file**
-- [ ] **T-BE-053**: Crear `algorithm-response.dto.ts` para formatear respuesta
+- [x] **T-BE-053**: Crear `algorithm-response.dto.ts` para formatear respuesta
 
 ---
 
