@@ -28,20 +28,20 @@
 ## 📁 `brainsort-api/prisma/`
 
 - [x] **T-BE-009**: Crear `schema.prisma` con `generator client` (prisma-client-js), `datasource db` (postgresql, url desde env)
-- [ ] **T-BE-010**: Definir modelo `Usuario` con campos: `id` (UUID), `nombre`, `correo` (unique), `rol` (Enum), `contrasena`, `createdAt`, `updatedAt`. Relaciones: `progreso` (1:1), `sesiones[]`, `respuestas[]`. Map: `"usuarios"`
-- [ ] **T-BE-011**: Definir Enum `Rol` con valores: `Estudiante`, `Profesor`, `Autodidacta`
-- [ ] **T-BE-012**: Definir modelo `Administrador` con campos: `id` (UUID), `nombre`, `correo` (unique), `contrasena`, `credencialesAdmin`, `ultimoAcceso`, `createdAt`, `updatedAt`. Map: `"administradores"`
-- [ ] **T-BE-013**: Definir modelo `Algoritmo` con campos: `id` (UUID), `nombre` (unique), `descripcion` (Text), `dificultad`, `complejidadTiempo`, `complejidadEspacio`, `categoria` (Enum), `activo` (default true), `createdAt`, `updatedAt`. Relaciones: `ejercicios[]`, `sesiones[]`. Map: `"algoritmos"`. **HU-01: agregar `dificultad` y mantener `pseudocodigo` fuera del modelo, en engines**
-- [ ] **T-BE-014**: Definir Enum `CategoriaAlgoritmo` con valores: `Ordenamiento`, `Busqueda`, `EstructurasLineales`
-- [ ] **T-BE-015**: Definir modelo `EjercicioPrediccion` con campos: `id` (UUID), `pregunta` (Text), `respuestaCorrecta`, `dificultad` (Enum), `feedbackPositivo` (Text), `feedbackNegativo` (Text), `createdAt`. FK: `algoritmoId`. Relaciones: `algoritmo`, `respuestas[]`. Map: `"ejercicios_prediccion"`
-- [ ] **T-BE-016**: Definir Enum `DificultadEjercicio` con valores: `Facil`, `Medio`, `Dificil`
-- [ ] **T-BE-017**: Definir modelo `ProgresoUsuario` con campos: `id` (UUID), `puntosTotales` (default 0), `nivelActual` (default 1), `rachaDias` (default 0), `posicionRanking` (default 0), `ultimaActividad`, `createdAt`, `updatedAt`. FK: `usuarioId` (unique). Índice: `puntosTotales DESC`. Map: `"progreso_usuario"`
-- [ ] **T-BE-018**: Definir modelo `Insignia` con campos: `id` (UUID), `nombre` (unique), `descripcion` (Text), `imagen`, `criterioDesbloqueo`, `createdAt`. Relaciones: `progresosOtorgados[]`. Map: `"insignias"`
-- [ ] **T-BE-019**: Definir modelo `ProgresoInsignia` (tabla intermedia) con campos: `id` (UUID), `fechaObtencion`. FKs: `progresoId`, `insigniaId`. Constraint: `@@unique([progresoId, insigniaId])`. Map: `"progreso_insignias"`
-- [ ] **T-BE-020**: Definir modelo `SesionSimulacion` con campos: `id` (UUID), `pasosCompletados` (default 0), `totalPasos`, `completada` (default false), `fechaInicio`, `fechaFin` (nullable). FKs: `usuarioId`, `algoritmoId`. Map: `"sesiones_simulacion"`
-- [ ] **T-BE-021**: Definir modelo `RespuestaEjercicio` con campos: `id` (UUID), `respuesta`, `correcto`, `puntosGanados` (default 0), `fechaRespuesta`. FKs: `usuarioId`, `ejercicioId`. Map: `"respuestas_ejercicio"`
-- [ ] **T-BE-022**: Ejecutar migración inicial: `npx prisma migrate dev --name init`
-- [ ] **T-BE-023**: Crear `seed.ts` con: (1) Administrador por defecto (`admin@brainsort.edu`, password hasheada con bcrypt, credencial `SUPER_ADMIN`), (2) 3 algoritmos de ordenamiento (Bubble Sort, Selection Sort, Insertion Sort) con `descripcion` corta, `dificultad` y `categoria`, **CDR-001: pseudocodigo vive en engines**, (3) 3 ejercicios de predicción (1 por algoritmo, dificultad Fácil), (4) 4 insignias (Primer Paso, Explorador, Racha de 7, Maestro del Orden) con criterios de desbloqueo
+- [x] **T-BE-010**: Definir modelo `Usuario` con campos: `id` (UUID), `nombre`, `correo` (unique), `rol` (Enum), `contrasena`, `createdAt`, `updatedAt`. Relaciones: `progreso` (1:1), `sesiones[]`, `respuestas[]`. Map: `"usuarios"`
+- [x] **T-BE-011**: Definir Enum `Rol` con valores: `Estudiante`, `Profesor`, `Autodidacta`
+- [x] **T-BE-012**: Definir modelo `Administrador` con campos: `id` (UUID), `nombre`, `correo` (unique), `contrasena`, `credencialesAdmin`, `ultimoAcceso`, `createdAt`, `updatedAt`. Map: `"administradores"`
+- [x] **T-BE-013**: Definir modelo `Algoritmo` con campos: `id` (UUID), `nombre` (unique), `descripcion` (Text), `dificultad`, `complejidadTiempo`, `complejidadEspacio`, `categoria` (Enum), `activo` (default true), `createdAt`, `updatedAt`. Relaciones: `ejercicios[]`, `sesiones[]`. Map: `"algoritmos"`. **HU-01: agregar `dificultad` y mantener `pseudocodigo` fuera del modelo, en engines**
+- [x] **T-BE-014**: Definir Enum `CategoriaAlgoritmo` con valores: `Ordenamiento`, `Busqueda`, `EstructurasLineales`
+- [x] **T-BE-015**: Definir modelo `EjercicioPrediccion` con campos: `id` (UUID), `pregunta` (Text), `respuestaCorrecta`, `dificultad` (Enum), `feedbackPositivo` (Text), `feedbackNegativo` (Text), `createdAt`. FK: `algoritmoId`. Relaciones: `algoritmo`, `respuestas[]`. Map: `"ejercicios_prediccion"`
+- [x] **T-BE-016**: Definir Enum `DificultadEjercicio` con valores: `Facil`, `Medio`, `Dificil`
+- [x] **T-BE-017**: Definir modelo `ProgresoUsuario` con campos: `id` (UUID), `puntosTotales` (default 0), `nivelActual` (default 1), `rachaDias` (default 0), `posicionRanking` (default 0), `ultimaActividad`, `createdAt`, `updatedAt`. FK: `usuarioId` (unique). Índice: `puntosTotales DESC`. Map: `"progreso_usuario"`
+- [x] **T-BE-018**: Definir modelo `Insignia` con campos: `id` (UUID), `nombre` (unique), `descripcion` (Text), `imagen`, `criterioDesbloqueo`, `createdAt`. Relaciones: `progresosOtorgados[]`. Map: `"insignias"`
+- [x] **T-BE-019**: Definir modelo `ProgresoInsignia` (tabla intermedia) con campos: `id` (UUID), `fechaObtencion`. FKs: `progresoId`, `insigniaId`. Constraint: `@@unique([progresoId, insigniaId])`. Map: `"progreso_insignias"`
+- [x] **T-BE-020**: Definir modelo `SesionSimulacion` con campos: `id` (UUID), `pasosCompletados` (default 0), `totalPasos`, `completada` (default false), `fechaInicio`, `fechaFin` (nullable). FKs: `usuarioId`, `algoritmoId`. Map: `"sesiones_simulacion"`
+- [x] **T-BE-021**: Definir modelo `RespuestaEjercicio` con campos: `id` (UUID), `respuesta`, `correcto`, `puntosGanados` (default 0), `fechaRespuesta`. FKs: `usuarioId`, `ejercicioId`. Map: `"respuestas_ejercicio"`
+- [x] **T-BE-022**: Ejecutar migración inicial: `npx prisma migrate dev --name init`
+- [x] **T-BE-023**: Crear `seed.ts` con: (1) Administrador por defecto (`admin@brainsort.edu`, password hasheada con bcrypt, credencial `SUPER_ADMIN`), (2) 3 algoritmos de ordenamiento (Bubble Sort, Selection Sort, Insertion Sort) con `descripcion` corta, `dificultad` y `categoria`, **CDR-001: pseudocodigo vive en engines**, (3) 3 ejercicios de predicción (1 por algoritmo, dificultad Fácil), (4) 4 insignias (Primer Paso, Explorador, Racha de 7, Maestro del Orden) con criterios de desbloqueo
 
 ---
 
