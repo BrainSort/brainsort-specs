@@ -278,6 +278,7 @@ main ─────────────────────────
 
 **Reglas**:
 - Features en ramas `feature/<nombre>`.
+- **Hooks Locales**: Validación de nomenclatura obligatoria de ramas e invocación del linter mediante `Husky` (pre-commit script).
 - PR **revisado por al menos un integrante** antes de merge a `dev`.
 - `dev` se merge a `main` cuando se acumulan features estables.
 - Protección de ramas en `main` y `dev` (no push directo).

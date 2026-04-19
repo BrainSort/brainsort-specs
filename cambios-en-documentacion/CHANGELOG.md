@@ -100,3 +100,23 @@ El endpoint `GET /api/modules/offline/:id/download` ya **no** retorna URLs a un 
 
 ### ¿Cuándo SÍ se necesitaría un bucket externo?
 Solo si se implementan los módulos WASM opcionales (20-50 MB, solo Android), que están en el punto 7 como prioridad 🟢 Baja.
+
+---
+
+## CDR-006: Enforcement Local de Ramas y Format con Husky
+
+**Fecha**: 2026-04-19
+**Documentación original afectada**: N/A (Estrategia DevOps implícita)
+**Archivos SPECS modificados**: `plan-de-implementacion/05-despliegue-devops.md`
+
+### ¿Qué cambió?
+Se agregó la dependencia `husky` en la configuración de `devDependencies` de ambos repositorios (`brainsort-api`, `brainsort-app`) y se estructuró un script de Bash para el hook `pre-commit`.
+
+### ¿Por qué?
+El plan DevOps original definía una política estricta de nombramiento de Git (`feature/<nombre>`, `dev`, `main`) y ejecución obligatoria del linter (ESLint/Prettier). Sin embargo, esto solo se comprobaba de forma tardía en el pipeline remoto de *Integración Continua (CI)* de GitHub Actions. Esto generaba un mal Developer Experience (DX) ya que el desarrollador descubría sus violaciones del linter después de empujar el PR. 
+
+Al instalar un *hook* local (*Shift-Left Testing*), la validación a la Expresión Regular de DevOps y el chequeo estático del linter suceden en la computadora del desarrollador un segundo antes de poder crear el *commit*, evitando saturar la nube con PRs defectuosos.
+
+### Impacto
+- **Nuevo Bloqueo**: Imposibilidad de guardar código (`git commit`) si la rama tiene nombres como `task/...`, `frontend/...` o `copilot/...`.
+- **Nuevo Bloqueo**: Imposibilidad de guardar código si `npm run lint` halla errores estáticos o de formato en `brainsort-api` y `brainsort-app`.
