@@ -30,7 +30,7 @@ Entregar una Biblioteca de Algoritmos funcional para que el usuario pueda explor
 3. [ ] Verificar que la API levante localmente sin errores.
 
 ## Fase 3: Modelo de datos
-1. Crear y ajustar modelo `Algoritmo`.
+1. [x] Crear y ajustar modelo `Algoritmo`.
    - `id`
    - `nombre`
    - `descripcion`
@@ -39,19 +39,19 @@ Entregar una Biblioteca de Algoritmos funcional para que el usuario pueda explor
    - `complejidadEspacio`
    - `categoria`
    - `activo`
-2. Crear enum `CategoriaAlgoritmo`.
-3. Crear migración inicial de catálogo.
+2. [x] Crear enum `CategoriaAlgoritmo`.
+3. [x] Crear migración inicial de catálogo.
 
 ## Fase 4: Seed del catálogo
-1. Crear seed con al menos 3 algoritmos del MVP:
+1. [x] Crear seed con al menos 3 algoritmos del MVP:
    - Bubble Sort
    - Selection Sort
    - Insertion Sort
-2. Asegurar que cada algoritmo tenga:
+2. [x] Asegurar que cada algoritmo tenga:
    - descripción corta
    - dificultad
    - categoría
-3. Verificar que los datos queden disponibles para la biblioteca.
+3. [ ] Verificar que los datos queden disponibles para la biblioteca.
 
 ## Fase 5: API de biblioteca
 1. Crear `AlgorithmsModule`.
