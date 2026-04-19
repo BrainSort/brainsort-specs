@@ -120,3 +120,24 @@ Al instalar un *hook* local (*Shift-Left Testing*), la validación a la Expresi�
 ### Impacto
 - **Nuevo Bloqueo**: Imposibilidad de guardar código (`git commit`) si la rama tiene nombres como `task/...`, `frontend/...` o `copilot/...`.
 - **Nuevo Bloqueo**: Imposibilidad de guardar código si `npm run lint` halla errores estáticos o de formato en `brainsort-api` y `brainsort-app`.
+
+---
+
+## CDR-007: Corrección de Trazabilidad HU-01 (Evidencia vs Estado)
+
+**Fecha**: 2026-04-19
+**Documentación original afectada**: `task/task_roadmap_HU01.md`, `task/task_breakdown.md`
+**Archivos SPECS modificados**:
+- `task/task_roadmap_HU01.md`
+- `task/task_breakdown.md`
+
+### ¿Qué cambió?
+Se corrigió el estado de tareas marcadas como completadas para reflejar únicamente trabajo con evidencia de ejecución en entorno:
+- `Fase 4`, punto `Verificar que los datos queden disponibles para la biblioteca` volvió a estado pendiente.
+- `T-BE-022` (`npx prisma migrate dev --name init`) volvió a estado pendiente.
+
+### ¿Por qué?
+Durante la implementación se completaron cambios de código (schema, seed y migración SQL), pero no se pudo ejecutar la verificación end-to-end de datos en biblioteca ni correr la migración inicial con base PostgreSQL activa en el entorno local de esta sesión.
+
+### Impacto
+Mejora la confiabilidad del tracking del proyecto: el tablero refleja avance real validado y evita falsos positivos de cierre de fase.

@@ -40,7 +40,7 @@
 - [x] **T-BE-019**: Definir modelo `ProgresoInsignia` (tabla intermedia) con campos: `id` (UUID), `fechaObtencion`. FKs: `progresoId`, `insigniaId`. Constraint: `@@unique([progresoId, insigniaId])`. Map: `"progreso_insignias"`
 - [x] **T-BE-020**: Definir modelo `SesionSimulacion` con campos: `id` (UUID), `pasosCompletados` (default 0), `totalPasos`, `completada` (default false), `fechaInicio`, `fechaFin` (nullable). FKs: `usuarioId`, `algoritmoId`. Map: `"sesiones_simulacion"`
 - [x] **T-BE-021**: Definir modelo `RespuestaEjercicio` con campos: `id` (UUID), `respuesta`, `correcto`, `puntosGanados` (default 0), `fechaRespuesta`. FKs: `usuarioId`, `ejercicioId`. Map: `"respuestas_ejercicio"`
-- [x] **T-BE-022**: Ejecutar migración inicial: `npx prisma migrate dev --name init`
+- [ ] **T-BE-022**: Ejecutar migración inicial: `npx prisma migrate dev --name init`
 - [x] **T-BE-023**: Crear `seed.ts` con: (1) Administrador por defecto (`admin@brainsort.edu`, password hasheada con bcrypt, credencial `SUPER_ADMIN`), (2) 3 algoritmos de ordenamiento (Bubble Sort, Selection Sort, Insertion Sort) con `descripcion` corta, `dificultad` y `categoria`, **CDR-001: pseudocodigo vive en engines**, (3) 3 ejercicios de predicción (1 por algoritmo, dificultad Fácil), (4) 4 insignias (Primer Paso, Explorador, Racha de 7, Maestro del Orden) con criterios de desbloqueo
 
 ---
