@@ -19,7 +19,7 @@
 - [x] **T-BE-003**: Configurar `devDependencies`: `prisma ^5.x`, `@nestjs/testing ^10.x`, `typescript ^5.x`, `eslint ^8.57.0`, `prettier ^3.x`
 - [x] **T-BE-004**: Configurar `tsconfig.json` y `tsconfig.build.json` para TypeScript
 - [X] **T-BE-005**: Configurar `nest-cli.json`
-- [ ] **T-BE-006**: Crear archivo `.env.example` con las variables: `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRATION` (15m), `JWT_REFRESH_EXPIRATION` (7d), `PORT` (3000), `NODE_ENV`, `FRONTEND_URLS`
+- [x] **T-BE-006**: Crear archivo `.env.example` con las variables: `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRATION` (15m), `JWT_REFRESH_EXPIRATION` (7d), `PORT` (3000), `NODE_ENV`, `FRONTEND_URLS`
 - [ ] **T-BE-007**: Crear `Dockerfile` multi-stage (base → deps → build → production) con Node 20-slim, usando `npm ci --omit=dev`, `npx prisma generate`, `npm run build`, exponiendo puerto 3000
 - [ ] **T-BE-008**: Crear `docker-compose.yml` para desarrollo local con servicios `api` (build local, puerto 3000, hot-reload) y `db` (postgres:15, usuario/password brainsort, volumen `pgdata`)
 
@@ -27,11 +27,11 @@
 
 ## 📁 `brainsort-api/prisma/`
 
-- [ ] **T-BE-009**: Crear `schema.prisma` con `generator client` (prisma-client-js), `datasource db` (postgresql, url desde env)
+- [x] **T-BE-009**: Crear `schema.prisma` con `generator client` (prisma-client-js), `datasource db` (postgresql, url desde env)
 - [ ] **T-BE-010**: Definir modelo `Usuario` con campos: `id` (UUID), `nombre`, `correo` (unique), `rol` (Enum), `contrasena`, `createdAt`, `updatedAt`. Relaciones: `progreso` (1:1), `sesiones[]`, `respuestas[]`. Map: `"usuarios"`
 - [ ] **T-BE-011**: Definir Enum `Rol` con valores: `Estudiante`, `Profesor`, `Autodidacta`
 - [ ] **T-BE-012**: Definir modelo `Administrador` con campos: `id` (UUID), `nombre`, `correo` (unique), `contrasena`, `credencialesAdmin`, `ultimoAcceso`, `createdAt`, `updatedAt`. Map: `"administradores"`
-- [ ] **T-BE-013**: Definir modelo `Algoritmo` con campos: `id` (UUID), `nombre` (unique), `descripcion` (Text), `complejidadTiempo`, `complejidadEspacio`, `categoria` (Enum), `activo` (default true), `createdAt`, `updatedAt`. Relaciones: `ejercicios[]`, `sesiones[]`. Map: `"algoritmos"`. **CDR-001: pseudocodigo migrado al engine file**
+- [ ] **T-BE-013**: Definir modelo `Algoritmo` con campos: `id` (UUID), `nombre` (unique), `descripcion` (Text), `dificultad`, `complejidadTiempo`, `complejidadEspacio`, `categoria` (Enum), `activo` (default true), `createdAt`, `updatedAt`. Relaciones: `ejercicios[]`, `sesiones[]`. Map: `"algoritmos"`. **HU-01: agregar `dificultad` y mantener `pseudocodigo` fuera del modelo, en engines**
 - [ ] **T-BE-014**: Definir Enum `CategoriaAlgoritmo` con valores: `Ordenamiento`, `Busqueda`, `EstructurasLineales`
 - [ ] **T-BE-015**: Definir modelo `EjercicioPrediccion` con campos: `id` (UUID), `pregunta` (Text), `respuestaCorrecta`, `dificultad` (Enum), `feedbackPositivo` (Text), `feedbackNegativo` (Text), `createdAt`. FK: `algoritmoId`. Relaciones: `algoritmo`, `respuestas[]`. Map: `"ejercicios_prediccion"`
 - [ ] **T-BE-016**: Definir Enum `DificultadEjercicio` con valores: `Facil`, `Medio`, `Dificil`
@@ -41,7 +41,7 @@
 - [ ] **T-BE-020**: Definir modelo `SesionSimulacion` con campos: `id` (UUID), `pasosCompletados` (default 0), `totalPasos`, `completada` (default false), `fechaInicio`, `fechaFin` (nullable). FKs: `usuarioId`, `algoritmoId`. Map: `"sesiones_simulacion"`
 - [ ] **T-BE-021**: Definir modelo `RespuestaEjercicio` con campos: `id` (UUID), `respuesta`, `correcto`, `puntosGanados` (default 0), `fechaRespuesta`. FKs: `usuarioId`, `ejercicioId`. Map: `"respuestas_ejercicio"`
 - [ ] **T-BE-022**: Ejecutar migración inicial: `npx prisma migrate dev --name init`
-- [ ] **T-BE-023**: Crear `seed.ts` con: (1) Administrador por defecto (`admin@brainsort.edu`, password hasheada con bcrypt, credencial `SUPER_ADMIN`), (2) 3 algoritmos de ordenamiento (Bubble Sort, Selection Sort, Insertion Sort) — solo metadatos, **CDR-001: pseudocodigo vive en engines**, (3) 3 ejercicios de predicción (1 por algoritmo, dificultad Fácil), (4) 4 insignias (Primer Paso, Explorador, Racha de 7, Maestro del Orden) con criterios de desbloqueo
+- [ ] **T-BE-023**: Crear `seed.ts` con: (1) Administrador por defecto (`admin@brainsort.edu`, password hasheada con bcrypt, credencial `SUPER_ADMIN`), (2) 3 algoritmos de ordenamiento (Bubble Sort, Selection Sort, Insertion Sort) con `descripcion` corta, `dificultad` y `categoria`, **CDR-001: pseudocodigo vive en engines**, (3) 3 ejercicios de predicción (1 por algoritmo, dificultad Fácil), (4) 4 insignias (Primer Paso, Explorador, Racha de 7, Maestro del Orden) con criterios de desbloqueo
 
 ---
 
@@ -49,12 +49,12 @@
 
 ### 📁 `src/main.ts`
 
-- [ ] **T-BE-024**: Implementar `main.ts` Bootstrap: crear app con `NestFactory.create<NestFastifyApplication>` usando `FastifyAdapter`
-- [ ] **T-BE-025**: Configurar prefijo global `api` con `app.setGlobalPrefix('api')`
-- [ ] **T-BE-026**: Configurar `ValidationPipe` global con opciones: `whitelist: true`, `forbidNonWhitelisted: true`, `transform: true`
-- [ ] **T-BE-027**: Configurar CORS con whitelist: `http://localhost:8081` (Expo dev) y `https://brainsort.vercel.app` (Producción Web)
-- [ ] **T-BE-028**: Configurar Swagger con `DocumentBuilder`: título "BrainSort API", descripción, versión 1.0, `addBearerAuth()`. Setup en ruta `/api/docs`
-- [ ] **T-BE-029**: Configurar `app.listen(3000, '0.0.0.0')`
+- [x] **T-BE-024**: Implementar `main.ts` Bootstrap: crear app con `NestFactory.create<NestFastifyApplication>` usando `FastifyAdapter`
+- [x] **T-BE-025**: Configurar prefijo global `api` con `app.setGlobalPrefix('api')`
+- [x] **T-BE-026**: Configurar `ValidationPipe` global con opciones: `whitelist: true`, `forbidNonWhitelisted: true`, `transform: true`
+- [x] **T-BE-027**: Configurar CORS con whitelist: `http://localhost:8081` (Expo dev) y `https://brainsort.vercel.app` (Producción Web)
+- [x] **T-BE-028**: Configurar Swagger con `DocumentBuilder`: título "BrainSort API", descripción, versión 1.0, `addBearerAuth()`. Setup en ruta `/api/docs`
+- [x] **T-BE-029**: Configurar `app.listen(3000, '0.0.0.0')`
 
 ---
 
@@ -66,8 +66,8 @@
 
 ### 📁 `src/prisma/`
 
-- [ ] **T-BE-031**: Crear `PrismaModule` como módulo global (`@Global()`)
-- [ ] **T-BE-032**: Crear `PrismaService` que extiende `PrismaClient` e implementa `OnModuleInit` con método `onModuleInit()` que ejecuta `this.$connect()`
+- [x] **T-BE-031**: Crear `PrismaModule` como módulo global (`@Global()`)
+- [x] **T-BE-032**: Crear `PrismaService` que extiende `PrismaClient` e implementa `OnModuleInit` con método `onModuleInit()` que ejecuta `this.$connect()`
 
 ---
 
@@ -123,7 +123,7 @@
   - `PUT /api/algoritmos/:id` (Administrador) — Actualizar algoritmo existente
   - `DELETE /api/algoritmos/:id` (Administrador) — Eliminar algoritmo
 - [ ] **T-BE-051**: Crear `algorithms.service.ts` con lógica:
-  - CO1 `getLibrary()`: Consultar todos los algoritmos agrupados por `categoría`, retornar `categorías[]`, `totalAlgoritmos`, `algoritmos[]` (nombre, descripción ≤140 chars, complejidadTiempo, complejidadEspacio, categoría)
+  - CO1 `getLibrary()`: Consultar todos los algoritmos agrupados por `categoría`, retornar `categorías[]`, `totalAlgoritmos`, `algoritmos[]` (`nombre`, `descripcion` ≤140 chars, `dificultad`, `complejidadTiempo`, `complejidadEspacio`, `categoria`) con soporte de filtro por categoría y búsqueda por nombre
   - CO2 `getAlgoritmo()`: Obtener algoritmo por ID con pseudocódigo completo, crear/actualizar `SesionSimulacion` para asociar avance con cuenta actual
   - CRUD completo para Administrador
 - [ ] **T-BE-052**: Crear `create-algorithm.dto.ts` (Solo Administrador) con campos: nombre, descripcion, complejidadTiempo, complejidadEspacio, categoria. **CDR-001: pseudocodigo no se envía por API — vive en el engine file**

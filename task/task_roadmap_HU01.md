@@ -13,21 +13,21 @@ Entregar una Biblioteca de Algoritmos funcional para que el usuario pueda explor
 - Estado offline básico con contenido cacheado y etiqueta `Sin conexión`.
 
 ## Fase 1: Alineación y alcance
-1. Confirmar que HU-01 cubrirá solo biblioteca y selección de algoritmo.
-2. Mantener la arquitectura actual del frontend y adaptarla al dominio real.
-3. Registrar ajuste funcional:
+1. [x] Confirmar que HU-01 cubrirá solo biblioteca y selección de algoritmo.
+2. [x] Mantener la arquitectura actual del frontend y adaptarla al dominio real.
+3. [x] Registrar ajuste funcional:
    - El modelo `Algoritmo` debe incluir `dificultad`.
    - La biblioteca debe incluir búsqueda por texto.
    - La biblioteca debe tener estado offline básico.
 
 ## Fase 2: Base técnica backend
-1. Completar configuración mínima de backend.
+1. [x] Completar configuración mínima de backend.
    - `nest-cli.json`
    - `.env.example`
    - conexión Prisma
    - configuración base de `main.ts`
-2. Configurar Prisma para usar `DATABASE_URL`.
-3. Verificar que la API levante localmente sin errores.
+2. [x] Configurar Prisma para usar `DATABASE_URL`.
+3. [ ] Verificar que la API levante localmente sin errores.
 
 ## Fase 3: Modelo de datos
 1. Crear y ajustar modelo `Algoritmo`.
