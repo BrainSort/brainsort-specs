@@ -161,18 +161,18 @@
 
 ### 📁 `src/exercises/`
 
-- [ ] **T-BE-064**: Crear `ExercisesModule`
-- [ ] **T-BE-065**: Crear `exercises.controller.ts` con endpoints:
+- [x] **T-BE-064**: Crear `ExercisesModule`
+- [x] **T-BE-065**: Crear `exercises.controller.ts` con endpoints:
   - `GET /api/ejercicios/:algoId` (Autenticado) — Lista ejercicios de un algoritmo
   - `POST /api/ejercicios/:id/responder` (Autenticado) — Evalúa respuesta del usuario
-- [ ] **T-BE-066**: Crear `exercises.service.ts` con lógica de evaluación:
+- [x] **T-BE-066**: Crear `exercises.service.ts` con lógica de evaluación:
   1. Comparar `respuesta` del usuario con `respuestaCorrecta`
   2. Si correcto: retornar `feedbackPositivo`, sumar puntos al ProgresoUsuario
   3. Si incorrecto: retornar `feedbackNegativo`, no restar puntos
   4. Actualizar `rachaDías` si es la primera actividad del día
   5. Recalcular `posiciónRanking`
-- [ ] **T-BE-067**: Crear `answer-exercise.dto.ts` con campo `respuesta`
-- [ ] **T-BE-068**: Crear `exercise-result.dto.ts` con campos: `correcto`, `feedbackPositivo`/`feedbackNegativo`, `puntosGanados`, `rachaDias`, `posicionRanking`, `nivelActual`
+- [x] **T-BE-067**: Crear `answer-exercise.dto.ts` con campo `respuesta`
+- [x] **T-BE-068**: Crear `exercise-result.dto.ts` con campos: `correcto`, `feedbackPositivo`/`feedbackNegativo`, `puntosGanados`, `rachaDias`, `posicionRanking`, `nivelActual`
 
 ---
 
