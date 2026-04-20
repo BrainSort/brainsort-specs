@@ -507,8 +507,8 @@
 
 ## 📁 `brainsort-app/src/screens/profile/`
 
-- [ ] **T-FE-102**: Crear `ProfileScreen.tsx` — Perfil del usuario
-- [ ] **T-FE-103**: Crear `SettingsScreen.tsx` — Configuración de la aplicación
+- [x] **T-FE-102**: Crear `ProfileScreen.tsx` — Perfil del usuario
+- [x] **T-FE-103**: Crear `SettingsScreen.tsx` — Configuración de la aplicación
 
 ---
 
