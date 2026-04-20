@@ -1,3 +1,4 @@
+
 # ⚠️ Tareas Faltantes — Información No Especificada en los SPECS
 
 > **Propósito**: Este documento registra los puntos que **no están definidos** en la documentación original del proyecto y que requieren decisión del equipo antes o durante la implementación.
