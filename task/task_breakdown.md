@@ -40,7 +40,7 @@
 - [x] **T-BE-019**: Definir modelo `ProgresoInsignia` (tabla intermedia) con campos: `id` (UUID), `fechaObtencion`. FKs: `progresoId`, `insigniaId`. Constraint: `@@unique([progresoId, insigniaId])`. Map: `"progreso_insignias"`
 - [x] **T-BE-020**: Definir modelo `SesionSimulacion` con campos: `id` (UUID), `pasosCompletados` (default 0), `totalPasos`, `completada` (default false), `fechaInicio`, `fechaFin` (nullable). FKs: `usuarioId`, `algoritmoId`. Map: `"sesiones_simulacion"`
 - [x] **T-BE-021**: Definir modelo `RespuestaEjercicio` con campos: `id` (UUID), `respuesta`, `correcto`, `puntosGanados` (default 0), `fechaRespuesta`. FKs: `usuarioId`, `ejercicioId`. Map: `"respuestas_ejercicio"`
-- [ ] **T-BE-022**: Ejecutar migración inicial: `npx prisma migrate dev --name init`
+- [x] **T-BE-022**: Ejecutar migración inicial: `npx prisma migrate dev --name init`
 - [x] **T-BE-023**: Crear `seed.ts` con: (1) Administrador por defecto (`admin@brainsort.edu`, password hasheada con bcrypt, credencial `SUPER_ADMIN`), (2) 3 algoritmos de ordenamiento (Bubble Sort, Selection Sort, Insertion Sort) con `descripcion` corta, `dificultad` y `categoria`, **CDR-001: pseudocodigo vive en engines**, (3) 3 ejercicios de predicción (1 por algoritmo, dificultad Fácil), (4) 4 insignias (Primer Paso, Explorador, Racha de 7, Maestro del Orden) con criterios de desbloqueo
 
 ---
@@ -96,38 +96,38 @@
 - [x] **T-BE-042**: Crear `jwt-auth.guard.ts` — Guard para verificar token en cada request protegido
 - [x] **T-BE-043**: Crear `roles.guard.ts` — Guard RBAC para verificar roles (`@Roles('Administrador')`). Verificar `tipo: "administrador"` en JWT + existencia del `sub` en tabla `administradores`
 - [x] **T-BE-044**: Crear `roles.decorator.ts` — Custom decorator `@Roles()` para marcar endpoints con roles requeridos
-- [ ] **T-BE-091**: Modificar `auth.service.login()` para búsqueda dual: primero en tabla `usuarios`, si no existe buscar en tabla `administradores`. Mensaje genérico en error (nunca revelar si falla correo o contraseña). Actualizar `ultimoAcceso` del admin al login exitoso. (Ref: `admin-access-routing.spec.md` §2.2)
-- [ ] **T-BE-092**: Añadir campo `tipo: "usuario" | "administrador"` al payload JWT y al response de `POST /api/auth/login`. (Ref: `admin-access-routing.spec.md` §2.3)
-- [ ] **T-BE-093**: Crear `rate-limit.guard.ts` — Map en memoria de intentos fallidos de login por IP/correo. 5 intentos fallidos → bloqueo temporal de 15 minutos (429 Too Many Requests). (Ref: `architecture-auth.spec.md` L34)
+- [x] **T-BE-091**: Modificar `auth.service.login()` para búsqueda dual: primero en tabla `usuarios`, si no existe buscar en tabla `administradores`. Mensaje genérico en error (nunca revelar si falla correo o contraseña). Actualizar `ultimoAcceso` del admin al login exitoso. (Ref: `admin-access-routing.spec.md` §2.2)
+- [x] **T-BE-092**: Añadir campo `tipo: "usuario" | "administrador"` al payload JWT y al response de `POST /api/auth/login`. (Ref: `admin-access-routing.spec.md` §2.3)
+- [x] **T-BE-093**: Crear `rate-limit.guard.ts` — Map en memoria de intentos fallidos de login por IP/correo. 5 intentos fallidos → bloqueo temporal de 15 minutos (429 Too Many Requests). (Ref: `architecture-auth.spec.md` L34)
 
 ---
 
 ### 📁 `src/users/`
 
-- [ ] **T-BE-045**: Crear `UsersModule`
-- [ ] **T-BE-046**: Crear `users.controller.ts` con endpoints:
+- [x] **T-BE-045**: Crear `UsersModule`
+- [x] **T-BE-046**: Crear `users.controller.ts` con endpoints:
   - `GET /api/users/me` (Autenticado) — Obtiene perfil del usuario actual (id, nombre, correo, rol, createdAt)
   - `PATCH /api/users/me` (Autenticado) — Actualiza nombre o contraseña
-- [ ] **T-BE-047**: Crear `users.service.ts` — Consulta y actualización de perfiles
-- [ ] **T-BE-048**: Crear `update-user.dto.ts` con campos opcionales: `nombre`, `contrasena`
+- [x] **T-BE-047**: Crear `users.service.ts` — Consulta y actualización de perfiles
+- [x] **T-BE-048**: Crear `update-user.dto.ts` con campos opcionales: `nombre`, `contrasena`
 
 ---
 
 ### 📁 `src/algorithms/`
 
-- [ ] **T-BE-049**: Crear `AlgorithmsModule`
-- [ ] **T-BE-050**: Crear `algorithms.controller.ts` con endpoints:
+- [x] **T-BE-049**: Crear `AlgorithmsModule`
+- [x] **T-BE-050**: Crear `algorithms.controller.ts` con endpoints:
   - `GET /api/biblioteca` (Público/Autenticado) — CO1: getLibrary() — Lista completa de algoritmos por categoría
   - `GET /api/algoritmos/:id` (Autenticado) — CO2: getAlgoritmo() — Detalle del algoritmo con pseudocódigo
   - `POST /api/algoritmos` (Administrador) — Crear nuevo algoritmo
   - `PUT /api/algoritmos/:id` (Administrador) — Actualizar algoritmo existente
   - `DELETE /api/algoritmos/:id` (Administrador) — Eliminar algoritmo
-- [ ] **T-BE-051**: Crear `algorithms.service.ts` con lógica:
+- [x] **T-BE-051**: Crear `algorithms.service.ts` con lógica:
   - CO1 `getLibrary()`: Consultar todos los algoritmos agrupados por `categoría`, retornar `categorías[]`, `totalAlgoritmos`, `algoritmos[]` (`nombre`, `descripcion` ≤140 chars, `dificultad`, `complejidadTiempo`, `complejidadEspacio`, `categoria`) con soporte de filtro por categoría y búsqueda por nombre
   - CO2 `getAlgoritmo()`: Obtener algoritmo por ID con pseudocódigo completo, crear/actualizar `SesionSimulacion` para asociar avance con cuenta actual
   - CRUD completo para Administrador
 - [ ] **T-BE-052**: Crear `create-algorithm.dto.ts` (Solo Administrador) con campos: nombre, descripcion, complejidadTiempo, complejidadEspacio, categoria. **CDR-001: pseudocodigo no se envía por API — vive en el engine file**
-- [ ] **T-BE-053**: Crear `algorithm-response.dto.ts` para formatear respuesta
+- [x] **T-BE-053**: Crear `algorithm-response.dto.ts` para formatear respuesta
 
 ---
 
@@ -151,11 +151,11 @@
 
 ### 📁 `src/simulations/engines/`
 
-- [ ] **T-BE-059**: Crear `engine.interface.ts` — Interfaz `AlgorithmDefinition` con `meta` (nombre, descripcion, complejidadTiempo, complejidadEspacio, categoria), `pseudocode: PseudocodeLine[]` (line, text, indent), y `execute(data: number[]): SimulationStep[]`. Interfaz `SimulationStep` con campos especificados. **CDR-001: cada engine es auto-contenido (meta + pseudocódigo + lógica en 1 archivo)**
-- [ ] **T-BE-060**: Implementar `bubble-sort.engine.ts` — Engine auto-contenido de Bubble Sort: define `meta`, `pseudocode` (4 líneas con indent), y `execute()` que genera pasos con `lineaPseudocodigo` referenciando las líneas definidas en `pseudocode`
-- [ ] **T-BE-061**: Implementar `selection-sort.engine.ts` — Engine auto-contenido de Selection Sort: `pseudocode` (6 líneas), `execute()` con mapeo de líneas
-- [ ] **T-BE-062**: Implementar `insertion-sort.engine.ts` — Engine auto-contenido de Insertion Sort: `pseudocode` (7 líneas), `execute()` con mapeo de líneas
-- [ ] **T-BE-063**: Crear `engines/registry.ts` — Registro centralizado `Record<string, AlgorithmDefinition>` con función `getEngine(nombre)` que lanza `NotFoundException` si el engine no existe. Timeout de seguridad: si un engine excede 10 segundos, abortar con error 408 (HU-06)
+- [x] **T-BE-059**: Crear `engine.interface.ts` — Interfaz `AlgorithmDefinition` con `meta` (nombre, descripcion, complejidadTiempo, complejidadEspacio, categoria), `pseudocode: PseudocodeLine[]` (line, text, indent), y `execute(data: number[]): SimulationStep[]`. Interfaz `SimulationStep` con campos especificados. **CDR-001: cada engine es auto-contenido (meta + pseudocódigo + lógica en 1 archivo)**
+- [x] **T-BE-060**: Implementar `bubble-sort.engine.ts` — Engine auto-contenido de Bubble Sort: define `meta`, `pseudocode` (4 líneas con indent), y `execute()` que genera pasos con `lineaPseudocodigo` referenciando las líneas definidas en `pseudocode`
+- [x] **T-BE-061**: Implementar `selection-sort.engine.ts` — Engine auto-contenido de Selection Sort: `pseudocode` (6 líneas), `execute()` con mapeo de líneas
+- [x] **T-BE-062**: Implementar `insertion-sort.engine.ts` — Engine auto-contenido de Insertion Sort: `pseudocode` (7 líneas), `execute()` con mapeo de líneas
+- [x] **T-BE-063**: Crear `engines/registry.ts` — Registro centralizado `Record<string, AlgorithmDefinition>` con función `getEngine(nombre)` que lanza `NotFoundException` si el engine no existe. Timeout de seguridad: si un engine excede 10 segundos, abortar con error 408 (HU-06)
 
 ---
 
