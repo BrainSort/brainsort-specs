@@ -81,21 +81,21 @@
 
 ### 📁 `src/auth/`
 
-- [ ] **T-BE-036**: Crear `AuthModule` importando `JwtModule`, `PassportModule`, `UsersModule`, `PrismaModule`
-- [ ] **T-BE-037**: Crear `auth.controller.ts` con endpoints:
+- [x] **T-BE-036**: Crear `AuthModule` importando `JwtModule`, `PassportModule`, `UsersModule`, `PrismaModule`
+- [x] **T-BE-037**: Crear `auth.controller.ts` con endpoints:
   - `POST /api/auth/register` (Público) — Registra nuevo usuario
   - `POST /api/auth/login` (Público) — Autentica y retorna JWT
   - `POST /api/auth/refresh` (Autenticado) — Renueva access token
-- [ ] **T-BE-038**: Crear `auth.service.ts` con lógica:
+- [x] **T-BE-038**: Crear `auth.service.ts` con lógica:
   - `register()`: Validar unicidad de `correo`, hashear contraseña con `bcrypt.hash(password, 10)`, crear `Usuario` y `ProgresoUsuario` (puntosTotales=0, nivelActual=1, rachaDías=0), generar tokens
   - `login()`: Buscar por `correo`, comparar con `bcrypt.compare()`, generar `accessToken` (15min) y `refreshToken` (7 días). Si es Administrador: actualizar `últimoAcceso`
   - `refresh()`: Validar refresh token y generar nuevos tokens
-- [ ] **T-BE-039**: Crear `register.dto.ts` con validaciones: `@IsString() nombre`, `@IsEmail() correo`, `@IsEnum(['Estudiante', 'Profesor', 'Autodidacta']) rol`, `@IsString() @MinLength(8) contrasena`
-- [ ] **T-BE-040**: Crear `login.dto.ts` con campos: `correo`, `contrasena`
-- [ ] **T-BE-041**: Crear `jwt.strategy.ts` — Passport JWT strategy para validar tokens. Soportar campo `tipo` (usuario | administrador) en payload
-- [ ] **T-BE-042**: Crear `jwt-auth.guard.ts` — Guard para verificar token en cada request protegido
-- [ ] **T-BE-043**: Crear `roles.guard.ts` — Guard RBAC para verificar roles (`@Roles('Administrador')`). Verificar `tipo: "administrador"` en JWT + existencia del `sub` en tabla `administradores`
-- [ ] **T-BE-044**: Crear `roles.decorator.ts` — Custom decorator `@Roles()` para marcar endpoints con roles requeridos
+- [x] **T-BE-039**: Crear `register.dto.ts` con validaciones: `@IsString() nombre`, `@IsEmail() correo`, `@IsEnum(['Estudiante', 'Profesor', 'Autodidacta']) rol`, `@IsString() @MinLength(8) contrasena`
+- [x] **T-BE-040**: Crear `login.dto.ts` con campos: `correo`, `contrasena`
+- [x] **T-BE-041**: Crear `jwt.strategy.ts` — Passport JWT strategy para validar tokens. Soportar campo `tipo` (usuario | administrador) en payload
+- [x] **T-BE-042**: Crear `jwt-auth.guard.ts` — Guard para verificar token en cada request protegido
+- [x] **T-BE-043**: Crear `roles.guard.ts` — Guard RBAC para verificar roles (`@Roles('Administrador')`). Verificar `tipo: "administrador"` en JWT + existencia del `sub` en tabla `administradores`
+- [x] **T-BE-044**: Crear `roles.decorator.ts` — Custom decorator `@Roles()` para marcar endpoints con roles requeridos
 - [ ] **T-BE-091**: Modificar `auth.service.login()` para búsqueda dual: primero en tabla `usuarios`, si no existe buscar en tabla `administradores`. Mensaje genérico en error (nunca revelar si falla correo o contraseña). Actualizar `ultimoAcceso` del admin al login exitoso. (Ref: `admin-access-routing.spec.md` §2.2)
 - [ ] **T-BE-092**: Añadir campo `tipo: "usuario" | "administrador"` al payload JWT y al response de `POST /api/auth/login`. (Ref: `admin-access-routing.spec.md` §2.3)
 - [ ] **T-BE-093**: Crear `rate-limit.guard.ts` — Map en memoria de intentos fallidos de login por IP/correo. 5 intentos fallidos → bloqueo temporal de 15 minutos (429 Too Many Requests). (Ref: `architecture-auth.spec.md` L34)
