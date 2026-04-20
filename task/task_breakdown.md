@@ -493,9 +493,9 @@
 
 ## 📁 `brainsort-app/src/screens/gamification/`
 
-- [ ] **T-FE-098**: Crear `ExerciseScreen.tsx` — Pantalla de ejercicio de predicción
-- [ ] **T-FE-099**: Crear `ProgressScreen.tsx` — Pantalla de progreso del usuario (puntos, nivel, racha, insignias)
-- [ ] **T-FE-100**: Crear `LeaderboardScreen.tsx` — Pantalla de ranking global
+- [x] **T-FE-098**: Crear `ExerciseScreen.tsx` — Pantalla de ejercicio de predicción
+- [x] **T-FE-099**: Crear `ProgressScreen.tsx` — Pantalla de progreso del usuario (puntos, nivel, racha, insignias)
+- [x] **T-FE-100**: Crear `LeaderboardScreen.tsx` — Pantalla de ranking global
 
 ---
 
