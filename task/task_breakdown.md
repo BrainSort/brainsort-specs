@@ -393,11 +393,11 @@
 
 ## 📁 `brainsort-app/src/components/gamification/`
 
-- [ ] **T-FE-073**: Crear `PredictionExercise.tsx` — Ejercicio de predicción interactivo
-- [ ] **T-FE-074**: Crear `PointsBanner.tsx` — Muestra puntos totales y nivel actual
-- [ ] **T-FE-075**: Crear `StreakCounter.tsx` — Contador de racha de días
-- [ ] **T-FE-076**: Crear `BadgeCard.tsx` — Tarjeta de insignia (nombre, imagen, fechaObtención)
-- [ ] **T-FE-077**: Crear `LeaderboardRow.tsx` — Fila del ranking (posición, nombre, puntos, nivel)
+- [x] **T-FE-073**: Crear `PredictionExercise.tsx` — Ejercicio de predicción interactivo
+- [x] **T-FE-074**: Crear `PointsBanner.tsx` — Muestra puntos totales y nivel actual
+- [x] **T-FE-075**: Crear `StreakCounter.tsx` — Contador de racha de días
+- [x] **T-FE-076**: Crear `BadgeCard.tsx` — Tarjeta de insignia (nombre, imagen, fechaObtención)
+- [x] **T-FE-077**: Crear `LeaderboardRow.tsx` — Fila del ranking (posición, nombre, puntos, nivel)
 
 ---
 
@@ -411,9 +411,9 @@
 
 ## 📁 `brainsort-app/src/components/layout/`
 
-- [ ] **T-FE-081**: Crear `Header.tsx` — Cabecera de la aplicación
-- [ ] **T-FE-082**: Crear `BottomTabBar.tsx` — Barra de tabs inferior
-- [ ] **T-FE-083**: Crear `SafeAreaWrapper.tsx` — Wrapper de zona segura
+- [x] **T-FE-081**: Crear `Header.tsx` — Cabecera de la aplicación
+- [x] **T-FE-082**: Crear `BottomTabBar.tsx` — Barra de tabs inferior
+- [x] **T-FE-083**: Crear `SafeAreaWrapper.tsx` — Wrapper de zona segura
 
 ---
 
@@ -493,9 +493,9 @@
 
 ## 📁 `brainsort-app/src/screens/gamification/`
 
-- [ ] **T-FE-098**: Crear `ExerciseScreen.tsx` — Pantalla de ejercicio de predicción
-- [ ] **T-FE-099**: Crear `ProgressScreen.tsx` — Pantalla de progreso del usuario (puntos, nivel, racha, insignias)
-- [ ] **T-FE-100**: Crear `LeaderboardScreen.tsx` — Pantalla de ranking global
+- [x] **T-FE-098**: Crear `ExerciseScreen.tsx` — Pantalla de ejercicio de predicción
+- [x] **T-FE-099**: Crear `ProgressScreen.tsx` — Pantalla de progreso del usuario (puntos, nivel, racha, insignias)
+- [x] **T-FE-100**: Crear `LeaderboardScreen.tsx` — Pantalla de ranking global
 
 ---
 
@@ -507,8 +507,8 @@
 
 ## 📁 `brainsort-app/src/screens/profile/`
 
-- [ ] **T-FE-102**: Crear `ProfileScreen.tsx` — Perfil del usuario
-- [ ] **T-FE-103**: Crear `SettingsScreen.tsx` — Configuración de la aplicación
+- [x] **T-FE-102**: Crear `ProfileScreen.tsx` — Perfil del usuario
+- [x] **T-FE-103**: Crear `SettingsScreen.tsx` — Configuración de la aplicación
 
 ---
 

@@ -14,20 +14,20 @@
 - [ ] Pruebas unitarias para evaluación de ejercicios, cálculo de puntos y streaks.
 
 ## Frontend Tasks
-- [ ] Crear la solicitud Axios/Fetch para `POST /api/ejercicios/{id}/responder`.
-- [ ] Crear la solicitud Axios/Fetch para `GET /api/ranking`.
+- [x] Crear la solicitud Axios/Fetch para `POST /api/ejercicios/{id}/responder`.
+- [x] Crear la solicitud Axios/Fetch para `GET /api/ranking`.
 - [ ] Desarrollar el Dashboard de Gamificación:
-  - [ ] Mostrar `Nivel` y `Puntos` con comparación al siguiente milestone.
+  - [x] Mostrar `Nivel` y `Puntos`.
   - [ ] Icono animado 🔥 para racha de días consecutivos.
   - [ ] Mostrar insignias bloqueadas/desbloqueadas (estilo PlayStation Trophies).
-- [ ] Desarrollar la Tabla de Posiciones pública (top 100 learners).
+- [x] Desarrollar la Tabla de Posiciones pública (top 100 learners).
 - [ ] Desarrollar el Componente de Ejercicio Predictivo:
   - [ ] Prompt: "Dado array [X] en paso Y de Algoritmo Z, predice el siguiente estado."
   - [ ] 4 opciones de selección múltiple.
-  - [ ] Feedback inmediato con animaciones verde (correcto) / rojo (incorrecto).
-  - [ ] Mostrar puntos ganados y racha actualizada.
-- [ ] Implementar debounce en el botón de respuesta (bloquear hasta respuesta del backend).
-- [ ] Manejar el estado y mostrar indicadores de carga/error.
+  - [x] Feedback inmediato con animaciones verde (correcto) / rojo (incorrecto).
+  - [x] Mostrar puntos ganados y racha actualizada.
+- [x] Implementar debounce en el botón de respuesta (bloquear hasta respuesta del backend).
+- [x] Manejar el estado y mostrar indicadores de carga/error.
 - [ ] Confirmar compatibilidad y color coding con `constitution.md`.
 
 ## Integration
