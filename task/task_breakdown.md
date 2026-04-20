@@ -178,12 +178,12 @@
 
 ### 📁 `src/progress/`
 
-- [ ] **T-BE-069**: Crear `ProgressModule`
-- [ ] **T-BE-070**: Crear `progress.controller.ts` con endpoints:
+- [x] **T-BE-069**: Crear `ProgressModule`
+- [x] **T-BE-070**: Crear `progress.controller.ts` con endpoints:
   - `GET /api/progreso/me` (Autenticado) — Progreso del usuario actual (puntosTotales, nivelActual, rachaDias, posicionRanking, ultimaActividad, insignias, simulacionesCompletadas, ejerciciosCorrectos, ejerciciosTotales)
   - `GET /api/ranking` (Autenticado) — Top N del leaderboard con query params `?limit=20&offset=0`
-- [ ] **T-BE-071**: Crear `progress.service.ts` — Actualiza puntos, niveles, rachas. Consulta ranking ordenado por `puntosTotales DESC`
-- [ ] **T-BE-072**: Crear `progress-response.dto.ts`
+- [x] **T-BE-071**: Crear `progress.service.ts` — Actualiza puntos, niveles, rachas. Consulta ranking ordenado por `puntosTotales DESC`
+- [x] **T-BE-072**: Crear `progress-response.dto.ts`
 
 ---
 
