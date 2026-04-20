@@ -133,10 +133,10 @@
 
 ### 📁 `src/simulations/`
 
-- [ ] **T-BE-054**: Crear `SimulationsModule`
-- [ ] **T-BE-055**: Crear `simulations.controller.ts` con endpoint:
+- [x] **T-BE-054**: Crear `SimulationsModule`
+- [x] **T-BE-055**: Crear `simulations.controller.ts` con endpoint:
   - `POST /api/simulaciones` (Autenticado) — CO3: getSimulation() — Genera simulación con pasos
-- [ ] **T-BE-056**: Crear `simulations.service.ts` con lógica CO3:
+- [x] **T-BE-056**: Crear `simulations.service.ts` con lógica CO3:
   1. Recibir `algoritmoId` y `conjuntoDeDatos` (valores, tipoOrigen, tamaño)
   2. Validar datos: sin caracteres no válidos, sin valores nulos, tamaño coherente
   3. Si `tipoOrigen === "Predeterminado"`: generar arreglo aleatorio de 8-15 elementos (no pre-ordenado)
@@ -144,8 +144,8 @@
   5. Registrar por cada paso: `numeroPaso`, `tipoOperacion`, `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
   6. Retornar simulación completa con todos los pasos
   7. Asociar avance de simulación con la cuenta del usuario
-- [ ] **T-BE-057**: Crear `create-simulation.dto.ts` con validaciones: `algoritmoId` (UUID, requerido), `conjuntoDeDatos.valores` (number[], solo enteros, sin nulls), `conjuntoDeDatos.tipoOrigen` (enum: Predeterminado | Personalizado), `conjuntoDeDatos.tamano` (debe coincidir con valores.length)
-- [ ] **T-BE-058**: Crear `simulation-step.dto.ts` con campos: `numeroPaso`, `tipoOperacion` (comparacion | intercambio | insercion | final), `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
+- [x] **T-BE-057**: Crear `create-simulation.dto.ts` con validaciones: `algoritmoId` (UUID, requerido), `conjuntoDeDatos.valores` (number[], solo enteros, sin nulls), `conjuntoDeDatos.tipoOrigen` (enum: Predeterminado | Personalizado), `conjuntoDeDatos.tamano` (debe coincidir con valores.length)
+- [x] **T-BE-058**: Crear `simulation-step.dto.ts` con campos: `numeroPaso`, `tipoOperacion` (comparacion | intercambio | insercion | final), `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
 
 ---
 
