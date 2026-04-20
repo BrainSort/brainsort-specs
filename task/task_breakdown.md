@@ -411,9 +411,9 @@
 
 ## 📁 `brainsort-app/src/components/layout/`
 
-- [ ] **T-FE-081**: Crear `Header.tsx` — Cabecera de la aplicación
-- [ ] **T-FE-082**: Crear `BottomTabBar.tsx` — Barra de tabs inferior
-- [ ] **T-FE-083**: Crear `SafeAreaWrapper.tsx` — Wrapper de zona segura
+- [x] **T-FE-081**: Crear `Header.tsx` — Cabecera de la aplicación
+- [x] **T-FE-082**: Crear `BottomTabBar.tsx` — Barra de tabs inferior
+- [x] **T-FE-083**: Crear `SafeAreaWrapper.tsx` — Wrapper de zona segura
 
 ---
 
