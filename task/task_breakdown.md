@@ -225,10 +225,10 @@
 
 ### 📁 `brainsort-api/test/`
 
-- [ ] **T-BE-085**: Crear `auth.e2e-spec.ts` — Tests e2e para endpoints de autenticación (register, login, refresh) usando `@nestjs/testing` + base de datos de test
-- [ ] **T-BE-086**: Crear `algorithms.e2e-spec.ts` — Tests e2e para endpoints de biblioteca y algoritmos
-- [ ] **T-BE-087**: Crear `simulations.e2e-spec.ts` — Tests e2e para endpoint de simulaciones
-- [ ] **T-BE-088**: Implementar tests unitarios por cada service con mocks de PrismaService. Cobertura mínima: 80% en services, 70% en controllers
+- [x] **T-BE-085**: Crear `auth.e2e-spec.ts` — Tests e2e para endpoints de autenticación (register, login, refresh) usando `@nestjs/testing` + base de datos de test
+- [x] **T-BE-086**: Crear `algorithms.e2e-spec.ts` — Tests e2e para endpoints de biblioteca y algoritmos
+- [x] **T-BE-087**: Crear `simulations.e2e-spec.ts` — Tests e2e para endpoint de simulaciones
+- [x] **T-BE-088**: Implementar tests unitarios por cada service con mocks de PrismaService. Cobertura mínima: 80% en services, 70% en controllers
 
 ---
 
