@@ -189,16 +189,16 @@
 
 ### 📁 `src/badges/`
 
-- [ ] **T-BE-073**: Crear `BadgesModule`
-- [ ] **T-BE-074**: Crear `badges.controller.ts` con endpoints:
+- [x] **T-BE-073**: Crear `BadgesModule`
+- [x] **T-BE-074**: Crear `badges.controller.ts` con endpoints:
   - `GET /api/insignias` (Autenticado) — Todas las insignias disponibles
   - `GET /api/insignias/me` (Autenticado) — Insignias desbloqueadas por el usuario con `fechaObtencion`
-- [ ] **T-BE-075**: Crear `badges.service.ts` — Implementar sistema de verificación de insignias (según `gamification-exercises.plan.md` §6):
+- [x] **T-BE-075**: Crear `badges.service.ts` — Implementar sistema de verificación de insignias (según `gamification-exercises.plan.md` §6):
   - Método `checkAndAward(usuarioId)`: obtiene progreso + insignias ganadas + todas las insignias (con caché en memoria). Para cada insignia no ganada, evalúa `meetsRequirement()`.
-  - Map de reglas hardcoded: `"Completar 1 simulación"` → count sesiones completadas ≥1, `"Visualizar 3 algoritmos"` → count distinct algoritmoId ≥3, `"rachaDías >= 7"` → progreso.rachaDias ≥7, `"Completar todos los algoritmos de Ordenamiento"` → completados == total activos de categoría Ordenamiento.
+  - Map de reglas hardcoded: `"Completar 1 simulación"` → count sesiones completadas ≥1, `"Visualizar 3 algoritmos"` → count distinct algoritmoId ≥3, `"rachaDías >= 7"` → progreso.rachaDías ≥7, `"Completar todos los algoritmos de Ordenamiento"` → completados == total activos de categoría Ordenamiento.
   - Caché `badgesCache` invalidada solo cuando el admin modifica insignias.
   - Inyectar `BadgesService` en: `SimulationsService` (post-completar), `ExercisesService` (post-correcto), `ProgressService` (post-racha).
-- [ ] **T-BE-076**: Crear `badge-response.dto.ts`
+- [x] **T-BE-076**: Crear `badge-response.dto.ts`
 
 ---
 
