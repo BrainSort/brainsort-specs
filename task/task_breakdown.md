@@ -215,11 +215,11 @@
 
 ### 📁 `src/sync/`
 
-- [ ] **T-BE-081**: Crear `SyncModule`
-- [ ] **T-BE-082**: Crear `sync.controller.ts` con endpoint:
+- [x] **T-BE-081**: Crear `SyncModule`
+- [x] **T-BE-082**: Crear `sync.controller.ts` con endpoint:
   - `POST /api/progress/sync` (Autenticado) — Sincronización batch de progreso offline. Recibe `sesiones[]` con `algoritmoId`, `fechaInicio`, `fechaFin`, `pasosCompletados`. Retorna `sincronizados` y `puntosActualizados`
-- [ ] **T-BE-083**: Crear `sync.service.ts` — Procesa batch de sincronización de progreso offline
-- [ ] **T-BE-084**: Crear `sync-progress.dto.ts`
+- [x] **T-BE-083**: Crear `sync.service.ts` — Procesa batch de sincronización de progreso offline
+- [x] **T-BE-084**: Crear `sync-progress.dto.ts`
 
 ---
 
