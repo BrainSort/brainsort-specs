@@ -54,25 +54,25 @@ Entregar una Biblioteca de Algoritmos funcional para que el usuario pueda explor
 3. [ ] Verificar que los datos queden disponibles para la biblioteca.
 
 ## Fase 5: API de biblioteca
-1. Crear `AlgorithmsModule`.
-2. Implementar `GET /api/biblioteca`.
-3. Devolver datos listos para UI:
+1. [x] Crear `AlgorithmsModule`.
+2. [x] Implementar `GET /api/biblioteca`.
+3. [x] Devolver datos listos para UI:
    - `categorias`
    - `totalAlgoritmos`
    - `algoritmos`
-4. Incluir soporte para:
+4. [x] Incluir soporte para:
    - filtro por categoría
    - búsqueda por nombre
-5. Implementar DTO de respuesta.
+5. [x] Implementar DTO de respuesta.
 
 ## Fase 6: Validación backend
-1. Crear pruebas para `GET /api/biblioteca`.
-2. Validar:
-   - respuesta exitosa
-   - estructura correcta
-   - filtro por categoría
-   - búsqueda por nombre
-   - catálogo vacío
+1. [x] Crear pruebas para `GET /api/biblioteca`.
+2. [x] Validar:
+   - [x] respuesta exitosa
+   - [x] estructura correcta
+   - [x] filtro por categoría
+   - [x] búsqueda por nombre
+   - [x] catálogo vacío
 
 ## Fase 7: Base frontend
 1. Adaptar navegación actual.
