@@ -21,7 +21,7 @@
 - [X] **T-BE-005**: Configurar `nest-cli.json`
 - [x] **T-BE-006**: Crear archivo `.env.example` con las variables: `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRATION` (15m), `JWT_REFRESH_EXPIRATION` (7d), `PORT` (3000), `NODE_ENV`, `FRONTEND_URLS`
 - [ ] **T-BE-007**: Crear `Dockerfile` multi-stage (base → deps → build → production) con Node 20-slim, usando `npm ci --omit=dev`, `npx prisma generate`, `npm run build`, exponiendo puerto 3000
-- [ ] **T-BE-008**: Crear `docker-compose.yml` para desarrollo local con servicios `api` (build local, puerto 3000, hot-reload) y `db` (postgres:15, usuario/password brainsort, volumen `pgdata`)
+- [x] **T-BE-008**: Crear `docker-compose.yml` para desarrollo local con servicios `api` (build local, puerto 3000, hot-reload) y `db` (postgres:15, usuario/password brainsort, volumen `pgdata`)
 
 ---
 
@@ -60,7 +60,7 @@
 
 ### 📁 `src/app.module.ts`
 
-- [ ] **T-BE-030**: Crear `AppModule` como módulo raíz que importa todos los módulos: `AuthModule`, `UsersModule`, `AlgorithmsModule`, `SimulationsModule`, `ExercisesModule`, `ProgressModule`, `BadgesModule`, `OfflineModule`, `SyncModule`, `PrismaModule`
+- [x] **T-BE-030**: Crear `AppModule` como módulo raíz que importa todos los módulos: `AuthModule`, `UsersModule`, `AlgorithmsModule`, `SimulationsModule`, `ExercisesModule`, `ProgressModule`, `BadgesModule`, `OfflineModule`, `SyncModule`, `PrismaModule`
 
 ---
 
