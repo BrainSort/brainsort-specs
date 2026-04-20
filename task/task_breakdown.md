@@ -73,9 +73,9 @@
 
 ### 📁 `src/common/`
 
-- [ ] **T-BE-033**: Crear `http-exception.filter.ts` — Filtro global de excepciones HTTP con formato de respuesta estándar: `{ statusCode, message, error }`
+- [x] **T-BE-033**: Crear `http-exception.filter.ts` — Filtro global de excepciones HTTP con formato de respuesta estándar: `{ statusCode, message, error }`
 - [ ] **T-BE-034**: Crear `transform.interceptor.ts` — Interceptor para formato estándar de respuesta exitosa: `{ data, message }`
-- [ ] **T-BE-035**: Crear `validation.pipe.ts` — Pipe de validación de DTOs con `class-validator`
+- [x] **T-BE-035**: Crear `validation.pipe.ts` — Pipe de validación de DTOs con `class-validator`
 
 ---
 
