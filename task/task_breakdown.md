@@ -204,12 +204,12 @@
 
 ### 📁 `src/offline/`
 
-- [ ] **T-BE-077**: Crear `OfflineModule`
-- [ ] **T-BE-078**: Crear `offline.controller.ts` con endpoints:
+- [x] **T-BE-077**: Crear `OfflineModule`
+- [x] **T-BE-078**: Crear `offline.controller.ts` con endpoints:
   - `GET /api/modules/offline` (Autenticado) — Lista módulos disponibles para descarga (algoritmoId, nombre, tamanoKB, version, descargado) **CDR-004**
   - `GET /api/modules/offline/:id/download` (Autenticado) — Retorna JSON directo del módulo (meta, pseudocode, ejercicios). **CDR-004: sin bucket externo**
-- [ ] **T-BE-079**: Crear `offline.service.ts` — Genera URLs de descarga
-- [ ] **T-BE-080**: Crear `offline-module.dto.ts`
+- [x] **T-BE-079**: Crear `offline.service.ts` — Genera URLs de descarga
+- [x] **T-BE-080**: Crear `offline-module.dto.ts`
 
 ---
 
