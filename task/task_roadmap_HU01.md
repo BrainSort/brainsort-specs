@@ -66,13 +66,13 @@ Entregar una Biblioteca de Algoritmos funcional para que el usuario pueda explor
 5. [x] Implementar DTO de respuesta.
 
 ## Fase 6: Validación backend
-1. Crear pruebas para `GET /api/biblioteca`.
-2. Validar:
-   - respuesta exitosa
-   - estructura correcta
-   - filtro por categoría
-   - búsqueda por nombre
-   - catálogo vacío
+1. [x] Crear pruebas para `GET /api/biblioteca`.
+2. [x] Validar:
+   - [x] respuesta exitosa
+   - [x] estructura correcta
+   - [x] filtro por categoría
+   - [x] búsqueda por nombre
+   - [x] catálogo vacío
 
 ## Fase 7: Base frontend
 1. [x] Adaptar navegación actual.

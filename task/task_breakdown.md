@@ -21,7 +21,7 @@
 - [X] **T-BE-005**: Configurar `nest-cli.json`
 - [x] **T-BE-006**: Crear archivo `.env.example` con las variables: `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRATION` (15m), `JWT_REFRESH_EXPIRATION` (7d), `PORT` (3000), `NODE_ENV`, `FRONTEND_URLS`
 - [ ] **T-BE-007**: Crear `Dockerfile` multi-stage (base → deps → build → production) con Node 20-slim, usando `npm ci --omit=dev`, `npx prisma generate`, `npm run build`, exponiendo puerto 3000
-- [ ] **T-BE-008**: Crear `docker-compose.yml` para desarrollo local con servicios `api` (build local, puerto 3000, hot-reload) y `db` (postgres:15, usuario/password brainsort, volumen `pgdata`)
+- [x] **T-BE-008**: Crear `docker-compose.yml` para desarrollo local con servicios `api` (build local, puerto 3000, hot-reload) y `db` (postgres:15, usuario/password brainsort, volumen `pgdata`)
 
 ---
 
@@ -40,7 +40,7 @@
 - [x] **T-BE-019**: Definir modelo `ProgresoInsignia` (tabla intermedia) con campos: `id` (UUID), `fechaObtencion`. FKs: `progresoId`, `insigniaId`. Constraint: `@@unique([progresoId, insigniaId])`. Map: `"progreso_insignias"`
 - [x] **T-BE-020**: Definir modelo `SesionSimulacion` con campos: `id` (UUID), `pasosCompletados` (default 0), `totalPasos`, `completada` (default false), `fechaInicio`, `fechaFin` (nullable). FKs: `usuarioId`, `algoritmoId`. Map: `"sesiones_simulacion"`
 - [x] **T-BE-021**: Definir modelo `RespuestaEjercicio` con campos: `id` (UUID), `respuesta`, `correcto`, `puntosGanados` (default 0), `fechaRespuesta`. FKs: `usuarioId`, `ejercicioId`. Map: `"respuestas_ejercicio"`
-- [ ] **T-BE-022**: Ejecutar migración inicial: `npx prisma migrate dev --name init`
+- [x] **T-BE-022**: Ejecutar migración inicial: `npx prisma migrate dev --name init`
 - [x] **T-BE-023**: Crear `seed.ts` con: (1) Administrador por defecto (`admin@brainsort.edu`, password hasheada con bcrypt, credencial `SUPER_ADMIN`), (2) 3 algoritmos de ordenamiento (Bubble Sort, Selection Sort, Insertion Sort) con `descripcion` corta, `dificultad` y `categoria`, **CDR-001: pseudocodigo vive en engines**, (3) 3 ejercicios de predicción (1 por algoritmo, dificultad Fácil), (4) 4 insignias (Primer Paso, Explorador, Racha de 7, Maestro del Orden) con criterios de desbloqueo
 
 ---
@@ -60,7 +60,7 @@
 
 ### 📁 `src/app.module.ts`
 
-- [ ] **T-BE-030**: Crear `AppModule` como módulo raíz que importa todos los módulos: `AuthModule`, `UsersModule`, `AlgorithmsModule`, `SimulationsModule`, `ExercisesModule`, `ProgressModule`, `BadgesModule`, `OfflineModule`, `SyncModule`, `PrismaModule`
+- [x] **T-BE-030**: Crear `AppModule` como módulo raíz que importa todos los módulos: `AuthModule`, `UsersModule`, `AlgorithmsModule`, `SimulationsModule`, `ExercisesModule`, `ProgressModule`, `BadgesModule`, `OfflineModule`, `SyncModule`, `PrismaModule`
 
 ---
 
@@ -73,56 +73,56 @@
 
 ### 📁 `src/common/`
 
-- [ ] **T-BE-033**: Crear `http-exception.filter.ts` — Filtro global de excepciones HTTP con formato de respuesta estándar: `{ statusCode, message, error }`
+- [x] **T-BE-033**: Crear `http-exception.filter.ts` — Filtro global de excepciones HTTP con formato de respuesta estándar: `{ statusCode, message, error }`
 - [ ] **T-BE-034**: Crear `transform.interceptor.ts` — Interceptor para formato estándar de respuesta exitosa: `{ data, message }`
-- [ ] **T-BE-035**: Crear `validation.pipe.ts` — Pipe de validación de DTOs con `class-validator`
+- [x] **T-BE-035**: Crear `validation.pipe.ts` — Pipe de validación de DTOs con `class-validator`
 
 ---
 
 ### 📁 `src/auth/`
 
-- [ ] **T-BE-036**: Crear `AuthModule` importando `JwtModule`, `PassportModule`, `UsersModule`, `PrismaModule`
-- [ ] **T-BE-037**: Crear `auth.controller.ts` con endpoints:
+- [x] **T-BE-036**: Crear `AuthModule` importando `JwtModule`, `PassportModule`, `UsersModule`, `PrismaModule`
+- [x] **T-BE-037**: Crear `auth.controller.ts` con endpoints:
   - `POST /api/auth/register` (Público) — Registra nuevo usuario
   - `POST /api/auth/login` (Público) — Autentica y retorna JWT
   - `POST /api/auth/refresh` (Autenticado) — Renueva access token
-- [ ] **T-BE-038**: Crear `auth.service.ts` con lógica:
+- [x] **T-BE-038**: Crear `auth.service.ts` con lógica:
   - `register()`: Validar unicidad de `correo`, hashear contraseña con `bcrypt.hash(password, 10)`, crear `Usuario` y `ProgresoUsuario` (puntosTotales=0, nivelActual=1, rachaDías=0), generar tokens
   - `login()`: Buscar por `correo`, comparar con `bcrypt.compare()`, generar `accessToken` (15min) y `refreshToken` (7 días). Si es Administrador: actualizar `últimoAcceso`
   - `refresh()`: Validar refresh token y generar nuevos tokens
-- [ ] **T-BE-039**: Crear `register.dto.ts` con validaciones: `@IsString() nombre`, `@IsEmail() correo`, `@IsEnum(['Estudiante', 'Profesor', 'Autodidacta']) rol`, `@IsString() @MinLength(8) contrasena`
-- [ ] **T-BE-040**: Crear `login.dto.ts` con campos: `correo`, `contrasena`
-- [ ] **T-BE-041**: Crear `jwt.strategy.ts` — Passport JWT strategy para validar tokens. Soportar campo `tipo` (usuario | administrador) en payload
-- [ ] **T-BE-042**: Crear `jwt-auth.guard.ts` — Guard para verificar token en cada request protegido
-- [ ] **T-BE-043**: Crear `roles.guard.ts` — Guard RBAC para verificar roles (`@Roles('Administrador')`). Verificar `tipo: "administrador"` en JWT + existencia del `sub` en tabla `administradores`
-- [ ] **T-BE-044**: Crear `roles.decorator.ts` — Custom decorator `@Roles()` para marcar endpoints con roles requeridos
-- [ ] **T-BE-091**: Modificar `auth.service.login()` para búsqueda dual: primero en tabla `usuarios`, si no existe buscar en tabla `administradores`. Mensaje genérico en error (nunca revelar si falla correo o contraseña). Actualizar `ultimoAcceso` del admin al login exitoso. (Ref: `admin-access-routing.spec.md` §2.2)
-- [ ] **T-BE-092**: Añadir campo `tipo: "usuario" | "administrador"` al payload JWT y al response de `POST /api/auth/login`. (Ref: `admin-access-routing.spec.md` §2.3)
-- [ ] **T-BE-093**: Crear `rate-limit.guard.ts` — Map en memoria de intentos fallidos de login por IP/correo. 5 intentos fallidos → bloqueo temporal de 15 minutos (429 Too Many Requests). (Ref: `architecture-auth.spec.md` L34)
+- [x] **T-BE-039**: Crear `register.dto.ts` con validaciones: `@IsString() nombre`, `@IsEmail() correo`, `@IsEnum(['Estudiante', 'Profesor', 'Autodidacta']) rol`, `@IsString() @MinLength(8) contrasena`
+- [x] **T-BE-040**: Crear `login.dto.ts` con campos: `correo`, `contrasena`
+- [x] **T-BE-041**: Crear `jwt.strategy.ts` — Passport JWT strategy para validar tokens. Soportar campo `tipo` (usuario | administrador) en payload
+- [x] **T-BE-042**: Crear `jwt-auth.guard.ts` — Guard para verificar token en cada request protegido
+- [x] **T-BE-043**: Crear `roles.guard.ts` — Guard RBAC para verificar roles (`@Roles('Administrador')`). Verificar `tipo: "administrador"` en JWT + existencia del `sub` en tabla `administradores`
+- [x] **T-BE-044**: Crear `roles.decorator.ts` — Custom decorator `@Roles()` para marcar endpoints con roles requeridos
+- [x] **T-BE-091**: Modificar `auth.service.login()` para búsqueda dual: primero en tabla `usuarios`, si no existe buscar en tabla `administradores`. Mensaje genérico en error (nunca revelar si falla correo o contraseña). Actualizar `ultimoAcceso` del admin al login exitoso. (Ref: `admin-access-routing.spec.md` §2.2)
+- [x] **T-BE-092**: Añadir campo `tipo: "usuario" | "administrador"` al payload JWT y al response de `POST /api/auth/login`. (Ref: `admin-access-routing.spec.md` §2.3)
+- [x] **T-BE-093**: Crear `rate-limit.guard.ts` — Map en memoria de intentos fallidos de login por IP/correo. 5 intentos fallidos → bloqueo temporal de 15 minutos (429 Too Many Requests). (Ref: `architecture-auth.spec.md` L34)
 
 ---
 
 ### 📁 `src/users/`
 
-- [ ] **T-BE-045**: Crear `UsersModule`
-- [ ] **T-BE-046**: Crear `users.controller.ts` con endpoints:
+- [x] **T-BE-045**: Crear `UsersModule`
+- [x] **T-BE-046**: Crear `users.controller.ts` con endpoints:
   - `GET /api/users/me` (Autenticado) — Obtiene perfil del usuario actual (id, nombre, correo, rol, createdAt)
   - `PATCH /api/users/me` (Autenticado) — Actualiza nombre o contraseña
-- [ ] **T-BE-047**: Crear `users.service.ts` — Consulta y actualización de perfiles
-- [ ] **T-BE-048**: Crear `update-user.dto.ts` con campos opcionales: `nombre`, `contrasena`
+- [x] **T-BE-047**: Crear `users.service.ts` — Consulta y actualización de perfiles
+- [x] **T-BE-048**: Crear `update-user.dto.ts` con campos opcionales: `nombre`, `contrasena`
 
 ---
 
 ### 📁 `src/algorithms/`
 
 - [x] **T-BE-049**: Crear `AlgorithmsModule`
-- [ ] **T-BE-050**: Crear `algorithms.controller.ts` con endpoints:
+- [x] **T-BE-050**: Crear `algorithms.controller.ts` con endpoints:
   - `GET /api/biblioteca` (Público/Autenticado) — CO1: getLibrary() — Lista completa de algoritmos por categoría
   - `GET /api/algoritmos/:id` (Autenticado) — CO2: getAlgoritmo() — Detalle del algoritmo con pseudocódigo
   - `POST /api/algoritmos` (Administrador) — Crear nuevo algoritmo
   - `PUT /api/algoritmos/:id` (Administrador) — Actualizar algoritmo existente
   - `DELETE /api/algoritmos/:id` (Administrador) — Eliminar algoritmo
-- [ ] **T-BE-051**: Crear `algorithms.service.ts` con lógica:
+- [x] **T-BE-051**: Crear `algorithms.service.ts` con lógica:
   - CO1 `getLibrary()`: Consultar todos los algoritmos agrupados por `categoría`, retornar `categorías[]`, `totalAlgoritmos`, `algoritmos[]` (`nombre`, `descripcion` ≤140 chars, `dificultad`, `complejidadTiempo`, `complejidadEspacio`, `categoria`) con soporte de filtro por categoría y búsqueda por nombre
   - CO2 `getAlgoritmo()`: Obtener algoritmo por ID con pseudocódigo completo, crear/actualizar `SesionSimulacion` para asociar avance con cuenta actual
   - CRUD completo para Administrador
@@ -133,10 +133,10 @@
 
 ### 📁 `src/simulations/`
 
-- [ ] **T-BE-054**: Crear `SimulationsModule`
-- [ ] **T-BE-055**: Crear `simulations.controller.ts` con endpoint:
+- [x] **T-BE-054**: Crear `SimulationsModule`
+- [x] **T-BE-055**: Crear `simulations.controller.ts` con endpoint:
   - `POST /api/simulaciones` (Autenticado) — CO3: getSimulation() — Genera simulación con pasos
-- [ ] **T-BE-056**: Crear `simulations.service.ts` con lógica CO3:
+- [x] **T-BE-056**: Crear `simulations.service.ts` con lógica CO3:
   1. Recibir `algoritmoId` y `conjuntoDeDatos` (valores, tipoOrigen, tamaño)
   2. Validar datos: sin caracteres no válidos, sin valores nulos, tamaño coherente
   3. Si `tipoOrigen === "Predeterminado"`: generar arreglo aleatorio de 8-15 elementos (no pre-ordenado)
@@ -144,91 +144,91 @@
   5. Registrar por cada paso: `numeroPaso`, `tipoOperacion`, `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
   6. Retornar simulación completa con todos los pasos
   7. Asociar avance de simulación con la cuenta del usuario
-- [ ] **T-BE-057**: Crear `create-simulation.dto.ts` con validaciones: `algoritmoId` (UUID, requerido), `conjuntoDeDatos.valores` (number[], solo enteros, sin nulls), `conjuntoDeDatos.tipoOrigen` (enum: Predeterminado | Personalizado), `conjuntoDeDatos.tamano` (debe coincidir con valores.length)
-- [ ] **T-BE-058**: Crear `simulation-step.dto.ts` con campos: `numeroPaso`, `tipoOperacion` (comparacion | intercambio | insercion | final), `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
+- [x] **T-BE-057**: Crear `create-simulation.dto.ts` con validaciones: `algoritmoId` (UUID, requerido), `conjuntoDeDatos.valores` (number[], solo enteros, sin nulls), `conjuntoDeDatos.tipoOrigen` (enum: Predeterminado | Personalizado), `conjuntoDeDatos.tamano` (debe coincidir con valores.length)
+- [x] **T-BE-058**: Crear `simulation-step.dto.ts` con campos: `numeroPaso`, `tipoOperacion` (comparacion | intercambio | insercion | final), `indicesActivos`, `estadoArray`, `lineaPseudocodigo`
 
 ---
 
 ### 📁 `src/simulations/engines/`
 
-- [ ] **T-BE-059**: Crear `engine.interface.ts` — Interfaz `AlgorithmDefinition` con `meta` (nombre, descripcion, complejidadTiempo, complejidadEspacio, categoria), `pseudocode: PseudocodeLine[]` (line, text, indent), y `execute(data: number[]): SimulationStep[]`. Interfaz `SimulationStep` con campos especificados. **CDR-001: cada engine es auto-contenido (meta + pseudocódigo + lógica en 1 archivo)**
-- [ ] **T-BE-060**: Implementar `bubble-sort.engine.ts` — Engine auto-contenido de Bubble Sort: define `meta`, `pseudocode` (4 líneas con indent), y `execute()` que genera pasos con `lineaPseudocodigo` referenciando las líneas definidas en `pseudocode`
-- [ ] **T-BE-061**: Implementar `selection-sort.engine.ts` — Engine auto-contenido de Selection Sort: `pseudocode` (6 líneas), `execute()` con mapeo de líneas
-- [ ] **T-BE-062**: Implementar `insertion-sort.engine.ts` — Engine auto-contenido de Insertion Sort: `pseudocode` (7 líneas), `execute()` con mapeo de líneas
-- [ ] **T-BE-063**: Crear `engines/registry.ts` — Registro centralizado `Record<string, AlgorithmDefinition>` con función `getEngine(nombre)` que lanza `NotFoundException` si el engine no existe. Timeout de seguridad: si un engine excede 10 segundos, abortar con error 408 (HU-06)
+- [x] **T-BE-059**: Crear `engine.interface.ts` — Interfaz `AlgorithmDefinition` con `meta` (nombre, descripcion, complejidadTiempo, complejidadEspacio, categoria), `pseudocode: PseudocodeLine[]` (line, text, indent), y `execute(data: number[]): SimulationStep[]`. Interfaz `SimulationStep` con campos especificados. **CDR-001: cada engine es auto-contenido (meta + pseudocódigo + lógica en 1 archivo)**
+- [x] **T-BE-060**: Implementar `bubble-sort.engine.ts` — Engine auto-contenido de Bubble Sort: define `meta`, `pseudocode` (4 líneas con indent), y `execute()` que genera pasos con `lineaPseudocodigo` referenciando las líneas definidas en `pseudocode`
+- [x] **T-BE-061**: Implementar `selection-sort.engine.ts` — Engine auto-contenido de Selection Sort: `pseudocode` (6 líneas), `execute()` con mapeo de líneas
+- [x] **T-BE-062**: Implementar `insertion-sort.engine.ts` — Engine auto-contenido de Insertion Sort: `pseudocode` (7 líneas), `execute()` con mapeo de líneas
+- [x] **T-BE-063**: Crear `engines/registry.ts` — Registro centralizado `Record<string, AlgorithmDefinition>` con función `getEngine(nombre)` que lanza `NotFoundException` si el engine no existe. Timeout de seguridad: si un engine excede 10 segundos, abortar con error 408 (HU-06)
 
 ---
 
 ### 📁 `src/exercises/`
 
-- [ ] **T-BE-064**: Crear `ExercisesModule`
-- [ ] **T-BE-065**: Crear `exercises.controller.ts` con endpoints:
+- [x] **T-BE-064**: Crear `ExercisesModule`
+- [x] **T-BE-065**: Crear `exercises.controller.ts` con endpoints:
   - `GET /api/ejercicios/:algoId` (Autenticado) — Lista ejercicios de un algoritmo
   - `POST /api/ejercicios/:id/responder` (Autenticado) — Evalúa respuesta del usuario
-- [ ] **T-BE-066**: Crear `exercises.service.ts` con lógica de evaluación:
+- [x] **T-BE-066**: Crear `exercises.service.ts` con lógica de evaluación:
   1. Comparar `respuesta` del usuario con `respuestaCorrecta`
   2. Si correcto: retornar `feedbackPositivo`, sumar puntos al ProgresoUsuario
   3. Si incorrecto: retornar `feedbackNegativo`, no restar puntos
   4. Actualizar `rachaDías` si es la primera actividad del día
   5. Recalcular `posiciónRanking`
-- [ ] **T-BE-067**: Crear `answer-exercise.dto.ts` con campo `respuesta`
-- [ ] **T-BE-068**: Crear `exercise-result.dto.ts` con campos: `correcto`, `feedbackPositivo`/`feedbackNegativo`, `puntosGanados`, `rachaDias`, `posicionRanking`, `nivelActual`
+- [x] **T-BE-067**: Crear `answer-exercise.dto.ts` con campo `respuesta`
+- [x] **T-BE-068**: Crear `exercise-result.dto.ts` con campos: `correcto`, `feedbackPositivo`/`feedbackNegativo`, `puntosGanados`, `rachaDias`, `posicionRanking`, `nivelActual`
 
 ---
 
 ### 📁 `src/progress/`
 
-- [ ] **T-BE-069**: Crear `ProgressModule`
-- [ ] **T-BE-070**: Crear `progress.controller.ts` con endpoints:
+- [x] **T-BE-069**: Crear `ProgressModule`
+- [x] **T-BE-070**: Crear `progress.controller.ts` con endpoints:
   - `GET /api/progreso/me` (Autenticado) — Progreso del usuario actual (puntosTotales, nivelActual, rachaDias, posicionRanking, ultimaActividad, insignias, simulacionesCompletadas, ejerciciosCorrectos, ejerciciosTotales)
   - `GET /api/ranking` (Autenticado) — Top N del leaderboard con query params `?limit=20&offset=0`
-- [ ] **T-BE-071**: Crear `progress.service.ts` — Actualiza puntos, niveles, rachas. Consulta ranking ordenado por `puntosTotales DESC`
-- [ ] **T-BE-072**: Crear `progress-response.dto.ts`
+- [x] **T-BE-071**: Crear `progress.service.ts` — Actualiza puntos, niveles, rachas. Consulta ranking ordenado por `puntosTotales DESC`
+- [x] **T-BE-072**: Crear `progress-response.dto.ts`
 
 ---
 
 ### 📁 `src/badges/`
 
-- [ ] **T-BE-073**: Crear `BadgesModule`
-- [ ] **T-BE-074**: Crear `badges.controller.ts` con endpoints:
+- [x] **T-BE-073**: Crear `BadgesModule`
+- [x] **T-BE-074**: Crear `badges.controller.ts` con endpoints:
   - `GET /api/insignias` (Autenticado) — Todas las insignias disponibles
   - `GET /api/insignias/me` (Autenticado) — Insignias desbloqueadas por el usuario con `fechaObtencion`
-- [ ] **T-BE-075**: Crear `badges.service.ts` — Implementar sistema de verificación de insignias (según `gamification-exercises.plan.md` §6):
+- [x] **T-BE-075**: Crear `badges.service.ts` — Implementar sistema de verificación de insignias (según `gamification-exercises.plan.md` §6):
   - Método `checkAndAward(usuarioId)`: obtiene progreso + insignias ganadas + todas las insignias (con caché en memoria). Para cada insignia no ganada, evalúa `meetsRequirement()`.
-  - Map de reglas hardcoded: `"Completar 1 simulación"` → count sesiones completadas ≥1, `"Visualizar 3 algoritmos"` → count distinct algoritmoId ≥3, `"rachaDías >= 7"` → progreso.rachaDias ≥7, `"Completar todos los algoritmos de Ordenamiento"` → completados == total activos de categoría Ordenamiento.
+  - Map de reglas hardcoded: `"Completar 1 simulación"` → count sesiones completadas ≥1, `"Visualizar 3 algoritmos"` → count distinct algoritmoId ≥3, `"rachaDías >= 7"` → progreso.rachaDías ≥7, `"Completar todos los algoritmos de Ordenamiento"` → completados == total activos de categoría Ordenamiento.
   - Caché `badgesCache` invalidada solo cuando el admin modifica insignias.
   - Inyectar `BadgesService` en: `SimulationsService` (post-completar), `ExercisesService` (post-correcto), `ProgressService` (post-racha).
-- [ ] **T-BE-076**: Crear `badge-response.dto.ts`
+- [x] **T-BE-076**: Crear `badge-response.dto.ts`
 
 ---
 
 ### 📁 `src/offline/`
 
-- [ ] **T-BE-077**: Crear `OfflineModule`
-- [ ] **T-BE-078**: Crear `offline.controller.ts` con endpoints:
+- [x] **T-BE-077**: Crear `OfflineModule`
+- [x] **T-BE-078**: Crear `offline.controller.ts` con endpoints:
   - `GET /api/modules/offline` (Autenticado) — Lista módulos disponibles para descarga (algoritmoId, nombre, tamanoKB, version, descargado) **CDR-004**
   - `GET /api/modules/offline/:id/download` (Autenticado) — Retorna JSON directo del módulo (meta, pseudocode, ejercicios). **CDR-004: sin bucket externo**
-- [ ] **T-BE-079**: Crear `offline.service.ts` — Genera URLs de descarga
-- [ ] **T-BE-080**: Crear `offline-module.dto.ts`
+- [x] **T-BE-079**: Crear `offline.service.ts` — Genera URLs de descarga
+- [x] **T-BE-080**: Crear `offline-module.dto.ts`
 
 ---
 
 ### 📁 `src/sync/`
 
-- [ ] **T-BE-081**: Crear `SyncModule`
-- [ ] **T-BE-082**: Crear `sync.controller.ts` con endpoint:
+- [x] **T-BE-081**: Crear `SyncModule`
+- [x] **T-BE-082**: Crear `sync.controller.ts` con endpoint:
   - `POST /api/progress/sync` (Autenticado) — Sincronización batch de progreso offline. Recibe `sesiones[]` con `algoritmoId`, `fechaInicio`, `fechaFin`, `pasosCompletados`. Retorna `sincronizados` y `puntosActualizados`
-- [ ] **T-BE-083**: Crear `sync.service.ts` — Procesa batch de sincronización de progreso offline
-- [ ] **T-BE-084**: Crear `sync-progress.dto.ts`
+- [x] **T-BE-083**: Crear `sync.service.ts` — Procesa batch de sincronización de progreso offline
+- [x] **T-BE-084**: Crear `sync-progress.dto.ts`
 
 ---
 
 ### 📁 `brainsort-api/test/`
 
-- [ ] **T-BE-085**: Crear `auth.e2e-spec.ts` — Tests e2e para endpoints de autenticación (register, login, refresh) usando `@nestjs/testing` + base de datos de test
-- [ ] **T-BE-086**: Crear `algorithms.e2e-spec.ts` — Tests e2e para endpoints de biblioteca y algoritmos
-- [ ] **T-BE-087**: Crear `simulations.e2e-spec.ts` — Tests e2e para endpoint de simulaciones
-- [ ] **T-BE-088**: Implementar tests unitarios por cada service con mocks de PrismaService. Cobertura mínima: 80% en services, 70% en controllers
+- [x] **T-BE-085**: Crear `auth.e2e-spec.ts` — Tests e2e para endpoints de autenticación (register, login, refresh) usando `@nestjs/testing` + base de datos de test
+- [x] **T-BE-086**: Crear `algorithms.e2e-spec.ts` — Tests e2e para endpoints de biblioteca y algoritmos
+- [x] **T-BE-087**: Crear `simulations.e2e-spec.ts` — Tests e2e para endpoint de simulaciones
+- [x] **T-BE-088**: Implementar tests unitarios por cada service con mocks de PrismaService. Cobertura mínima: 80% en services, 70% en controllers
 
 ---
 
