@@ -379,15 +379,15 @@
 
 ## 📁 `brainsort-app/src/components/simulation/`
 
-- [ ] **T-FE-064**: Crear `SimulationCanvas.tsx` — Contenedor SVG principal para la visualización
-- [ ] **T-FE-065**: Crear `Bar.tsx` — Barra individual usando `react-native-svg Rect`
-- [ ] **T-FE-066**: Crear `BarChart.tsx` — Conjunto de barras renderizadas con alturas proporcionales al valor (HU-03)
-- [ ] **T-FE-067**: Crear `ControlBar.tsx` — Barra de control con botones: Play/Pausa, reiniciar (HU-04). Deshabilitar Play y habilitar Reiniciar al finalizar (HU-06)
-- [ ] **T-FE-068**: Crear `SpeedSlider.tsx` — Control de velocidad: rango [0.25, 2.0] con incrementos de 0.25 (Glosario)
-- [ ] **T-FE-069**: Crear `StepIndicator.tsx` — Muestra paso actual / total
-- [ ] **T-FE-070**: Crear `PseudocodePanel.tsx` — Panel de pseudocódigo sincronizado con el paso actual, resaltando la línea correspondiente a `lineaPseudocodigo`
-- [ ] **T-FE-071**: Crear `ComplexityInfo.tsx` — Muestra Big O del algoritmo (complejidadTiempo, complejidadEspacio)
-- [ ] **T-FE-072**: Crear `CompletionOverlay.tsx` — Overlay de "¡Algoritmo completado!" con opciones: "Reiniciar", "Siguiente Algoritmo", "Ver Código" (HU-07). Auto-desaparece a los 5 segundos
+- [x] **T-FE-064**: Crear `SimulationCanvas.tsx` — Contenedor SVG principal para la visualización
+- [x] **T-FE-065**: Crear `Bar.tsx` — Barra individual usando `react-native-svg Rect`
+- [x] **T-FE-066**: Crear `BarChart.tsx` — Conjunto de barras renderizadas con alturas proporcionales al valor (HU-03)
+- [x] **T-FE-067**: Crear `ControlBar.tsx` — Barra de control con botones: Play/Pausa, reiniciar (HU-04). Deshabilitar Play y habilitar Reiniciar al finalizar (HU-06)
+- [x] **T-FE-068**: Crear `SpeedSlider.tsx` — Control de velocidad: rango [0.25, 2.0] con incrementos de 0.25 (Glosario)
+- [x] **T-FE-069**: Crear `StepIndicator.tsx` — Muestra paso actual / total
+- [x] **T-FE-070**: Crear `PseudocodePanel.tsx` — Panel de pseudocódigo sincronizado con el paso actual, resaltando la línea correspondiente a `lineaPseudocodigo`
+- [x] **T-FE-071**: Crear `ComplexityInfo.tsx` — Muestra Big O del algoritmo (complejidadTiempo, complejidadEspacio)
+- [x] **T-FE-072**: Crear `CompletionOverlay.tsx` — Overlay de "¡Algoritmo completado!" con opciones: "Reiniciar", "Siguiente Algoritmo", "Ver Código" (HU-07). Auto-desaparece a los 5 segundos
 
 ---
 
