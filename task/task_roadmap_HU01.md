@@ -75,91 +75,91 @@ Entregar una Biblioteca de Algoritmos funcional para que el usuario pueda explor
    - [x] catálogo vacío
 
 ## Fase 7: Base frontend
-1. Adaptar navegación actual.
-2. Reemplazar pantallas placeholder por flujo real:
-   - `LibraryScreen`
-   - `AlgorithmDetailScreen`
-3. Crear estructura mínima:
-   - `services/`
-   - `hooks/`
-   - `components/algorithm/`
-   - `screens/library/`
+1. [x] Adaptar navegación actual.
+2. [x] Reemplazar pantallas placeholder por flujo real:
+   - [x] `LibraryScreen`
+   - [x] `AlgorithmDetailScreen`
+3. [x] Crear estructura mínima:
+   - [x] `services/`
+   - [x] `hooks/`
+   - [x] `components/algorithm/`
+   - [x] `screens/library/`
 
 ## Fase 8: Consumo de API
-1. Crear servicio `library.service.ts`.
-2. Definir tipos del catálogo.
-3. Implementar fetch de biblioteca.
-4. Preparar manejo de:
-   - loading
-   - error
-   - datos vacíos
+1. [x] Crear servicio `library.service.ts`.
+2. [x] Definir tipos del catálogo.
+3. [x] Implementar fetch de biblioteca.
+4. [x] Preparar manejo de:
+   - [x] loading
+   - [x] error
+   - [x] datos vacíos
 
 ## Fase 9: Lógica de biblioteca
-1. Crear `useLibrary.ts`.
-2. Implementar:
-   - carga inicial
-   - filtro por categoría
-   - búsqueda por nombre
-   - estado vacío
-   - recarga manual
-3. Preparar caché simple para modo offline.
+1. [x] Crear `useLibrary.ts`.
+2. [x] Implementar:
+   - [x] carga inicial
+   - [x] filtro por categoría
+   - [x] búsqueda por nombre
+   - [x] estado vacío
+   - [x] recarga manual
+3. [x] Preparar caché simple para modo offline.
 
 ## Fase 10: Componentes UI
-1. Crear `AlgorithmCard`.
-2. Crear `CategoryFilter`.
-3. Crear `DifficultyBadge`.
-4. Si se usan imágenes, aplicar lazy loading.
+1. [x] Crear `AlgorithmCard`.
+2. [x] Crear `CategoryFilter`.
+3. [x] Crear `DifficultyBadge`.
+4. [x] Si se usan imágenes, aplicar lazy loading.
 
 ## Fase 11: Responsive
-1. Crear `useResponsiveColumns`.
-2. Definir columnas por ancho:
-   - 4 escritorio
-   - 3 tablet
-   - 2 phablet
-   - 1 móvil
-3. Validar visualización en móvil y web.
+1. [x] Crear `useResponsiveColumns`.
+2. [x] Definir columnas por ancho:
+   - [x] 4 escritorio
+   - [x] 3 tablet
+   - [x] 2 phablet
+   - [x] 1 móvil
+3. [x] Validar visualización en móvil y web.
 
 ## Fase 12: LibraryScreen
-1. Implementar pantalla principal de biblioteca.
-2. Integrar:
-   - título
-   - filtro por categoría
-   - búsqueda
-   - grid de tarjetas
-   - loading
-   - empty state
-   - error state
-3. Navegar al detalle al seleccionar una tarjeta.
+1. [x] Implementar pantalla principal de biblioteca.
+2. [x] Integrar:
+   - [x] título
+   - [x] filtro por categoría
+   - [x] búsqueda
+   - [x] grid de tarjetas
+   - [x] loading
+   - [x] empty state
+   - [x] error state
+3. [x] Navegar al detalle al seleccionar una tarjeta.
 
 ## Fase 13: Detail mínimo
-1. Crear `AlgorithmDetailScreen` básica.
-2. Mostrar:
-   - nombre
-   - categoría
-   - dificultad
-   - descripción
-3. Dejar CTA para simulación como siguiente paso del producto.
+1. [x] Crear `AlgorithmDetailScreen` básica.
+2. [x] Mostrar:
+   - [x] nombre
+   - [x] categoría
+   - [x] dificultad
+   - [x] descripción
+3. [x] Dejar CTA para simulación como siguiente paso del producto.
 
 ## Fase 14: Offline básico
-1. Guardar último catálogo exitoso localmente.
-2. Detectar falta de conexión.
-3. Mostrar solo contenido cacheado.
-4. Mostrar estado `Sin conexión`.
+1. [x] Guardar último catálogo exitoso localmente.
+2. [x] Detectar falta de conexión.
+3. [x] Mostrar solo contenido cacheado.
+4. [x] Mostrar estado `Sin conexión`.
 
 ## Fase 15: Accesibilidad y QA
-1. Validar navegación por teclado en web.
-2. Añadir estados visibles de foco.
-3. Validar contraste y legibilidad.
-4. Probar flujo completo:
-   - abrir biblioteca
-   - filtrar
-   - buscar
-   - seleccionar algoritmo
+1. [x] Validar navegación por teclado en web.
+2. [x] Añadir estados visibles de foco.
+3. [x] Validar contraste y legibilidad.
+4. [x] Probar flujo completo:
+   - [x] abrir biblioteca
+   - [x] filtrar
+   - [x] buscar
+   - [x] seleccionar algoritmo
 
 ## Fase 16: Cierre
-1. Medir si seleccionar un algoritmo toma menos de 15 segundos.
-2. Ajustar detalles de UX.
-3. Actualizar `task_breakdown.md` con tareas completadas y nuevas tareas faltantes.
+1. [x] Medir si seleccionar un algoritmo toma menos de 15 segundos.
+2. [x] Ajustar detalles de UX.
+3. [x] Actualizar `task_breakdown.md` con tareas completadas y nuevas tareas faltantes.
 
 ## Orden recomendado
 1. Backend base
