@@ -141,3 +141,30 @@ Durante la implementación se completaron cambios de código (schema, seed y mig
 
 ### Impacto
 Mejora la confiabilidad del tracking del proyecto: el tablero refleja avance real validado y evita falsos positivos de cierre de fase.
+
+---
+
+## CDR-008: Corrección del Modelo del Dominio — Campo `dificultad` en Algoritmo
+
+**Fecha**: 2026-04-23
+**Documentación original afectada**: `BrainSort-Modelo_del_Dominio.docx`, `BrainSort-Historias_de_Usuario.docx` (HU-01)
+**Archivos SPECS modificados**:
+- `plan-de-implementacion/03-base-de-datos.md` — Modelo Algoritmo (dificultad añadido)
+- `plan-de-implementacion/01-backend-api.md` — DTOs de algoritmo (dificultad añadido)
+- `plan-de-implementacion/04-contratos-api.md` — Respuestas CO1/CO2 incluyen dificultad
+
+### ¿Qué cambió?
+El campo `dificultad` fue **añadido al modelo `Algoritmo`** en la base de datos. Este campo había sido omitido inicialmente en la traducción a SPECS, pero existe en la documentación original del modelo del dominio y es requerido por la HU-01 para la visualización de tarjetas en la biblioteca.
+
+### ¿Por qué?
+La Historia de Usuario HU-01 especifica que cada tarjeta de algoritmo en la biblioteca debe mostrar un **nivel de dificultad visual** (colores o estrellas) para que el usuario pueda decidir qué estudiar. Este atributo existe explícitamente en el modelo conceptual del dominio original.
+
+### Impacto en el Modelo del Dominio
+| Campo | Estado | Justificación |
+|---|---|---|
+| `Algoritmo.dificultad` | ✅ **Añadido a la DB** | Requerido por HU-01 para nivel visual en tarjetas (Facil, Medio, Dificil) |
+
+### Diferencia con EjercicioPrediccion.dificultad
+Es importante notar que **ambos** modelos tienen un campo `dificultad`:
+- `Algoritmo.dificultad`: Describe la dificultad general del algoritmo (para tarjetas de biblioteca, HU-01).
+- `EjercicioPrediccion.dificultad`: Describe la dificultad específica del ejercicio (para cálculo de puntos, gamificación).

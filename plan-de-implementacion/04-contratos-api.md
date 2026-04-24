@@ -189,6 +189,7 @@ Todos los endpoints usan el prefijo `/api`.
         "id": "uuid-bubble",
         "nombre": "Bubble Sort",
         "descripcion": "Algoritmo de ordenamiento que compara elementos adyacentes...",
+        "dificultad": "Facil",
         "complejidadTiempo": "O(n²)",
         "complejidadEspacio": "O(1)",
         "categoria": "Ordenamiento"
@@ -198,7 +199,7 @@ Todos los endpoints usan el prefijo `/api`.
 }
 ```
 
-**Frontend**: La `descripcion` se trunca a ≤140 chars en la tarjeta (HU-01).
+**Frontend**: La `descripcion` se trunca a ≤140 chars en la tarjeta (HU-01). La `dificultad` se muestra como indicador visual (estrellas o colores).
 
 ---
 
@@ -213,6 +214,7 @@ Todos los endpoints usan el prefijo `/api`.
     "id": "uuid-bubble",
     "nombre": "Bubble Sort",
     "descripcion": "Algoritmo de ordenamiento que compara elementos adyacentes e intercambia si están desordenados. Recorre el arreglo múltiples veces...",
+    "dificultad": "Facil",
     "complejidadTiempo": "O(n²)",
     "complejidadEspacio": "O(1)",
     "categoria": "Ordenamiento",
@@ -240,6 +242,7 @@ Todos los endpoints usan el prefijo `/api`.
 {
   "nombre": "Merge Sort",
   "descripcion": "Algoritmo divide y vencerás que divide el arreglo por mitades...",
+  "dificultad": "Medio",
   "complejidadTiempo": "O(n log n)",
   "complejidadEspacio": "O(n)",
   "categoria": "Ordenamiento"
@@ -484,6 +487,7 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
     "meta": {
       "nombre": "Bubble Sort",
       "descripcion": "Algoritmo de ordenamiento que compara elementos adyacentes...",
+      "dificultad": "Facil",
       "complejidadTiempo": "O(n²)",
       "complejidadEspacio": "O(1)",
       "categoria": "Ordenamiento"

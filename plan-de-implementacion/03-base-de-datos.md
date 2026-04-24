@@ -70,9 +70,10 @@ model Administrador {
 
 // ═══════════════════════════════════════
 // Entidad: Algoritmo
-// Modelo del Dominio: nombre, descripción, complejidadTiempo,
+// Modelo del Dominio: nombre, descripción, dificultad, complejidadTiempo,
 //                     complejidadEspacio, categoría
 // NOTA CDR-001: pseudocódigo migrado al engine (ver cambios-en-documentacion/CHANGELOG.md)
+// NOTA CDR-008: dificultad añadido según HU-01 (nivel visual en tarjetas de biblioteca)
 // Asociaciones: contenido en BibliotecaDeAlgoritmos,
 //               tiene descrita Simulación, gestionado por Admin
 // ═══════════════════════════════════════
@@ -80,6 +81,7 @@ model Algoritmo {
   id                String    @id @default(uuid())
   nombre            String    @unique
   descripcion       String    @db.Text
+  dificultad        String    // Ej: 'Facil', 'Medio', 'Dificil' - para visualización HU-01
   complejidadTiempo String    // Notación Big O, ej: "O(n²)"
   complejidadEspacio String   // Notación Big O, ej: "O(1)"
   // pseudocodigo: Migrado al engine file (CDR-001). Ver engines/{nombre}.engine.ts
@@ -245,7 +247,7 @@ model RespuestaEjercicio {
 | Usuario | `Usuario` | `rol` como Enum. `contraseña` hasheada con bcrypt. |
 | Administrador | `Administrador` | Entidad **separada** con `credencialesAdmin` y `últimoAcceso`. |
 | BibliotecaDeAlgoritmos | — | Concepto virtual. Es una query sobre `Algoritmo` agrupada por `categoría`. `totalAlgoritmos` se calcula con `COUNT`. |
-| Algoritmo | `Algoritmo` | `nombre` único. `categoría` como Enum. `pseudocódigo` migrado al engine file (CDR-001). |
+| Algoritmo | `Algoritmo` | `nombre` único. `dificultad` para HU-01. `categoría` como Enum. `pseudocódigo` migrado al engine file (CDR-001). |
 | Simulación | `SesionSimulacion` | El estado efímero (velocidad, paso, play/pause) vive en el **frontend**. Solo se persiste el progreso de la sesión. |
 | ConjuntoDeDatos | — | Efímero (generado en cada simulación). No se persiste. Los `valores`, `tipoOrigen` y `tamaño` se envían en la request y se procesan en memoria. |
 | EjercicioPredicción | `EjercicioPrediccion` | FK a `Algoritmo`. `dificultad` como Enum. |
@@ -307,6 +309,7 @@ async function main() {
     {
       nombre: 'Bubble Sort',
       descripcion: 'Algoritmo de ordenamiento que compara elementos adyacentes e intercambia si están desordenados.',
+      dificultad: 'Facil',
       complejidadTiempo: 'O(n²)',
       complejidadEspacio: 'O(1)',
       categoria: 'Ordenamiento',
@@ -314,6 +317,7 @@ async function main() {
     {
       nombre: 'Selection Sort',
       descripcion: 'Algoritmo que selecciona el menor elemento y lo coloca en su posición correcta.',
+      dificultad: 'Medio',
       complejidadTiempo: 'O(n²)',
       complejidadEspacio: 'O(1)',
       categoria: 'Ordenamiento',
@@ -321,6 +325,7 @@ async function main() {
     {
       nombre: 'Insertion Sort',
       descripcion: 'Algoritmo que inserta cada elemento en su posición correcta dentro de la sublista ordenada.',
+      dificultad: 'Facil',
       complejidadTiempo: 'O(n²)',
       complejidadEspacio: 'O(1)',
       categoria: 'Ordenamiento',
