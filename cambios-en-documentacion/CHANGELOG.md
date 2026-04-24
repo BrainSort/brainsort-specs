@@ -144,6 +144,54 @@ Mejora la confiabilidad del tracking del proyecto: el tablero refleja avance rea
 
 ---
 
+## CDR-009: Pseudocódigo Migrado de Engine a Base de Datos (JSON Array)
+
+**Fecha**: 2026-04-23
+**Documentación original afectada**: `BrainSort-Modelo_del_Dominio.docx` — Entidad `Algoritmo.pseudocódigo`
+**Archivos SPECS modificados**:
+- `plan-de-implementacion/03-base-de-datos.md` — Modelo Algoritmo (campo pseudocodigo añadido como Json)
+- `plan-de-implementacion/04-contratos-api.md` — CO2 y CO3 obtienen pseudocódigo de DB
+
+### ¿Qué cambió?
+El campo `pseudocódigo` fue **reintroducido a la base de datos** en formato JSON Array, revirtiendo parcialmente CDR-001.
+
+Formato almacenado:
+```json
+[
+  {"numero": 1, "codigo": "Para i = 0 hasta n-1"},
+  {"numero": 2, "codigo": "  Para j = 0 hasta n-i-1"},
+  {"numero": 3, "codigo": "    Si array[j] > array[j+1]"},
+  {"numero": 4, "codigo": "      Intercambiar array[j] y array[j+1]"}
+]
+```
+
+### ¿Por qué?
+CDR-001 movió el pseudocódigo a los archivos engine para evitar desincronización entre seed y lógica. Sin embargo, esto requería **redeploy del backend** para cualquier corrección de pseudocódigo, lo cual no es práctico para un equipo pequeño que necesita iterar rápidamente sobre contenido educativo.
+
+La nueva solución permite:
+1. **Edición hot**: El administrador puede corregir pseudocódigo sin redeploy
+2. **Mantenibilidad**: Cada engine solo mantiene el mapeo de pasos a números de línea (estable)
+3. **Formato flexible**: JSON Array permite agregar metadatos futuros (ej: indentación, color)
+
+### Impacto en el Modelo del Dominio
+| Campo | Estado | Justificación |
+|---|---|---|
+| `Algoritmo.pseudocodigo` | ✅ **Reintroducido a la DB** como `Json?` | Permite edición sin redeploy del backend |
+
+### Cambios en los Engines
+- El campo `pseudocode` fue removido de `AlgorithmDefinition` en `engine.interface.ts`
+- Los engines (`bubble-sort`, `selection-sort`, `insertion-sort`) ya no incluyen el texto del pseudocódigo
+- El mapeo de `lineaPseudocodigo` en cada paso se mantiene (conecta paso → número de línea)
+
+### Cambios en los Servicios
+- `simulations.service.ts` — `createSimulation()` ahora lee `algoritmo.pseudocodigo` de la DB
+- `algorithms.service.ts` — `getAlgorithm()` ahora lee `algoritmo.pseudocodigo` de la DB
+
+### Post-Condición
+Ejecutar `npx prisma migrate dev --name add_pseudocodigo` y `npx prisma generate` para aplicar el cambio al schema.
+
+---
+
 ## CDR-008: Corrección del Modelo del Dominio — Campo `dificultad` en Algoritmo
 
 **Fecha**: 2026-04-23
