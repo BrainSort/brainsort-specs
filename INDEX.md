@@ -44,6 +44,7 @@ Las especificaciones están divididas en dominios funcionales dentro de la carpe
 | **Gamificación y Ejercicios** | [`gamification-exercises.spec.md`](./features/gamification-exercises.spec.md)<br>[`gamification-exercises.plan.md`](./features/gamification-exercises.plan.md)<br>[`gamification-exercises.tasks.md`](./features/gamification-exercises.tasks.md) | Preguntas predictivas, mecánicas de puntos, niveles, tabla de posiciones e insignias de retención. |
 | **Offline & Mobile** | [`offline-mobile.spec.md`](./features/offline-mobile.spec.md)<br>[`offline-mobile.plan.md`](./features/offline-mobile.plan.md)<br>[`offline-mobile.tasks.md`](./features/offline-mobile.tasks.md) | Capacidades offline, descarga selectiva de módulos, PWA, distribución iOS/Android via Expo. |
 | **Sandbox / Mini Juez** | [`sandbox-code-runner.plan.md`](./features/sandbox-code-runner.plan.md) | Ejecución local de código Python (MicroPython WASM) y C++ (JSCPP) en WebView sandboxed. V1: prueba de concepto con ejercicios hardcoded. |
+| **Testing & QA** | [`testing-qa.spec.md`](./features/testing-qa.spec.md) | Estrategia de pruebas (IEEE 829), niveles de prueba (unitarias/integración/E2E), criterios de aceptación, trazabilidad HU↔CP, riesgos. |
 
 ## 3. Plan de Implementación
 
@@ -64,6 +65,34 @@ Las siguientes plantillas se encuentran en `templates/` y dictan la estructura q
 - `spec-template.md` (Qué es la feature y requisitos)
 - `plan-template.md` (Diseño técnico y de base de datos)
 - `tasks-template.md` (Despiece de tareas a implementar)
+
+## 5. Documentación de Pruebas
+
+La carpeta [`pruebas/`](./pruebas/) contiene la línea base de documentación de pruebas del proyecto, alineada con el estándar IEEE 829-2008:
+
+| Documento | Descripción |
+|---|---|
+| [`pruebas/README.md`](./pruebas/README.md) | Índice y estructura de la documentación de pruebas. |
+| `3.1-Plan-de-Pruebas-BrainSort.docx` | Plan de pruebas de software: alcance, estrategia, cronograma, riesgos. |
+| `3.2-Casos-de-Prueba-BrainSort.xlsx` | Diseño de casos de prueba: ID, módulo, precondiciones, pasos, resultado esperado/real. |
+| `3.3-Informe-de-Prueba-BrainSort.xlsx` | Informe de ejecución: resumen, casos pasados/fallados, cobertura, defectos. |
+
+**Generadores auxiliares** (carpeta `pruebas/scripts/`):
+- `gen_ejemplo_plan.py` — Genera `.docx` del Plan de Pruebas con datos reales de BrainSort.
+- `gen_ejemplo_casos.py` — Genera `.xlsx` con diseño de casos de prueba.
+- `gen_ejemplo_informe.py` — Genera `.xlsx` con informe de resultados.
+
+**Ejemplos de referencia** (carpeta `pruebas/ejemplos/`):
+- Templates pre-llenados con datos de ejemplo para consulta.
+
+## 6. Manual de Uso
+
+La carpeta [`MANUAL DE USO/`](./MANUAL%20DE%20USO/) contiene las guías de ejecución del proyecto:
+
+| Documento | Descripción |
+|---|---|
+| [`01-Ejecutar-Backend.md`](./MANUAL%20DE%20USO/01-Ejecutar-Backend.md) | Instrucciones para levantar `brainsort-api` en desarrollo local. |
+| [`02-Ejecutar-Frontend.md`](./MANUAL%20DE%20USO/02-Ejecutar-Frontend.md) | Instrucciones para levantar `brainsort-app` con Expo. |
 
 ---
 

@@ -798,3 +798,122 @@
 - [x] **T-FE-128**: Crear `LearningPathScreen.tsx` (o una nueva pestaña en el MainTabNavigator). Visualizar el "Camino a seguir" como un mapa interactivo o timeline secuencial.
 - [x] **T-FE-129**: Implementar hook `useLearningPath.ts` para obtener la ruta recomendada del usuario.
 - [x] **T-FE-130**: Modificar `ProfileScreen.tsx` y `ProgressScreen.tsx` para reflejar el progreso del usuario dentro de su Ruta de Aprendizaje (ej. "Has completado el 30% de tu ruta sugerida").
+
+---
+---
+
+# 🧪 FASE 7: Pruebas de Software — Documentación y Código Automatizado
+
+> **Ref**: Entregable U4-EJ26 — Línea base de Pruebas
+> **Estándar**: IEEE 829-2008
+> **Peso en calificación**: Documentación de pruebas (45%) + Código de pruebas automatizadas (45%)
+
+---
+
+## 📄 Documentación de Pruebas (brainsort-specs/pruebas/)
+
+> Entregables formales requeridos para la Línea Base de Documentación.
+
+- [x] **T-QA-001**: Crear `pruebas/README.md` — Índice y estructura de la documentación de pruebas, convención de IDs, trazabilidad HU↔CP, herramientas
+- [ ] **T-QA-002**: Crear `3.1-Plan-de-Pruebas-BrainSort.docx` — Plan formal de pruebas (IEEE 829): Introducción, Alcance, Elementos a probar (13 módulos backend + engines/hooks frontend), Enfoque (unitarias/integración/E2E), Criterios de aceptación (cobertura ≥80% services, ≥70% controllers, 0 defectos críticos), Ambiente (Node 20, Jest 29, Expo SDK 51), Cronograma, Riesgos y mitigaciones, Aprobaciones
+- [ ] **T-QA-003**: Crear `3.2-Casos-de-Prueba-BrainSort.xlsx` — Catálogo de casos de prueba con campos: ID, Módulo, Tipo (Unitaria/Integración/E2E), HU Relacionada, Descripción, Precondiciones, Pasos, Datos de entrada, Resultado esperado, Resultado real, Estado (PASÓ/FALLÓ), Severidad, Archivo de código. Mínimo: cubrir los tests existentes en `brainsort-api/test/` y `brainsort-api/src/**/*.spec.ts`
+- [ ] **T-QA-004**: Crear `3.3-Informe-de-Prueba-BrainSort.xlsx` — Informe de ejecución con: Resumen ejecutivo, Casos ejecutados/pasados/fallados, Cobertura por módulo, Defectos encontrados (ID, severidad, estado, resolución), Cobertura de código (Jest `--coverage`), Métricas de calidad, Conclusiones
+
+---
+
+## 🔬 Pruebas Automatizadas Backend (brainsort-api)
+
+> Código fuente de pruebas unitarias con mocks de PrismaService.
+> Herramientas: Jest + @nestjs/testing + mocks de bcrypt
+
+### Pruebas Unitarias de Services
+
+- [x] **T-QA-005**: Crear `src/auth/auth.service.spec.ts` — Tests unitarios de AuthService:
+  - `register()`: registro exitoso (hashea con bcrypt salt 10, crea usuario + ProgresoUsuario), registro con email duplicado (ConflictException)
+  - `login()`: login exitoso como usuario, login exitoso como administrador (búsqueda dual + actualizar ultimoAcceso), credenciales incorrectas (mensaje genérico), contraseña incorrecta
+  - `refresh()`: refresh exitoso, token inválido, usuario eliminado (UnauthorizedException)
+
+- [x] **T-QA-006**: Crear `src/users/users.service.spec.ts` — Tests unitarios de UsersService:
+  - `getProfile()`: retorna perfil con campos select, usuario no encontrado (NotFoundException)
+  - `updateProfile()`: actualizar nombre, hashear nueva contraseña, actualizar ambos simultáneamente, usuario no encontrado
+
+- [x] **T-QA-007**: Verificar `src/algorithms/algorithms.service.spec.ts` — Tests existentes de AlgorithmsService:
+  - `getLibrary()`: sin filtros, filtro por categoría, filtro por nombre, sin resultados
+
+- [x] **T-QA-008**: Crear `src/simulations/simulations.service.spec.ts` — Tests unitarios de SimulationsService:
+  - `createSimulation()`: simulación exitosa con datos personalizados, algoritmo no encontrado (NotFoundException), valores nulos (BadRequestException), tamaño no coincide, creación de SesionSimulacion, formato de pasos
+  - `updateSessionProgress()`: actualización parcial, marcar como completada, verificar insignias al completar, sesión no encontrada
+
+- [ ] **T-QA-009**: Crear `src/exercises/exercises.service.spec.ts` — Tests unitarios de ExercisesService:
+  - `getExercisesByAlgorithm()`: retorna ejercicios formateados
+  - `answerExercise()`: respuesta correcta (suma puntos, feedback positivo), respuesta incorrecta (no resta puntos, feedback negativo), ejercicio no encontrado, actualización de racha, recálculo de nivel y ranking
+
+- [x] **T-QA-010**: Verificar `src/progress/progress.service.spec.ts` — Tests existentes de ProgressService:
+  - `getUserProgress()`: retorna progreso completo, progreso no encontrado
+  - `getRanking()`: ranking con paginación
+  - `updateProgress()`: actualiza puntos y recalcula nivel/ranking, progreso no encontrado
+
+- [x] **T-QA-011**: Verificar `src/badges/badges.service.spec.ts` — Tests existentes de BadgesService:
+  - `getAllBadges()`: retorna todas las insignias
+  - `getUserBadges()`: insignias con estado de desbloqueo, progreso no encontrado
+  - `checkAndAward()`: otorga insignia cuando se cumplen criterios, no otorga si no se cumplen, omite insignias ya otorgadas
+  - `invalidateCache()`: invalida caché de insignias
+
+- [ ] **T-QA-012**: Crear `src/sync/sync.service.spec.ts` — Tests unitarios de SyncService:
+  - `syncProgress()`: sincronización exitosa de múltiples sesiones, omitir algoritmos inexistentes, omitir sesiones ya sincronizadas, actualización de puntos al completar, retorno de `sincronizados` y `puntosActualizados`
+
+### Pruebas E2E (End-to-End)
+
+> Tests de integración HTTP usando Fastify inject + @nestjs/testing.
+
+- [x] **T-QA-013**: Verificar `test/auth.e2e-spec.ts` — Tests E2E de autenticación:
+  - `POST /api/auth/register`: registro exitoso (201), email duplicado (400), email inválido (400), contraseña débil (400)
+  - `POST /api/auth/login`: login exitoso (200), credenciales incorrectas (401), contraseña incorrecta (401)
+  - `POST /api/auth/refresh`: refresh exitoso (200), token inválido (401)
+
+- [x] **T-QA-014**: Verificar `test/algorithms.e2e-spec.ts` — Tests E2E de biblioteca y algoritmos
+
+- [x] **T-QA-015**: Verificar `test/simulations.e2e-spec.ts` — Tests E2E de simulaciones
+
+- [ ] **T-QA-016**: Crear `test/exercises.e2e-spec.ts` — Tests E2E de ejercicios:
+  - Flujo completo: registrar usuario → obtener ejercicios de un algoritmo → responder correctamente → verificar puntos actualizados → responder incorrectamente → verificar que puntos no bajan
+
+- [ ] **T-QA-017**: Crear `test/progress.e2e-spec.ts` — Tests E2E de progreso:
+  - Flujo: registrar → completar simulación → consultar progreso → verificar ranking actualizado
+
+---
+
+## 🎨 Pruebas Automatizadas Frontend (brainsort-app)
+
+> Código fuente de pruebas unitarias de la lógica pura (engines, validadores).
+> Herramientas: Jest + ts-jest
+
+### Pruebas Unitarias de Engines
+
+- [ ] **T-QA-018**: Crear `packages/core/src/engines/__tests__/bubble-sort.test.ts` — Tests del engine Bubble Sort:
+  - Ordena correctamente un arreglo desordenado
+  - Genera pasos con campos requeridos (numeroPaso, tipoOperacion, indicesActivos, estadoArray, lineaPseudocodigo)
+  - Último paso tiene tipoOperacion 'final'
+  - Arreglo de 1 elemento retorna mínimo de pasos
+  - Arreglo ya ordenado genera pasos sin intercambios
+  - Arreglo en orden inverso genera máximo de intercambios
+
+- [ ] **T-QA-019**: Crear `packages/core/src/engines/__tests__/selection-sort.test.ts` — Tests del engine Selection Sort (misma estructura que Bubble Sort)
+
+- [ ] **T-QA-020**: Crear `packages/core/src/engines/__tests__/insertion-sort.test.ts` — Tests del engine Insertion Sort (misma estructura que Bubble Sort)
+
+### Pruebas Unitarias de Validadores
+
+- [ ] **T-QA-021**: Crear `packages/core/src/validators/__tests__/dataset.test.ts` — Tests del validador de datasets:
+  - Acepta arreglo válido de enteros
+  - Rechaza arreglo vacío
+  - Rechaza arreglo con valores no numéricos
+  - Rechaza arreglo con valores nulos
+  - Valida rango de tamaño (8-15 elementos para predeterminados)
+
+### Ejecución y Cobertura
+
+- [ ] **T-QA-022**: Ejecutar `npm run test -- --coverage` en `brainsort-api` y documentar resultados en el Informe de Prueba (3.3). Meta: ≥80% cobertura en services, ≥70% en controllers
+
+- [ ] **T-QA-023**: Ejecutar `npm run test:e2e` en `brainsort-api` y documentar resultados en el Informe de Prueba (3.3). Meta: 100% de casos E2E pasando
+
