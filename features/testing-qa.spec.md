@@ -10,10 +10,10 @@ BrainSort requiere un proceso de pruebas formal que valide la correcta implement
 
 ### In-Scope
 
-**Backend (`brainsort-api`) — 13 módulos:**
-- `AuthModule`: Registro, login dual (usuario/admin), refresh tokens, rate-limiting
+**Backend (`brainsort-api`) — módulos cubiertos por la línea base U4-EJ26:**
+- `AuthModule`: Registro, login dual (usuario/admin), refresh tokens, manejo de credenciales invalidas
 - `UsersModule`: Consulta y actualización de perfil
-- `AlgorithmsModule`: Biblioteca categorizada, CRUD (admin), filtros por categoría/nombre/tags
+- `AlgorithmsModule`: Biblioteca categorizada, detalle de algoritmo, filtros por categoría/nombre/tags
 - `SimulationsModule`: Generación de simulaciones, validación de datos, engines de ordenamiento
 - `ExercisesModule`: Evaluación de respuestas, cálculo de puntos, feedback, rachas
 - `ProgressModule`: Progreso del usuario, niveles, ranking
@@ -25,7 +25,7 @@ BrainSort requiere un proceso de pruebas formal que valide la correcta implement
 - `PrismaModule`: Capa de acceso a datos
 - `CommonModule`: Filtros de excepción, interceptores, pipes de validación
 
-**Frontend (`brainsort-app`) — Lógica pura:**
+**Frontend (`brainsort-app`) — lógica pura automatizada:**
 - `packages/core/engines/`: Engines de Bubble Sort, Selection Sort, Insertion Sort, Merge Sort
 - `packages/core/validators/`: Validación de datasets de entrada
 - `packages/core/math/`: Cálculos de escalas y coordenadas SVG
@@ -50,16 +50,20 @@ BrainSort requiere un proceso de pruebas formal que valide la correcta implement
 
 | Módulo | Unitarias | E2E | Prioridad |
 |---|---|---|---|
-| Auth | ✅ 10 tests | ✅ 9 tests | Crítica |
-| Users | ✅ 7 tests | — | Alta |
-| Algorithms | ✅ 4 tests | ✅ Existente | Crítica |
-| Simulations | ✅ 10 tests | ✅ Existente | Crítica |
-| Exercises | ✅ 7 tests | ✅ Nuevo | Crítica |
+| Auth | ✅ 13 tests | ✅ 9 tests | Crítica |
+| Users | ✅ 8 tests | — | Alta |
+| Algorithms | ✅ 9 tests | ✅ 5 tests | Crítica |
+| Simulations | ✅ 14 tests | ✅ 5 tests | Crítica |
+| Exercises | ✅ 15 tests | ✅ 4 tests | Crítica |
 | Progress | ✅ 6 tests | ✅ Nuevo | Alta |
-| Badges | ✅ 7 tests | — | Alta |
-| Sync | ✅ 5 tests | — | Media |
-| Engines (FE) | ✅ 18 tests (6×3) | — | Crítica |
-| Validators (FE) | ✅ 5 tests | — | Alta |
+| Badges | ✅ 8 tests | — | Alta |
+| Sync | ✅ 8 tests | — | Media |
+| Offline | ✅ 4 tests | — | Media |
+| Diagnostics | ✅ 5 tests | — | Media |
+| Learning Path | ✅ 3 tests | — | Media |
+| Engines (FE) | ✅ 20 tests (4 engines × 5) | — | Crítica |
+| Math (FE) | ✅ 4 tests | — | Alta |
+| Validators (FE) | ✅ 7 tests | — | Alta |
 
 ## 4. Criterios de Aceptación
 
@@ -68,7 +72,7 @@ BrainSort requiere un proceso de pruebas formal que valide la correcta implement
 | Cobertura de líneas (services) | Jest `--coverage` | ≥ 80% |
 | Cobertura de líneas (controllers) | Jest `--coverage` | ≥ 70% |
 | Casos críticos | Tests marcados como Crítica | 100% PASADOS |
-| Total de tests | Todos los CPs del catálogo | ≥ 95% pasando |
+| Total de tests | 152 pruebas automatizadas ejecutadas | 100% pasando |
 | Defectos bloqueantes | Severidad Crítica abiertos | 0 |
 | FPS simulación | Bubble Sort 15 elem, 2.0x | ≥ 24 FPS |
 | Tiempo de carga | Desde tap hasta barras visibles | < 3 segundos |
@@ -133,7 +137,7 @@ BrainSort requiere un proceso de pruebas formal que valide la correcta implement
 - **Tamaño inconsistente con array**: `400 BadRequest`
 - **Ejercicio inexistente**: `404 Not Found`
 - **Refresh token expirado**: `401 Unauthorized`, cliente fuerza re-login
-- **5 intentos fallidos de login**: Bloqueo temporal 15 min (429)
+- **Intentos fallidos de login**: respuesta genérica `401 Unauthorized` sin revelar si falló el correo o la contraseña. El bloqueo temporal 429 queda documentado como mejora de seguridad futura si se incorpora un rate-limit guard.
 
 ---
 

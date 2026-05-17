@@ -21,7 +21,7 @@ BrainSort requiere una base segura que soporte distintos roles de Usuario (Estud
 - **Authentication**: JWT con access tokens de corta duración y refresh tokens.
 - **Roles de Usuario**: Estudiante, Profesor/Docente, Autodidacta (según documentación).
 - **Rol de Administrador**: Entidad separada con credencialesAdmin y últimoAcceso.
-- **Security**: BCrypt hashing, HTTPS, Rate Limiting, DTO Pattern para validación.
+- **Security**: BCrypt hashing, HTTPS, DTO Pattern para validación y mensajes genéricos ante credenciales inválidas. El rate limiting queda como mejora recomendada si se incorpora un guard dedicado.
 - **Sandboxing**: Código de usuario aislado en `react-native-webview` (móvil) y Web Workers (web) — según Doc. Arquitectura.
 - **Sincronización**: TanStack Query para caché asíncrona y reintentos automáticos.
 
@@ -31,5 +31,5 @@ BrainSort requiere una base segura que soporte distintos roles de Usuario (Estud
 
 ## 4. Edge Cases & Error Handling
 - JWT inválido → `401 Unauthorized`, el cliente intenta usar Refresh Token o fuerza relogin.
-- Cinco intentos fallidos de login → bloqueo temporal de 15 minutos para prevenir fuerza bruta.
+- Intentos fallidos de login → `401 Unauthorized` con mensaje genérico. Bloqueo temporal por múltiples intentos queda fuera de la línea base implementada actual.
 - Registro con correo existente → `409 Conflict`.

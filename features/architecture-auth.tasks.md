@@ -6,7 +6,7 @@
 - [ ] Implementar middleware `verifyToken` para validar JWT.
 - [ ] Implementar middleware `isAdmin` para control de acceso basado en roles (RBAC).
 - [ ] Implementar lógica de Refresh Token (7 días) y Access Token (15 minutos).
-- [ ] Implementar bloqueo temporal por 5 intentos fallidos de login (15 minutos).
+- [ ] Implementar bloqueo temporal por multiples intentos fallidos de login (mejora futura fuera de la linea base U4-EJ26).
 - [ ] Validaciones de entrada (correo formato válido, contraseña mínimo seguro).
 - [ ] Configurar hashing con `bcrypt` (salt >= 10) antes de inserción en DB.
 - [ ] Configurar CORS para whitelist del dominio `brainsort-app`.

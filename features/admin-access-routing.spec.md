@@ -191,7 +191,8 @@ El JWT incluye un campo `tipo` que diferencia entre Usuario y Administrador:
 | Código | Causa |
 |---|---|
 | 401 | Credenciales incorrectas (mensaje genérico, sin revelar si falla el correo o la contraseña) |
-| 429 | 5 intentos fallidos — bloqueo temporal de 15 minutos |
+| 401 | Credenciales invalidas con mensaje generico |
+| 429 | Mejora futura: bloqueo temporal por multiples intentos fallidos si se incorpora rate limiting |
 
 ---
 
@@ -262,14 +263,14 @@ El middleware `roles.guard.ts` + `@Roles('Administrador')` debe:
 |---|---|
 | **Mensaje genérico en error de login** | Siempre retornar "Credenciales incorrectas", nunca "Correo no encontrado" ni "Contraseña incorrecta" |
 | **No revelar la existencia de rutas admin** | La pantalla de login es idéntica. No hay botón "Login como Admin" |
-| **Bloqueo por fuerza bruta** | 5 intentos fallidos → 429 con bloqueo de 15 min. Aplica tanto para usuarios como para admins |
+| **Bloqueo por fuerza bruta** | Mejora recomendada. La linea base actual responde `401 Unauthorized` con mensaje generico; el bloqueo 429 requiere un guard de rate limiting no incluido en U4-EJ26. |
 | **JWT con tipo** | El campo `tipo` en el JWT permite validar en el guard sin consultar la DB en cada request |
 | **Último acceso** | Se registra `ultimoAcceso` del admin para trazabilidad/auditabilidad |
 
 ### 7.2 Servidor LOCAL
 
 Dado que el sistema se diseña para servidor local:
-- No se requiere rate limiting distribuido (Redis). Un Map en memoria es suficiente.
+- Si se implementa rate limiting en una iteracion futura, un Map en memoria es suficiente para desarrollo local; Redis solo seria necesario en despliegue horizontal.
 - Los tokens JWT tienen la misma configuración: access 15min, refresh 7 días.
 - CORS se configura para `localhost:8081` (Expo dev).
 

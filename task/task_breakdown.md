@@ -98,7 +98,7 @@
 - [x] **T-BE-044**: Crear `roles.decorator.ts` — Custom decorator `@Roles()` para marcar endpoints con roles requeridos
 - [x] **T-BE-091**: Modificar `auth.service.login()` para búsqueda dual: primero en tabla `usuarios`, si no existe buscar en tabla `administradores`. Mensaje genérico en error (nunca revelar si falla correo o contraseña). Actualizar `ultimoAcceso` del admin al login exitoso. (Ref: `admin-access-routing.spec.md` §2.2)
 - [x] **T-BE-092**: Añadir campo `tipo: "usuario" | "administrador"` al payload JWT y al response de `POST /api/auth/login`. (Ref: `admin-access-routing.spec.md` §2.3)
-- [x] **T-BE-093**: Crear `rate-limit.guard.ts` — Map en memoria de intentos fallidos de login por IP/correo. 5 intentos fallidos → bloqueo temporal de 15 minutos (429 Too Many Requests). (Ref: `architecture-auth.spec.md` L34)
+- [ ] **T-BE-093**: Crear `rate-limit.guard.ts` — Mejora futura para limitar intentos fallidos de login por IP/correo. No incluido en la linea base U4-EJ26; actualmente se retorna `401 Unauthorized` con mensaje generico.
 
 ---
 
@@ -181,7 +181,7 @@
 - [x] **T-BE-069**: Crear `ProgressModule`
 - [x] **T-BE-070**: Crear `progress.controller.ts` con endpoints:
   - `GET /api/progreso/me` (Autenticado) — Progreso del usuario actual (puntosTotales, nivelActual, rachaDias, posicionRanking, ultimaActividad, insignias, simulacionesCompletadas, ejerciciosCorrectos, ejerciciosTotales)
-  - `GET /api/ranking` (Autenticado) — Top N del leaderboard con query params `?limit=20&offset=0`
+  - `GET /api/progreso/ranking` (Autenticado) — Top N del leaderboard con query params `?limit=20&offset=0`
 - [x] **T-BE-071**: Crear `progress.service.ts` — Actualiza puntos, niveles, rachas. Consulta ranking ordenado por `puntosTotales DESC`
 - [x] **T-BE-072**: Crear `progress-response.dto.ts`
 
@@ -332,7 +332,7 @@
 - [x] **T-FE-036**: Crear `library.service.ts` — Consumir `GET /api/biblioteca`, `GET /api/algoritmos/:id`
 - [x] **T-FE-037**: Crear `simulation.service.ts` — Consumir `POST /api/simulaciones`
 - [x] **T-FE-038**: Crear `exercise.service.ts` — Consumir `GET /api/ejercicios/:algoId`, `POST /api/ejercicios/:id/responder`
-- [x] **T-FE-039**: Crear `progress.service.ts` — Consumir `GET /api/progreso/me`, `GET /api/ranking`
+- [x] **T-FE-039**: Crear `progress.service.ts` — Consumir `GET /api/progreso/me`, `GET /api/progreso/ranking`
 - [x] **T-FE-040**: Crear `badges.service.ts` — Consumir `GET /api/insignias`, `GET /api/insignias/me`
 - [x] **T-FE-041**: Crear `offline.service.ts` — Consumir `GET /api/modules/offline`, `GET /api/modules/offline/:id/download`
 - [x] **T-FE-042**: Crear `sync.service.ts` — Consumir `POST /api/progress/sync`

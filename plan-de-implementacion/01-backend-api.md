@@ -48,7 +48,7 @@ brainsort-api/
 │   ├── algorithms/                  # AlgorithmsModule
 │   │   ├── algorithms.module.ts
 │   │   ├── algorithms.controller.ts # GET /biblioteca, GET /algoritmos/:id
-│   │   ├── algorithms.service.ts    # CRUD de algoritmos
+│   │   ├── algorithms.service.ts    # Consulta de biblioteca, detalle y filtros
 │   │   └── dto/
 │   │       ├── create-algorithm.dto.ts   # Solo Administrador
 │   │       └── algorithm-response.dto.ts
@@ -167,15 +167,15 @@ export class RegisterDto {
 | `/api/users/me` | PATCH | Autenticado | Actualiza nombre o contraseña |
 
 ### 2.3 AlgorithmsModule
-**Responsabilidad**: CRUD del catálogo de algoritmos. Implementa **CO1 - getLibrary()**.
+**Responsabilidad**: Consulta del catálogo de algoritmos y detalle. Implementa **CO1 - getLibrary()** y **CO2 - getAlgoritmo()** en la línea base actual.
 
 | Endpoint | Método | Acceso | Descripción | Contrato |
 |---|---|---|---|---|
 | `/api/biblioteca` | GET | Público/Autenticado | Lista completa de algoritmos por categoría | CO1 |
 | `/api/algoritmos/:id` | GET | Autenticado | Detalle del algoritmo con pseudocódigo | CO2 |
-| `/api/algoritmos` | POST | Administrador | Crear nuevo algoritmo | — |
-| `/api/algoritmos/:id` | PUT | Administrador | Actualizar algoritmo existente | — |
-| `/api/algoritmos/:id` | DELETE | Administrador | Eliminar algoritmo | — |
+| `/api/algoritmos` | POST | Administrador | Crear nuevo algoritmo | Extensión planificada; no implementada en U4-EJ26 |
+| `/api/algoritmos/:id` | PUT | Administrador | Actualizar algoritmo existente | Extensión planificada; no implementada en U4-EJ26 |
+| `/api/algoritmos/:id` | DELETE | Administrador | Eliminar algoritmo | Extensión planificada; no implementada en U4-EJ26 |
 
 **Lógica CO1 - getLibrary()**:
 1. Consultar todos los algoritmos agrupados por `categoría`.
@@ -278,7 +278,7 @@ Cada engine implementa `AlgorithmDefinition`. **Timeout de seguridad**: si un en
 | Endpoint | Método | Acceso | Descripción |
 |---|---|---|---|
 | `/api/progreso/me` | GET | Autenticado | Progreso del usuario actual |
-| `/api/ranking` | GET | Autenticado | Top N del leaderboard |
+| `/api/progreso/ranking` | GET | Autenticado | Top N del leaderboard |
 
 ### 2.7 BadgesModule
 **Responsabilidad**: Gestión de insignias y verificación de criterios.

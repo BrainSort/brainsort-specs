@@ -11,9 +11,9 @@
 ```
 pruebas/
 ├── README.md                              ← Este archivo
-├── 3.1-Plan-de-Pruebas-BrainSort.docx     ← Plan de pruebas formal
-├── 3.2-Casos-de-Prueba-BrainSort.xlsx     ← Diseño de casos de prueba
-├── 3.3-Informe-de-Prueba-BrainSort.xlsx   ← Informe de ejecución de pruebas
+├── 3.1-Plan-de-Pruebas-BrainSort.docx     ← Plan de pruebas formal U4-EJ26
+├── 3.2-Casos-de-Prueba-BrainSort.xlsx     ← Diseño de casos de prueba + equivalencia/límites
+├── 3.3-Informe-de-Prueba-BrainSort.xlsx   ← Informe de ejecución de pruebas reales
 ├── ejemplos/                              ← Templates de referencia (pre-llenados)
 │   ├── 3.1-Plan-de-Pruebas-EJEMPLO.docx
 │   ├── 3.2-Casos-de-Prueba-EJEMPLO.xlsx
@@ -48,9 +48,9 @@ Define la estrategia global de pruebas para el proyecto BrainSort. Contenido:
 ### Módulos bajo prueba
 
 **Backend (`brainsort-api`):**
-- `AuthModule` — Registro, login, refresh, rate-limiting
+- `AuthModule` — Registro, login usuario/admin, refresh, credenciales inválidas
 - `UsersModule` — Perfil, actualización
-- `AlgorithmsModule` — Biblioteca, CRUD, filtros
+- `AlgorithmsModule` — Biblioteca, detalle, filtros por categoría/nombre/tags
 - `SimulationsModule` — Generación de simulaciones, engines, validación de datos
 - `ExercisesModule` — Evaluación de respuestas, puntos, feedback
 - `ProgressModule` — Progreso, ranking, niveles
@@ -181,7 +181,7 @@ El código de pruebas automatizadas se encuentra en los repositorios de código:
 |---|---|---|
 | **Jest** | 29.x | Framework de pruebas unitarias y E2E |
 | **@nestjs/testing** | 10.x | Testing module para NestJS (inyección de dependencias mock) |
-| **React Testing Library** | — | Pruebas de componentes frontend |
+| **TypeScript typecheck** | 5.x | Validación estática del frontend |
 | **Fastify inject** | — | Pruebas E2E HTTP sin servidor real |
 | **bcrypt (mock)** | — | Mock de hashing para tests unitarios |
 | **React DevTools Profiler** | — | Medición de FPS en simulaciones |
@@ -196,9 +196,10 @@ Los scripts en `scripts/` permiten regenerar los documentos `.docx` y `.xlsx` co
 # Requiere: pip install python-docx openpyxl
 cd pruebas/scripts
 
-python gen_ejemplo_plan.py      # Genera 3.1-Plan-de-Pruebas-EJEMPLO.docx
-python gen_ejemplo_casos.py     # Genera 3.2-Casos-de-Prueba-EJEMPLO.xlsx
-python gen_ejemplo_informe.py   # Genera 3.3-Informe-de-Prueba-EJEMPLO.xlsx
+python generate_brainsort_testing_docs.py  # Genera los 3 entregables reales y las copias EJEMPLO
+python gen_ejemplo_plan.py                 # Regenera solo 3.1
+python gen_ejemplo_casos.py                # Regenera solo 3.2
+python gen_ejemplo_informe.py              # Regenera solo 3.3
 ```
 
-> **Nota**: Para generar los documentos **reales** (no ejemplos), modificar los scripts reemplazando "EJEMPLO" por "BrainSort" en el nombre de salida y actualizando los datos con los resultados de ejecución reales.
+> **Nota**: Los documentos reales se generan directamente en `pruebas/`. Las copias `EJEMPLO` quedan en `pruebas/ejemplos/` solo como referencia.

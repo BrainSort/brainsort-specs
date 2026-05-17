@@ -204,7 +204,7 @@ Todos los endpoints usan el prefijo `/api`.
 ---
 
 ### GET `/api/algoritmos/:id` — CO2: getAlgoritmo()
-**Acceso**: Autenticado
+**Acceso**: Público o autenticado
 **Contrato**: CO2 — Obtener entorno de aprendizaje del algoritmo
 
 **Response 200:**
@@ -228,13 +228,13 @@ Todos los endpoints usan el prefijo `/api`.
 }
 ```
 
-> **Nota CDR-001**: `pseudocode[]` viene del engine file, no de la DB. El endpoint lo obtiene llamando a `getEngine(algoritmo.nombre).pseudocode`.
+> **Nota de implementación actual**: `pseudocode[]` puede venir del campo `pseudocodigo` persistido en la DB o de la fuente local definida para el módulo offline/simulación, según el endpoint que lo consuma.
 
-**Efecto secundario**: Se crea/actualiza `SesionSimulacion` para asociar avance con la cuenta actual.
+**Efecto secundario**: Este endpoint de detalle no crea sesión. La sesión se registra al crear una simulación en `POST /api/simulaciones`.
 
 ---
 
-### POST `/api/algoritmos` (Solo Administrador)
+### POST `/api/algoritmos` (Extensión administrativa planificada)
 **Acceso**: Administrador
 
 **Request:**
@@ -249,7 +249,7 @@ Todos los endpoints usan el prefijo `/api`.
 }
 ```
 
-> **Nota CDR-001**: El admin registra metadatos en la DB. El pseudocódigo y la lógica del engine se agregan creando un archivo `engines/merge-sort.engine.ts` + registrándolo en `engines/registry.ts`.
+> **Estado U4-EJ26**: No forma parte de los endpoints implementados en la línea base actual. La API verificada expone `GET /api/biblioteca` y `GET /api/algoritmos/:id`.
 
 ---
 
@@ -393,7 +393,7 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
 
 ---
 
-## 6. Progress Module (`/api/progreso`, `/api/ranking`)
+## 6. Progress Module (`/api/progreso`)
 
 ### GET `/api/progreso/me`
 **Acceso**: Autenticado
@@ -418,7 +418,7 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
 }
 ```
 
-### GET `/api/ranking`
+### GET `/api/progreso/ranking`
 **Acceso**: Autenticado
 
 **Query params:** `?limit=20&offset=0`

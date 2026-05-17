@@ -12,7 +12,7 @@ A continuación se presenta un diagrama de contexto que muestra cómo interactú
 graph TD
     User((Usuario))
     App[brainsort-app: React Native / Expo]
-    API[brainsort-api: NestJS / FastAPI]
+    API[brainsort-api: NestJS / Fastify]
     DB[(PostgreSQL)]
     Core[[packages/core: Engine Logic]]
 

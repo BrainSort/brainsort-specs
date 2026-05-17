@@ -89,7 +89,7 @@ sequenceDiagram
 - Motor de simulación visual paso a paso con controles Play/Pausa.
 - Velocidad ajustable en rango **[0.25x, 2.0x]** en incrementos de 0.25x (según Glosario).
 - Datos de entrada: **Predeterminados** (auto-generados) y **Personalizados** (del usuario) — según Modelo del Dominio.
-- Administrador puede hacer CRUD sobre los algoritmos de la biblioteca.
+- La línea base implementada expone consulta de biblioteca y detalle de algoritmo. El CRUD administrativo de algoritmos queda como extensión planificada y no forma parte de los endpoints actuales verificados en U4-EJ26.
 
 **Out-of-Scope:**
 - Algoritmos de búsqueda en primera versión.
