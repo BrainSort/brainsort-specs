@@ -179,8 +179,8 @@ export class RegisterDto {
 
 **Lógica CO1 - getLibrary()**:
 1. Consultar todos los algoritmos agrupados por `categoría`.
-2. Retornar: `categorías[]`, `totalAlgoritmos`, `algoritmos[]` (cada uno con nombre, descripción corta ≤140 chars, complejidadTiempo, complejidadEspacio, categoría).
-3. Para cada algoritmo crear una "tarjeta" con información resumida.
+2. Retornar: `categorías[]`, `totalAlgoritmos`, `algoritmos[]` (cada uno con nombre, descripción corta ≤140 chars, dificultad, complejidadTiempo, complejidadEspacio, categoría).
+3. Para cada algoritmo crear una "tarjeta" con información resumida (incluye dificultad para indicador visual HU-01).
 
 **Lógica CO2 - getAlgoritmo()**:
 1. Obtener algoritmo por ID con pseudocódigo completo.
