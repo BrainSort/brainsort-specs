@@ -4,6 +4,28 @@ Bienvenido al directorio de especificaciones de diseño y desarrollo (**SPEC Dri
 
 Este directorio está diseñado para ser consumido tanto por desarrolladores humanos como por Agentes de IA, separando el "Qué construir" (Specs) del "Cómo construirlo" (Plans).
 
+## 0. Arquitectura de Alto Nivel
+
+A continuación se presenta un diagrama de contexto que muestra cómo interactúan las piezas fundamentales de BrainSort:
+
+```mermaid
+graph TD
+    User((Usuario))
+    App[brainsort-app: React Native / Expo]
+    API[brainsort-api: NestJS / FastAPI]
+    DB[(PostgreSQL)]
+    Core[[packages/core: Engine Logic]]
+
+    User -- Interactúa --> App
+    App -- Consume API --> API
+    API -- Persiste --> DB
+    App -- Usa lógica de --> Core
+    API -- Genera pasos con --> Core
+```
+
+![Dashboard Mockup](C:\Users\lupit\.gemini\antigravity\brain\d78e0038-2d05-4453-983a-3cb73d737460\brainsort_dashboard_mockup_1776656911976.png)
+
+
 ## 1. Archivos Fundacionales
 
 | Archivo | Descripción |

@@ -5,6 +5,34 @@
 ## 1. Context & Motivation
 La propuesta de valor central de BrainSort es visualizar algoritmos interactuando con datos. Un diccionario estático no es suficiente. Se necesita un motor que resuelva dinámicamente los pasos de un arreglo siendo ordenado.
 
+## 0. Ciclo de Vida de una Simulación
+
+A continuación se muestra el flujo técnico desde que el usuario elige un algoritmo hasta que finaliza la animación:
+
+```mermaid
+sequenceDiagram
+    participant U as Usuario
+    participant A as app (Frontend)
+    participant C as core (Engine)
+    participant B as api (Backend)
+
+    U->>A: Selecciona Algoritmo
+    A->>B: GET /algoritmos/:id
+    B-->>A: Metadatos y IDs
+    A->>C: Cargar Engine(algoritmoId)
+    C-->>A: Instance Ready
+    U->>A: Clic "Play"
+    A->>C: execute(dataset)
+    C-->>A: [Step1, Step2, ..., StepN]
+    loop Animación (24+ FPS)
+        A->>A: Render step color/pos
+    end
+    A->>U: Notifica "Completado"
+```
+
+![Simulation Mockup](C:\Users\lupit\.gemini\antigravity\brain\d78e0038-2d05-4453-983a-3cb73d737460\brainsort_simulation_mockup_1776656945150.png)
+
+
 ## 2. User Experience (UX) — Según Historias de Usuario
 
 ### HU-01: Navegar la Biblioteca

@@ -8,6 +8,36 @@
 
 ---
 
+## 0. Mapa de Navegación (User Flow)
+
+Este diagrama muestra cómo el usuario fluye a través de las pantallas de la aplicación:
+
+```mermaid
+graph TD
+    Welcome(Welcome Screen) --> Login(Login Screen)
+    Welcome --> Register(Register Screen)
+    Login --> Main(Main Navigator)
+    Register --> Main
+    
+    subgraph TabBar [Main Tabs]
+        Main --> LibraryTab(Biblioteca)
+        Main --> ProgressTab(Progreso)
+        Main --> OfflineTab(Offline)
+        Main --> ProfileTab(Perfil)
+    end
+    
+    LibraryTab --> AlgorithmDetail(Detalle de Algoritmo)
+    AlgorithmDetail --> Simulation(Pantalla de Simulación)
+    
+    ProgressTab --> Exercise(Ejercicio de Predicción)
+    ProgressTab --> Leaderboard(Ranking Global)
+```
+
+---
+
+
+---
+
 ## 1. Estructura de Carpetas (Según Doc. Arquitectura §4.3)
 
 ```

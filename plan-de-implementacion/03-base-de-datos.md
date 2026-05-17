@@ -7,6 +7,41 @@
 
 ---
 
+## 0. Diagrama de Entidad-Relación (ERD)
+
+Este diagrama visualiza las relaciones entre los modelos definidos en el esquema de Prisma:
+
+```mermaid
+erDiagram
+    Usuario ||--o| ProgresoUsuario : "tiene (1:1)"
+    Usuario ||--o{ SesionSimulacion : "inicia (1:N)"
+    Usuario ||--o{ RespuestaEjercicio : "envía (1:N)"
+    
+    Administrador {
+        string id
+        string nombre
+        string correo
+        datetime ultimoAcceso
+    }
+    
+    Algoritmo ||--o{ EjercicioPrediccion : "contiene (1:N)"
+    Algoritmo ||--o{ SesionSimulacion : "en (1:N)"
+    
+    EjercicioPrediccion ||--o{ RespuestaEjercicio : "tiene (1:N)"
+    
+    ProgresoUsuario ||--o{ ProgresoInsignia : "gana (1:N)"
+    Insignia ||--o{ ProgresoInsignia : "otorga (1:N)"
+
+    ProgresoUsuario {
+        int puntosTotales
+        int nivelActual
+        int rachaDias
+    }
+```
+
+
+---
+
 ## 1. Esquema Prisma Completo
 
 ```prisma
