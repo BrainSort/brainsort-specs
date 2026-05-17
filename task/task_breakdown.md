@@ -844,7 +844,7 @@
   - `createSimulation()`: simulación exitosa con datos personalizados, algoritmo no encontrado (NotFoundException), valores nulos (BadRequestException), tamaño no coincide, creación de SesionSimulacion, formato de pasos
   - `updateSessionProgress()`: actualización parcial, marcar como completada, verificar insignias al completar, sesión no encontrada
 
-- [ ] **T-QA-009**: Crear `src/exercises/exercises.service.spec.ts` — Tests unitarios de ExercisesService:
+- [x] **T-QA-009**: Crear `src/exercises/exercises.service.spec.ts` — Tests unitarios de ExercisesService:
   - `getExercisesByAlgorithm()`: retorna ejercicios formateados
   - `answerExercise()`: respuesta correcta (suma puntos, feedback positivo), respuesta incorrecta (no resta puntos, feedback negativo), ejercicio no encontrado, actualización de racha, recálculo de nivel y ranking
 
@@ -859,7 +859,7 @@
   - `checkAndAward()`: otorga insignia cuando se cumplen criterios, no otorga si no se cumplen, omite insignias ya otorgadas
   - `invalidateCache()`: invalida caché de insignias
 
-- [ ] **T-QA-012**: Crear `src/sync/sync.service.spec.ts` — Tests unitarios de SyncService:
+- [x] **T-QA-012**: Crear `src/sync/sync.service.spec.ts` — Tests unitarios de SyncService:
   - `syncProgress()`: sincronización exitosa de múltiples sesiones, omitir algoritmos inexistentes, omitir sesiones ya sincronizadas, actualización de puntos al completar, retorno de `sincronizados` y `puntosActualizados`
 
 ### Pruebas E2E (End-to-End)
