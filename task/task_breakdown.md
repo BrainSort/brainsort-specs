@@ -875,10 +875,10 @@
 
 - [x] **T-QA-015**: Verificar `test/simulations.e2e-spec.ts` — Tests E2E de simulaciones
 
-- [ ] **T-QA-016**: Crear `test/exercises.e2e-spec.ts` — Tests E2E de ejercicios:
+- [x] **T-QA-016**: Crear `test/exercises.e2e-spec.ts` — Tests E2E de ejercicios:
   - Flujo completo: registrar usuario → obtener ejercicios de un algoritmo → responder correctamente → verificar puntos actualizados → responder incorrectamente → verificar que puntos no bajan
 
-- [ ] **T-QA-017**: Crear `test/progress.e2e-spec.ts` — Tests E2E de progreso:
+- [x] **T-QA-017**: Crear `test/progress.e2e-spec.ts` — Tests E2E de progreso:
   - Flujo: registrar → completar simulación → consultar progreso → verificar ranking actualizado
 
 ---
