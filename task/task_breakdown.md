@@ -821,12 +821,12 @@
 
 ---
 
-## 🔬 Pruebas Automatizadas Backend (brainsort-api)
+## 🔬 1. Pruebas Unitarias (Backend y Frontend)
 
-> Código fuente de pruebas unitarias con mocks de PrismaService.
-> Herramientas: Jest + @nestjs/testing + mocks de bcrypt
+> Código fuente de pruebas unitarias aisladas con mocks.
+> Herramientas: Jest + @nestjs/testing + ts-jest
 
-### Pruebas Unitarias de Services
+### Pruebas Unitarias de Services (Backend)
 
 - [x] **T-QA-005**: Crear `src/auth/auth.service.spec.ts` — Tests unitarios de AuthService:
   - `register()`: registro exitoso (hashea con bcrypt salt 10, crea usuario + ProgresoUsuario), registro con email duplicado (ConflictException)
@@ -862,9 +862,9 @@
 - [x] **T-QA-012**: Crear `src/sync/sync.service.spec.ts` — Tests unitarios de SyncService:
   - `syncProgress()`: sincronización exitosa de múltiples sesiones, omitir algoritmos inexistentes, omitir sesiones ya sincronizadas, actualización de puntos al completar, retorno de `sincronizados` y `puntosActualizados`
 
-### Pruebas E2E (End-to-End)
+### 2. Pruebas de Integración (API y Base de Datos)
 
-> Tests de integración HTTP usando Fastify inject + @nestjs/testing.
+> Tests de integración HTTP (End-to-End en NestJS) para validar la conexión entre Controladores, Servicios y la Base de Datos. Usando Fastify inject + @nestjs/testing.
 
 - [x] **T-QA-013**: Verificar `test/auth.e2e-spec.ts` — Tests E2E de autenticación:
   - `POST /api/auth/register`: registro exitoso (201), email duplicado (400), email inválido (400), contraseña débil (400)
@@ -883,12 +883,7 @@
 
 ---
 
-## 🎨 Pruebas Automatizadas Frontend (brainsort-app)
-
-> Código fuente de pruebas unitarias de la lógica pura (engines, validadores).
-> Herramientas: Jest + ts-jest
-
-### Pruebas Unitarias de Engines
+### Pruebas Unitarias de Motores (Frontend)
 
 - [x] **T-QA-018**: Crear `packages/core/src/engines/__tests__/bubble-sort.test.ts` — Tests del engine Bubble Sort:
   - Ordena correctamente un arreglo desordenado
@@ -917,3 +912,19 @@
 
 - [ ] **T-QA-023**: Ejecutar `npm run test:e2e` en `brainsort-api` y documentar resultados en el Informe de Prueba (3.3). Meta: 100% de casos E2E pasando
 
+### 3. Pruebas de Sistema (Estrés, Carga y E2E Global)
+
+> Validación del comportamiento del sistema en su conjunto. Herramienta: k6 (scripting en JavaScript para pruebas de carga concurrentes).
+
+- [ ] **T-QA-024**: Crear estructura base para pruebas de carga en `brainsort-api`:
+  - Directorio `test/load/`
+  - Archivo de configuración central y scripts base (ej. `k6-options.js`).
+
+- [ ] **T-QA-025**: Implementar escenarios de estrés críticos (`k6-stress-test.js`):
+  - **Escenario 1 (Lectura Masiva)**: Recuperación de la biblioteca de algoritmos (`GET /api/algorithms`).
+  - **Escenario 2 (Picos de Auth)**: Autenticación concurrente masiva simulando inicio de clases (`POST /api/auth/login`).
+  - **Escenario 3 (Sincronización Offline)**: Ingestión de datos de progreso simulando múltiples estudiantes recuperando conexión simultáneamente (`POST /api/sync/progress`).
+
+- [ ] **T-QA-026**: Ejecutar pruebas de carga localmente:
+  - Ramp-up y Ramp-down escalonado de VUs (Virtual Users, ej. de 10 a 200).
+  - Documentar latencia (meta: p95 < 500ms) y tasa de error (meta: < 1%) en el Informe de Prueba.
