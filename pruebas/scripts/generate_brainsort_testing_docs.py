@@ -41,20 +41,21 @@ COLORS = {
 }
 
 TEST_EVIDENCE = {
-    "api_unit": "11 suites / 93 tests pasados",
-    "api_e2e": "6 suites / 28 tests pasados",
-    "app_unit": "6 suites / 31 tests pasados",
+    "api_unit": "11 suites / 94 tests pasados",
+    "api_e2e": "7 suites / 33 tests pasados",
+    "app_unit": "7 suites / 35 tests pasados",
     "api_build": "npm run build OK",
     "app_typecheck": "npm run typecheck OK",
-    "api_lint": "npm run lint: 0 errores, warnings no bloqueantes",
+    "api_lint": "npm run lint: 0 errores, 135 warnings no bloqueantes existentes",
     "app_lint": "npm run lint: 0 errores, warnings no bloqueantes",
-    "api_commit": "fecbfca test: strengthen service coverage review",
-    "app_commit": "077d316 fix: align simulation canvas color token",
-    "branch": "feature/unit-tests-qa",
+    "api_commit": "86b4413 base + cambios locales de contratos",
+    "app_commit": "b66290b base dev + cambios locales de contratos",
+    "branch": "API feature/unit-tests-qa; APP feature/contract-consistency-fixes",
+    "total_tests": "162",
 }
 
 AUTOMATED_FILES = [
-    ("API", "src/auth/auth.service.spec.ts", "Unitaria", 13, "Registro, login usuario/admin, refresh, errores"),
+    ("API", "src/auth/auth.service.spec.ts", "Unitaria", 14, "Registro, login usuario/admin, refresh usuario/admin, errores"),
     ("API", "src/users/users.service.spec.ts", "Unitaria", 8, "Perfil y actualizacion"),
     ("API", "src/algorithms/algorithms.service.spec.ts", "Unitaria", 9, "Biblioteca, filtros, detalle"),
     ("API", "src/simulations/simulations.service.spec.ts", "Unitaria", 14, "Simulacion, validacion, engine, errores"),
@@ -66,10 +67,11 @@ AUTOMATED_FILES = [
     ("API", "src/learning-path/learning-path.service.spec.ts", "Unitaria", 3, "Ruta de aprendizaje"),
     ("API", "src/offline/offline.service.spec.ts", "Unitaria", 4, "Modulos offline"),
     ("API", "test/auth.e2e-spec.ts", "E2E", 9, "Flujo HTTP de autenticacion"),
-    ("API", "test/algorithms.e2e-spec.ts", "E2E", 5, "Biblioteca y detalle"),
+    ("API", "test/algorithms.e2e-spec.ts", "E2E", 6, "Biblioteca, detalle y pseudocode normalizado"),
     ("API", "test/simulations.e2e-spec.ts", "E2E", 5, "Crear simulacion"),
     ("API", "test/exercises.e2e-spec.ts", "E2E", 4, "Ejercicios y respuesta"),
     ("API", "test/progress.e2e-spec.ts", "E2E", 4, "Progreso y ranking"),
+    ("API", "test/learning-support.e2e-spec.ts", "E2E", 4, "Diagnostico, ruta, insignias y offline"),
     ("API", "test/app.e2e-spec.ts", "E2E", 1, "Health/ruta raiz"),
     ("APP", "packages/core/src/engines/__tests__/bubble-sort.test.ts", "Unitaria", 5, "Bubble Sort"),
     ("APP", "packages/core/src/engines/__tests__/selection-sort.test.ts", "Unitaria", 5, "Selection Sort"),
@@ -77,6 +79,7 @@ AUTOMATED_FILES = [
     ("APP", "packages/core/src/engines/__tests__/merge-sort.test.ts", "Unitaria", 5, "Merge Sort"),
     ("APP", "packages/core/src/math/__tests__/math.test.ts", "Unitaria", 4, "Escalas, coordenadas, transiciones"),
     ("APP", "packages/core/src/validators/__tests__/dataset.test.ts", "Unitaria", 7, "Validacion de datasets"),
+    ("APP", "src/services/__tests__/contract-shapes.test.ts", "Unitaria", 4, "Contratos frontend para ranking, ejercicios, offline y sync"),
 ]
 
 CASES = [
@@ -92,7 +95,7 @@ CASES = [
     ("CP-ALG-003", "Biblioteca", "Unitaria", "HU-01", "Filtrar por nombre", "Algoritmos activos", "search=Bubble", "Busqueda contains insensitive", "PASO", "Alta", "src/algorithms/algorithms.service.spec.ts"),
     ("CP-ALG-004", "Biblioteca", "Unitaria", "HU-01", "Filtrar por tags", "Tags basico, ordenamiento", "tags=basico, ordenamiento", "Usa hasSome con tags recortados", "PASO", "Media", "src/algorithms/algorithms.service.spec.ts"),
     ("CP-ALG-005", "Biblioteca", "E2E", "HU-01/CO1", "GET /api/biblioteca", "API en modo test", "query params validos", "Respuesta 200 con catalogo", "PASO", "Critica", "test/algorithms.e2e-spec.ts"),
-    ("CP-ALG-006", "Algoritmos", "Unitaria", "HU-02/CO2", "Detalle de algoritmo", "ID existente", "algoritmoId", "Retorna descripcion completa, complejidad, categoria, tags y pseudocode", "PASO", "Critica", "src/algorithms/algorithms.service.spec.ts"),
+    ("CP-ALG-006", "Algoritmos", "Unitaria/E2E", "HU-02/CO2", "Detalle de algoritmo", "ID existente", "algoritmoId", "Retorna descripcion completa, complejidad, categoria, tags y pseudocode normalizado line/text/indent", "PASO", "Critica", "src/algorithms/algorithms.service.spec.ts; test/algorithms.e2e-spec.ts"),
     ("CP-ALG-007", "Algoritmos", "Unitaria", "HU-02", "Detalle inexistente", "ID no existe", "missing-id", "404 NotFoundException", "PASO", "Alta", "src/algorithms/algorithms.service.spec.ts"),
     ("CP-SIM-001", "Simulaciones", "Unitaria", "HU-03/CO3", "Crear simulacion personalizada", "Usuario autenticado y algoritmo activo", "valores [5,2,8,1], tamano=4", "Crea SesionSimulacion y retorna pasos/pseudocode/totalPasos", "PASO", "Critica", "src/simulations/simulations.service.spec.ts"),
     ("CP-SIM-002", "Simulaciones", "Unitaria", "HU-03", "Generar datos predeterminados", "tipoOrigen=Predeterminado", "valores vacios o ignorados", "Genera 8 a 15 enteros no preordenados", "PASO", "Alta", "src/simulations/simulations.service.spec.ts"),
@@ -107,8 +110,8 @@ CASES = [
     ("CP-VAL-001", "Validadores", "Unitaria", "HU-03", "Dataset valido", "Valores enteros", "[1,2,3]", "Valida sin errores", "PASO", "Alta", "packages/core/src/validators/__tests__/dataset.test.ts"),
     ("CP-VAL-002", "Validadores", "Unitaria", "HU-03", "Dataset invalido", "Valores nulos/no numericos", "[1,null,'x']", "Retorna errores claros", "PASO", "Alta", "packages/core/src/validators/__tests__/dataset.test.ts"),
     ("CP-EJR-001", "Ejercicios", "Unitaria", "RF-EJR", "Listar ejercicios por algoritmo", "Algoritmo con ejercicios", "algoritmoId", "Retorna ejercicios sin respuesta sensible innecesaria", "PASO", "Alta", "src/exercises/exercises.service.spec.ts"),
-    ("CP-EJR-002", "Ejercicios", "Unitaria", "RF-EJR", "Responder correctamente", "Ejercicio existente", "respuesta correcta", "correcto=true, puntosGanados, feedbackPositivo", "PASO", "Critica", "src/exercises/exercises.service.spec.ts"),
-    ("CP-EJR-003", "Ejercicios", "Unitaria", "RF-EJR", "Responder incorrectamente", "Ejercicio existente", "respuesta incorrecta", "correcto=false, puntosGanados=0, feedbackNegativo", "PASO", "Alta", "src/exercises/exercises.service.spec.ts"),
+    ("CP-EJR-002", "Ejercicios", "Unitaria", "RF-EJR", "Responder correctamente", "Ejercicio existente", "respuesta correcta", "correcto=true, puntosGanados, feedback y feedbackPositivo", "PASO", "Critica", "src/exercises/exercises.service.spec.ts"),
+    ("CP-EJR-003", "Ejercicios", "Unitaria", "RF-EJR", "Responder incorrectamente", "Ejercicio existente", "respuesta incorrecta", "correcto=false, puntosGanados=0, feedback y feedbackNegativo", "PASO", "Alta", "src/exercises/exercises.service.spec.ts"),
     ("CP-EJR-004", "Ejercicios", "Unitaria", "RF-EJR", "Actualizar racha", "ultimaActividad ayer/hoy/>2 dias", "fechas limite", "Incrementa, mantiene o reinicia racha segun regla", "PASO", "Critica", "src/exercises/exercises.service.spec.ts"),
     ("CP-EJR-005", "Ejercicios", "E2E", "RF-EJR", "Flujo ejercicio HTTP", "Token valido", "GET y POST responder", "Respuesta contiene correcto, feedback, puntos y progreso", "PASO", "Critica", "test/exercises.e2e-spec.ts"),
     ("CP-PRG-001", "Progreso", "Unitaria", "RF-PRG", "Consultar progreso", "Progreso existente", "usuarioId", "Retorna puntos, nivel, racha, ranking e insignias", "PASO", "Alta", "src/progress/progress.service.spec.ts"),
@@ -118,10 +121,15 @@ CASES = [
     ("CP-INS-002", "Insignias", "Unitaria", "RF-INS", "Otorgar insignia por criterio", "Progreso cumple criterio", "usuarioId", "Crea ProgresoInsignia sin duplicar", "PASO", "Alta", "src/badges/badges.service.spec.ts"),
     ("CP-SYNC-001", "Sync", "Unitaria", "RF-SYNC", "Sincronizar sesiones offline", "Payload offline valido", "sesiones[]", "Registra sesiones y puntosActualizados", "PASO", "Alta", "src/sync/sync.service.spec.ts"),
     ("CP-OFF-001", "Offline", "Unitaria", "RF-OFF", "Listar modulos offline", "Algoritmos activos", "usuarioId", "Retorna algoritmoId,nombre,tamanoKB,version,descargado", "PASO", "Media", "src/offline/offline.service.spec.ts"),
-    ("CP-OFF-002", "Offline", "Unitaria", "RF-OFF", "Descargar modulo", "Algoritmo existente", "algoritmoId", "Retorna meta,pseudocode,ejercicios", "PASO", "Alta", "src/offline/offline.service.spec.ts"),
+    ("CP-OFF-002", "Offline", "Unitaria/E2E", "RF-OFF", "Descargar modulo", "Algoritmo existente", "algoritmoId", "Retorna algoritmoId, version, meta, pseudocode y ejercicios", "PASO", "Alta", "src/offline/offline.service.spec.ts; test/learning-support.e2e-spec.ts"),
     ("CP-DIAG-001", "Diagnostico", "Unitaria", "RF-DIAG", "Listar preguntas", "Preguntas seed", "sin parametros", "Retorna preguntas y opciones", "PASO", "Media", "src/diagnostics/diagnostics.service.spec.ts"),
     ("CP-DIAG-002", "Diagnostico", "Unitaria", "RF-DIAG", "Evaluar diagnostico", "Respuestas enviadas", "indices seleccionados", "Calcula puntaje, guarda resultado y genera ruta", "PASO", "Alta", "src/diagnostics/diagnostics.service.spec.ts"),
     ("CP-RUTA-001", "Ruta Aprendizaje", "Unitaria", "RF-RUTA", "Consultar ruta personalizada", "Usuario con diagnostico/ruta", "usuarioId", "Retorna algoritmos sugeridos en orden", "PASO", "Media", "src/learning-path/learning-path.service.spec.ts"),
+    ("CP-LRN-001", "Soporte Aprendizaje", "E2E", "RF-DIAG/RF-RUTA", "Evaluar diagnostico y consultar ruta HTTP", "Token valido y preguntas diagnosticas", "GET preguntas, POST evaluar, GET ruta", "Respuestas 200/201 y ruta con algoritmos sugeridos", "PASO", "Alta", "test/learning-support.e2e-spec.ts"),
+    ("CP-LRN-002", "Insignias", "E2E", "RF-INS", "Consultar insignias HTTP", "Token valido", "GET /api/insignias y /api/insignias/me", "Lista insignias disponibles y estado del usuario", "PASO", "Media", "test/learning-support.e2e-spec.ts"),
+    ("CP-LRN-003", "Offline", "E2E", "RF-OFF", "Listar y descargar modulo offline HTTP", "Token valido y algoritmos activos", "GET /api/modules/offline y /download", "Retorna meta, pseudocode y ejercicios del modulo", "PASO", "Alta", "test/learning-support.e2e-spec.ts"),
+    ("CP-LRN-004", "Seguridad API", "E2E", "RF-AUTH", "Proteger endpoints de aprendizaje", "Sin token JWT", "GET endpoints protegidos", "Retorna 401 Unauthorized", "PASO", "Critica", "test/learning-support.e2e-spec.ts"),
+    ("CP-FE-SVC-001", "Contratos FE", "Unitaria", "RF-CONTRATOS", "Consumir contratos API desde frontend", "apiClient mockeado", "ranking, sync, offline, ejercicios", "Valida endpoints y forma ranking/total, completada, algoritmoId/version y feedback", "PASO", "Alta", "src/services/__tests__/contract-shapes.test.ts"),
 ]
 
 EQUIVALENCE_ROWS = [
@@ -323,7 +331,8 @@ def build_plan(path: Path) -> None:
         ("HU-04/CO3", "Simulacion y engines", "CP-SIM-005, CP-ENG-001 a CP-ENG-004, CP-MATH-001"),
         ("RF-AUTH", "Autenticacion", "CP-AUTH-001 a CP-AUTH-005"),
         ("RF-EJR/RF-PRG", "Ejercicios y progreso", "CP-EJR-*, CP-PRG-*, CP-INS-*"),
-        ("RF-OFF/RF-SYNC", "Offline y sincronizacion", "CP-OFF-*, CP-SYNC-*"),
+        ("RF-OFF/RF-SYNC", "Offline y sincronizacion", "CP-OFF-*, CP-SYNC-*, CP-LRN-003"),
+        ("RF-DIAG/RF-RUTA/RF-INS", "Diagnostico, ruta e insignias", "CP-DIAG-*, CP-RUTA-*, CP-INS-*, CP-LRN-*"),
     ])
 
     doc.add_heading("5. DISENO DE PRUEBAS", level=1)
@@ -382,7 +391,7 @@ def build_plan(path: Path) -> None:
     doc.add_heading("8. METRICAS Y REPORTES", level=1)
     doc.add_heading("8.1 Metricas de calidad", level=2)
     add_doc_table(doc, ["Metrica", "Valor"], [
-        ("Total automatizados ejecutados", "152 tests"),
+        ("Total automatizados ejecutados", f"{TEST_EVIDENCE['total_tests']} tests"),
         ("API unitarios", TEST_EVIDENCE["api_unit"]),
         ("API E2E", TEST_EVIDENCE["api_e2e"]),
         ("Frontend core", TEST_EVIDENCE["app_unit"]),
@@ -390,7 +399,7 @@ def build_plan(path: Path) -> None:
         ("Defectos criticos abiertos", "0"),
     ])
     doc.add_heading("8.2 Metricas de proceso", level=2)
-    add_bullets(doc, ["Tiempo de re-test: una ejecucion por repo despues de correcciones.", "Evidencias de cambios: commits fecbfca y 077d316 en feature/unit-tests-qa.", "Defect leakage esperado: 0 para flujos cubiertos por automatizacion."])
+    add_bullets(doc, ["Tiempo de re-test: una ejecucion por repo despues de correcciones.", f"Evidencias de cambios: commits {TEST_EVIDENCE['api_commit']} y {TEST_EVIDENCE['app_commit']} en feature/unit-tests-qa.", "Defect leakage esperado: 0 para flujos cubiertos por automatizacion."])
 
     doc.add_heading("9. ORGANIZACION DEL EQUIPO", level=1)
     doc.add_heading("9.1 Roles y responsabilidades", level=2)
@@ -465,7 +474,7 @@ def build_cases(path: Path) -> None:
     ws_sum.append(["Metrica", "Valor"])
     summary_rows = [
         ("Total casos catalogados", len(CASES)),
-        ("Total tests automatizados", 152),
+        ("Total tests automatizados", int(TEST_EVIDENCE["total_tests"])),
         ("API unitarios", TEST_EVIDENCE["api_unit"]),
         ("API E2E", TEST_EVIDENCE["api_e2e"]),
         ("Frontend core", TEST_EVIDENCE["app_unit"]),
@@ -489,8 +498,8 @@ def build_report(path: Path) -> None:
         ("Proyecto", PROJECT),
         ("Fecha de ejecucion", DATE),
         ("Ciclo", "Regresion U4-EJ26 / feature/unit-tests-qa"),
-        ("Total automatizados", "152"),
-        ("Pasaron", "152"),
+        ("Total automatizados", TEST_EVIDENCE["total_tests"]),
+        ("Pasaron", TEST_EVIDENCE["total_tests"]),
         ("Fallaron", "0"),
         ("Bloqueados", "0"),
         ("Tasa de exito", "100%"),
@@ -521,7 +530,7 @@ def build_report(path: Path) -> None:
         ("AlgorithmsService", "biblioteca, filtros, detalle, not found", "PASO"),
         ("SimulationsService", "dataset personalizado/predeterminado, validaciones, error engine", "PASO"),
         ("ExercisesService", "respuesta, puntos, racha, nivel", "PASO"),
-        ("Progress/Badges/Sync/Offline/Diagnostics/LearningPath", "Suites unitarias dedicadas", "PASO"),
+        ("Progress/Badges/Sync/Offline/Diagnostics/LearningPath", "Suites unitarias dedicadas y e2e learning-support", "PASO"),
         ("Core engines", "Bubble, Selection, Insertion, Merge", "PASO"),
         ("Core math/validators", "math.test.ts y dataset.test.ts", "PASO"),
     ]:

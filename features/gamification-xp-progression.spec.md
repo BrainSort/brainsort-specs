@@ -128,8 +128,8 @@ Si `nivel > 32`, retornar `32` (cap).
 | Actividad | XP Otorgado | Condiciones |
 |---|---:|---|
 | **Ejercicio correcto — Fácil** | 10 XP | Respuesta correcta, primera vez. |
-| **Ejercicio correcto — Medio** | 25 XP | Respuesta correcta, primera vez. |
-| **Ejercicio correcto — Difícil** | 50 XP | Respuesta correcta, primera vez. |
+| **Ejercicio correcto — Medio** | 20 XP | Respuesta correcta, primera vez. |
+| **Ejercicio correcto — Difícil** | 30 XP | Respuesta correcta, primera vez. |
 | **Ejercicio incorrecto** | 0 XP | No se restan puntos (diseño Duolingo). |
 | **Ejercicio ya resuelto (repetido)** | 0 XP | Anti-farming: no se otorga XP por el mismo ejercicio correcto ya resuelto. |
 | **Simulación completada** | 5 XP | Completar todos los pasos de una simulación. Una vez por sesión. |
@@ -152,8 +152,8 @@ Si `nivel > 32`, retornar `32` (cap).
 | Estrategia del usuario | Ejercicios necesarios | Días estimados |
 |---|---:|---:|
 | Solo ejercicios fáciles (10 XP c/u) | 5,280 | ~264 días (20/día) |
-| Solo ejercicios medios (25 XP c/u) | 2,112 | ~106 días (20/día) |
-| Solo ejercicios difíciles (50 XP c/u) | 1,056 | ~53 días (20/día) |
+| Solo ejercicios medios (20 XP c/u) | 2,640 | ~132 días (20/día) |
+| Solo ejercicios difíciles (30 XP c/u) | 1,760 | ~88 días (20/día) |
 | Mix realista (5F + 3M + 2D c/día) | — | ~228 días |
 | Mix + simulaciones + retos diarios | — | ~150 días |
 
@@ -189,8 +189,8 @@ FUNCIÓN evaluarRespuesta(usuarioId, ejercicioId, respuesta):
     SI NO yaResuelto:
       puntosGanados = SEGÚN ejercicio.dificultad:
         Facil  → 10
-        Medio  → 25
-        Dificil → 50
+        Medio  → 20
+        Dificil → 30
   
   // Registrar respuesta
   INSERTAR RespuestaEjercicio(usuarioId, ejercicioId, respuesta, esCorrecto, puntosGanados)
@@ -236,7 +236,7 @@ El endpoint `POST /api/ejercicios/:id/responder` ya retorna los campos necesario
   "data": {
     "correcto": true,
     "feedbackPositivo": "¡Correcto! Bubble Sort mueve el elemento mayor al final.",
-    "puntosGanados": 25,
+    "puntosGanados": 20,
     "rachaDias": 4,
     "posicionRanking": 12,
     "nivelActual": 3

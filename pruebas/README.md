@@ -1,7 +1,7 @@
 # 🧪 Documentación de Pruebas — BrainSort
 
 > **Estándar de referencia**: IEEE 829-2008  
-> **Proyecto**: BrainSort — Aplicación educativa para visualización de algoritmos de ordenamiento  
+> **Proyecto**: BrainSort — Aplicación educativa para visualización de algoritmos y estructuras de datos  
 > **Versión**: 1.0 — Mayo 2026
 
 ---
@@ -39,7 +39,7 @@ Define la estrategia global de pruebas para el proyecto BrainSort. Contenido:
 | 3. Elementos excluidos | Funcionalidades fuera de alcance en esta iteración |
 | 4. Enfoque de pruebas | Niveles (unitarias, integración, sistema/E2E), herramientas, responsables |
 | 5. Criterios de aceptación | Métricas de cobertura, casos críticos, defectos bloqueantes |
-| 6. Ambiente de pruebas | SO, runtime, dispositivos, herramientas (Jest, RTL, etc.) |
+| 6. Ambiente de pruebas | SO, runtime, Docker local, PostgreSQL, Jest, Fastify inject, TypeScript |
 | 7. Responsabilidades | Roles del equipo de QA |
 | 8. Cronograma | Fases y fechas de ejecución |
 | 9. Riesgos | Riesgos técnicos y mitigaciones |
@@ -147,6 +147,8 @@ El código de pruebas automatizadas se encuentra en los repositorios de código:
 | `test/simulations.e2e-spec.ts` | E2E | Flujo completo de simulaciones |
 | `test/exercises.e2e-spec.ts` | E2E | Flujo: ejercicios → responder → puntos |
 | `test/progress.e2e-spec.ts` | E2E | Flujo: progreso → ranking |
+| `test/learning-support.e2e-spec.ts` | E2E | Flujo: diagnóstico → ruta, insignias y módulos offline |
+| `test/app.e2e-spec.ts` | E2E | Health/ruta raíz |
 
 ### Frontend (`brainsort-app`)
 
@@ -155,7 +157,10 @@ El código de pruebas automatizadas se encuentra en los repositorios de código:
 | `packages/core/src/engines/__tests__/bubble-sort.test.ts` | Unitaria | Engine Bubble Sort: pasos correctos, edge cases |
 | `packages/core/src/engines/__tests__/selection-sort.test.ts` | Unitaria | Engine Selection Sort |
 | `packages/core/src/engines/__tests__/insertion-sort.test.ts` | Unitaria | Engine Insertion Sort |
+| `packages/core/src/engines/__tests__/merge-sort.test.ts` | Unitaria | Engine Merge Sort |
+| `packages/core/src/math/__tests__/math.test.ts` | Unitaria | Escalas, coordenadas y transiciones |
 | `packages/core/src/validators/__tests__/dataset.test.ts` | Unitaria | Validación de datasets |
+| `src/services/__tests__/contract-shapes.test.ts` | Unitaria | Contratos frontend para ranking, ejercicios, offline y sync |
 
 ---
 
@@ -164,14 +169,14 @@ El código de pruebas automatizadas se encuentra en los repositorios de código:
 | Historia de Usuario | Casos de Prueba Asociados | Tipo |
 |---|---|---|
 | **HU-01**: Navegar Biblioteca | CP-ALG-001 a CP-ALG-005 | Unitaria + E2E |
-| **HU-02**: Seleccionar Algoritmo | CP-ALG-006 a CP-ALG-008 | E2E |
-| **HU-03**: Datos Predeterminados | CP-SIM-001 a CP-SIM-003 | Unitaria + E2E |
-| **HU-04**: Controlar Animación | CP-SIM-004 a CP-SIM-008, CP-REN-001 | E2E + Rendimiento |
-| **HU-06**: Seguimiento hasta Finalización | CP-SIM-009 a CP-SIM-011 | E2E |
-| **HU-07**: Mensaje de Finalización | CP-SIM-012 a CP-SIM-013 | E2E |
-| **Autenticación** | CP-AUTH-001 a CP-AUTH-009 | Unitaria + E2E |
-| **Ejercicios de Predicción** | CP-EJR-001 a CP-EJR-006 | Unitaria + E2E |
-| **Progreso y Gamificación** | CP-PRG-001 a CP-PRG-005, CP-INS-001 a CP-INS-004 | Unitaria + E2E |
+| **HU-02**: Seleccionar Algoritmo | CP-ALG-006 a CP-ALG-007 | Unitaria + E2E |
+| **HU-03**: Datos Predeterminados/Personalizados | CP-SIM-001 a CP-SIM-005, CP-VAL-001 a CP-VAL-002 | Unitaria + E2E |
+| **HU-04**: Controlar Animación | CP-ENG-001 a CP-ENG-004, CP-MATH-001 | Unitaria |
+| **Autenticación** | CP-AUTH-001 a CP-AUTH-005, CP-LRN-004 | Unitaria + E2E |
+| **Ejercicios de Predicción** | CP-EJR-001 a CP-EJR-005 | Unitaria + E2E |
+| **Progreso y Gamificación** | CP-PRG-001 a CP-PRG-003, CP-INS-001 a CP-INS-002, CP-LRN-002 | Unitaria + E2E |
+| **Diagnóstico y Ruta** | CP-DIAG-001 a CP-DIAG-002, CP-RUTA-001, CP-LRN-001 | Unitaria + E2E |
+| **Offline y Sync** | CP-OFF-001 a CP-OFF-002, CP-SYNC-001, CP-LRN-003 | Unitaria + E2E |
 
 ---
 
@@ -179,12 +184,12 @@ El código de pruebas automatizadas se encuentra en los repositorios de código:
 
 | Herramienta | Versión | Uso |
 |---|---|---|
-| **Jest** | 29.x | Framework de pruebas unitarias y E2E |
+| **Jest** | 29.x / 30.x según repo | Framework de pruebas unitarias y E2E |
 | **@nestjs/testing** | 10.x | Testing module para NestJS (inyección de dependencias mock) |
 | **TypeScript typecheck** | 5.x | Validación estática del frontend |
 | **Fastify inject** | — | Pruebas E2E HTTP sin servidor real |
 | **bcrypt (mock)** | — | Mock de hashing para tests unitarios |
-| **React DevTools Profiler** | — | Medición de FPS en simulaciones |
+| **Expo Web + navegador** | — | Validación manual de sistema local |
 
 ---
 
