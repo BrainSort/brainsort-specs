@@ -916,11 +916,11 @@
 
 > Validación del comportamiento del sistema en su conjunto. Herramienta: k6 (scripting en JavaScript para pruebas de carga concurrentes).
 
-- [ ] **T-QA-024**: Crear estructura base para pruebas de carga en `brainsort-api`:
+- [x] **T-QA-024**: Crear estructura base para pruebas de carga en `brainsort-api`:
   - Directorio `test/load/`
   - Archivo de configuración central y scripts base (ej. `k6-options.js`).
 
-- [ ] **T-QA-025**: Implementar escenarios de estrés críticos (`k6-stress-test.js`):
+- [x] **T-QA-025**: Implementar escenarios de estrés críticos (`k6-stress-test.js`):
   - **Escenario 1 (Lectura Masiva)**: Recuperación de la biblioteca de algoritmos (`GET /api/algorithms`).
   - **Escenario 2 (Picos de Auth)**: Autenticación concurrente masiva simulando inicio de clases (`POST /api/auth/login`).
   - **Escenario 3 (Sincronización Offline)**: Ingestión de datos de progreso simulando múltiples estudiantes recuperando conexión simultáneamente (`POST /api/sync/progress`).
