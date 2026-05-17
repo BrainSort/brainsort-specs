@@ -890,7 +890,7 @@
 
 ### Pruebas Unitarias de Engines
 
-- [ ] **T-QA-018**: Crear `packages/core/src/engines/__tests__/bubble-sort.test.ts` — Tests del engine Bubble Sort:
+- [x] **T-QA-018**: Crear `packages/core/src/engines/__tests__/bubble-sort.test.ts` — Tests del engine Bubble Sort:
   - Ordena correctamente un arreglo desordenado
   - Genera pasos con campos requeridos (numeroPaso, tipoOperacion, indicesActivos, estadoArray, lineaPseudocodigo)
   - Último paso tiene tipoOperacion 'final'
@@ -898,13 +898,13 @@
   - Arreglo ya ordenado genera pasos sin intercambios
   - Arreglo en orden inverso genera máximo de intercambios
 
-- [ ] **T-QA-019**: Crear `packages/core/src/engines/__tests__/selection-sort.test.ts` — Tests del engine Selection Sort (misma estructura que Bubble Sort)
+- [x] **T-QA-019**: Crear `packages/core/src/engines/__tests__/selection-sort.test.ts` — Tests del engine Selection Sort (misma estructura que Bubble Sort)
 
-- [ ] **T-QA-020**: Crear `packages/core/src/engines/__tests__/insertion-sort.test.ts` — Tests del engine Insertion Sort (misma estructura que Bubble Sort)
+- [x] **T-QA-020**: Crear `packages/core/src/engines/__tests__/insertion-sort.test.ts` — Tests del engine Insertion Sort (misma estructura que Bubble Sort)
 
 ### Pruebas Unitarias de Validadores
 
-- [ ] **T-QA-021**: Crear `packages/core/src/validators/__tests__/dataset.test.ts` — Tests del validador de datasets:
+- [x] **T-QA-021**: Crear `packages/core/src/validators/__tests__/dataset.test.ts` — Tests del validador de datasets:
   - Acepta arreglo válido de enteros
   - Rechaza arreglo vacío
   - Rechaza arreglo con valores no numéricos
