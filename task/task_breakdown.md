@@ -772,3 +772,29 @@
 - [ ] **T-SB-013**: Test: ejecutar código con loop infinito → timeout de 5s se activa
 - [ ] **T-SB-014**: Test: ejecutar Bubble Sort correcto en C++ → 3/3 test cases pasan
 - [ ] **T-SB-015**: Test: ejecutar código con error de sintaxis → mensaje de error legible
+
+---
+---
+
+# 🎓 FASE 6: Rutas de Aprendizaje y Diagnóstico (Características Avanzadas)
+
+> **Spec**: Implementación de sistema de Tags, Test Diagnóstico inicial y Ruta de Aprendizaje basada en perfil (A partir de feedback de diseño).
+
+## 📁 Backend (`brainsort-api`)
+
+- [ ] **T-BE-094**: Actualizar `schema.prisma` para soportar **Tags**. Agregar campo `tags String[]` al modelo `Algoritmo` (o tabla de relación `Tags`).
+- [ ] **T-BE-095**: Actualizar `schema.prisma` para crear modelos `TestDiagnostico`, `PreguntaDiagnostico`, y `ResultadoDiagnostico` vinculado al `Usuario`.
+- [ ] **T-BE-096**: Actualizar `schema.prisma` para crear modelo `RutaAprendizaje` vinculada al `Usuario`, que contenga una secuencia de `AlgoritmoId` sugerida.
+- [ ] **T-BE-097**: Actualizar `AlgorithmsService` (`GET /api/biblioteca`) para soportar filtrado y búsqueda por `tags`.
+- [ ] **T-BE-098**: Crear módulo `DiagnosticsModule` con endpoints: `GET /api/diagnostico/preguntas` para obtener el test inicial.
+- [ ] **T-BE-099**: Implementar endpoint `POST /api/diagnostico/evaluar` que reciba respuestas, evalúe el nivel inicial y genere/asigne una `RutaAprendizaje` al usuario.
+- [ ] **T-BE-100**: Crear módulo `LearningPathModule` con endpoint `GET /api/ruta-aprendizaje/me` para obtener la secuencia de algoritmos recomendados.
+
+## 📁 Frontend (`brainsort-app`)
+
+- [ ] **T-FE-125**: Modificar `LibraryScreen.tsx` para incluir un selector múltiple de **Tags** junto al `CategoryFilter`, y actualizar `AlgorithmCard` para mostrar los tags.
+- [ ] **T-FE-126**: Crear `DiagnosticTestScreen.tsx` (flujo de Onboarding). Mostrar serie de preguntas de opción múltiple tras el registro si el usuario no tiene una ruta asignada.
+- [ ] **T-FE-127**: Implementar hook `useDiagnostics.ts` para conectar con los endpoints de diagnóstico (`GET` preguntas, `POST` evaluar).
+- [ ] **T-FE-128**: Crear `LearningPathScreen.tsx` (o una nueva pestaña en el MainTabNavigator). Visualizar el "Camino a seguir" como un mapa interactivo o timeline secuencial.
+- [ ] **T-FE-129**: Implementar hook `useLearningPath.ts` para obtener la ruta recomendada del usuario.
+- [ ] **T-FE-130**: Modificar `ProfileScreen.tsx` y `ProgressScreen.tsx` para reflejar el progreso del usuario dentro de su Ruta de Aprendizaje (ej. "Has completado el 30% de tu ruta sugerida").

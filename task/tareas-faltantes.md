@@ -120,3 +120,14 @@
 | 6 | ~~Storage de assets offline~~ | ✅ Resuelto | CDR-004 JSON directo del backend |
 | 7 | ~~WASM compilación~~ | ✅ Resuelto | [`sandbox-code-runner.plan.md`](../features/sandbox-code-runner.plan.md) |
 | 8 | ~~Mapeo pseudocódigo~~ | ✅ Resuelto | CDR-001 Engine Auto-Contenido |
+
+---
+
+## 9. Test Diagnóstico y Generación de Rutas de Aprendizaje
+
+> **Propósito**: Definir la lógica y contenido del sistema de diagnóstico inicial y cómo este impacta la ruta recomendada.
+
+- [ ] **Contenido del Diagnóstico**: ¿Cuántas preguntas conforman el test diagnóstico inicial? ¿Se cubrirán todos los tipos de algoritmos o solo conceptos generales de lógica?
+- [ ] **Algoritmo de Enrutamiento**: ¿Qué reglas exactas determinan la secuencia de la `RutaAprendizaje` generada en base al puntaje del diagnóstico?
+- [ ] **Tags en Algoritmos**: Definir un catálogo inicial de tags para los algoritmos (ej. `["divide-y-venceras", "recursividad", "in-place", "estable"]`).
+- [ ] **Re-evaluación**: ¿Puede el usuario volver a tomar el test diagnóstico para reajustar su ruta de aprendizaje más adelante?
