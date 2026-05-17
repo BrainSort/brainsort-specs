@@ -228,7 +228,7 @@ Todos los endpoints usan el prefijo `/api`.
 }
 ```
 
-> **Nota de implementación actual**: `pseudocode[]` puede venir del campo `pseudocodigo` persistido en la DB o de la fuente local definida para el módulo offline/simulación, según el endpoint que lo consuma.
+> **Nota de implementación actual**: `GET /api/algoritmos/:id` normaliza el `pseudocodigo` persistido en la DB (`numero/codigo`) al contrato consumido por el frontend (`line/text/indent`). El módulo offline usa la misma forma `line/text/indent`.
 
 **Efecto secundario**: Este endpoint de detalle no crea sesión. La sesión se registra al crear una simulación en `POST /api/simulaciones`.
 
@@ -368,8 +368,10 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
 {
   "data": {
     "correcto": true,
+    "feedback": "¡Correcto! Bubble Sort mueve el elemento mayor al final en cada pasada.",
     "feedbackPositivo": "¡Correcto! Bubble Sort mueve el elemento mayor al final en cada pasada.",
-    "puntosGanados": 25,
+    "puntosGanados": 10,
+    "puntosTotales": 350,
     "rachaDias": 4,
     "posicionRanking": 12,
     "nivelActual": 3
@@ -382,8 +384,10 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
 {
   "data": {
     "correcto": false,
+    "feedback": "Incorrecto. Recuerda que Bubble Sort compara elementos adyacentes y los intercambia si están desordenados.",
     "feedbackNegativo": "Incorrecto. Recuerda que Bubble Sort compara elementos adyacentes y los intercambia si están desordenados.",
     "puntosGanados": 0,
+    "puntosTotales": 340,
     "rachaDias": 4,
     "posicionRanking": 12,
     "nivelActual": 2
@@ -485,6 +489,7 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
     "algoritmoId": "uuid-bubble",
     "version": "1.0.0",
     "meta": {
+      "id": "uuid-bubble",
       "nombre": "Bubble Sort",
       "descripcion": "Algoritmo de ordenamiento que compara elementos adyacentes...",
       "dificultad": "Facil",
@@ -529,7 +534,8 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
       "algoritmoId": "uuid-bubble",
       "fechaInicio": "2026-04-06T10:00:00Z",
       "fechaFin": "2026-04-06T10:15:00Z",
-      "pasosCompletados": 45
+      "pasosCompletados": 45,
+      "completada": true
     }
   ]
 }

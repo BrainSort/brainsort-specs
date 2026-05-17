@@ -17,8 +17,10 @@ La gamificación agrega estado significativo a los perfiles de usuario. Los atri
 // Response -> 200 OK
 {
   "correcto": true,
+  "feedback": "Correcto. Bubble Sort mueve el 5 a la derecha.",
   "feedbackPositivo": "Correcto. Bubble Sort mueve el 5 a la derecha.",
-  "puntosGanados": 25,
+  "puntosGanados": 20,
+  "puntosTotales": 340,
   "rachaDias": 4,
   "posicionRanking": 12,
   "nivelActual": 3

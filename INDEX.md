@@ -23,9 +23,6 @@ graph TD
     API -- Genera pasos con --> Core
 ```
 
-![Dashboard Mockup](C:\Users\lupit\.gemini\antigravity\brain\d78e0038-2d05-4453-983a-3cb73d737460\brainsort_dashboard_mockup_1776656911976.png)
-
-
 ## 1. Archivos Fundacionales
 
 | Archivo | Descripción |
@@ -81,6 +78,7 @@ La carpeta [`pruebas/`](./pruebas/) contiene la línea base de documentación de
 - `gen_ejemplo_plan.py` — Genera `.docx` del Plan de Pruebas con datos reales de BrainSort.
 - `gen_ejemplo_casos.py` — Genera `.xlsx` con diseño de casos de prueba.
 - `gen_ejemplo_informe.py` — Genera `.xlsx` con informe de resultados.
+- `generate_brainsort_testing_docs.py` — Regenera los entregables finales 3.1, 3.2 y 3.3 y las copias de ejemplo.
 
 **Ejemplos de referencia** (carpeta `pruebas/ejemplos/`):
 - Templates pre-llenados con datos de ejemplo para consulta.
