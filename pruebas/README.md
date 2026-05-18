@@ -12,11 +12,15 @@
 pruebas/
 ├── README.md                              ← Este archivo
 ├── 3.1-Plan-de-Pruebas-BrainSort.docx     ← Plan de pruebas formal U4-EJ26
-├── 3.2-Casos-de-Prueba-BrainSort.xlsx     ← Diseño de casos de prueba + equivalencia/límites
-├── 3.3-Informe-de-Prueba-BrainSort.xlsx   ← Informe de ejecución de pruebas reales
+├── 3.2-Diseno-de-Casos-de-Prueba-BrainSort.docx ← Diseño de casos con formato de ficha
+├── 3.2-Casos-de-Prueba-BrainSort.xlsx     ← Anexo tabular + equivalencia/límites
+├── 3.3-Informe-de-Prueba-BrainSort.docx   ← Informe de ejecución con formato narrativo
+├── 3.3-Informe-de-Prueba-BrainSort.xlsx   ← Anexo tabular de resultados
 ├── ejemplos/                              ← Templates de referencia (pre-llenados)
 │   ├── 3.1-Plan-de-Pruebas-EJEMPLO.docx
+│   ├── 3.2-Diseno-de-Casos-de-Prueba-EJEMPLO.docx
 │   ├── 3.2-Casos-de-Prueba-EJEMPLO.xlsx
+│   ├── 3.3-Informe-de-Prueba-EJEMPLO.docx
 │   └── 3.3-Informe-de-Prueba-EJEMPLO.xlsx
 └── scripts/                               ← Generadores auxiliares (Python)
     ├── gen_ejemplo_plan.py
@@ -71,9 +75,11 @@ Define la estrategia global de pruebas para el proyecto BrainSort. Contenido:
 
 ## 2. Diseño de Casos de Prueba (3.2)
 
-**Archivo**: `3.2-Casos-de-Prueba-BrainSort.xlsx`
+**Archivos**:
+- `3.2-Diseno-de-Casos-de-Prueba-BrainSort.docx`
+- `3.2-Casos-de-Prueba-BrainSort.xlsx`
 
-Contiene el catálogo detallado de casos de prueba organizados por módulo. Cada caso incluye:
+El `.docx` sigue el formato de ficha del documento de referencia del docente: portada, leyenda, resumen de estados, módulos y una ficha por caso de prueba. El `.xlsx` se conserva como anexo tabular para trazabilidad, equivalencia y valores límite. Cada caso incluye:
 
 | Campo | Descripción |
 |---|---|
@@ -111,9 +117,11 @@ Contiene el catálogo detallado de casos de prueba organizados por módulo. Cada
 
 ## 3. Informe de Prueba de Software (3.3)
 
-**Archivo**: `3.3-Informe-de-Prueba-BrainSort.xlsx`
+**Archivos**:
+- `3.3-Informe-de-Prueba-BrainSort.docx`
+- `3.3-Informe-de-Prueba-BrainSort.xlsx`
 
-Documenta los resultados de ejecución de las pruebas. Contenido:
+El `.docx` sigue el formato de informe de resultados del documento de referencia del docente: resumen ejecutivo, métricas globales, resultados por módulo, defectos, riesgos residuales y decisión Go/No-Go. El `.xlsx` se conserva como anexo tabular de resultados. Contenido:
 
 | Sección | Descripción |
 |---|---|
@@ -158,9 +166,14 @@ El código de pruebas automatizadas se encuentra en los repositorios de código:
 | `packages/core/src/engines/__tests__/selection-sort.test.ts` | Unitaria | Engine Selection Sort |
 | `packages/core/src/engines/__tests__/insertion-sort.test.ts` | Unitaria | Engine Insertion Sort |
 | `packages/core/src/engines/__tests__/merge-sort.test.ts` | Unitaria | Engine Merge Sort |
+| `packages/core/src/engines/__tests__/linear-structures.test.ts` | Unitaria | Engines Stack, Queue y Linked List |
 | `packages/core/src/math/__tests__/math.test.ts` | Unitaria | Escalas, coordenadas y transiciones |
 | `packages/core/src/validators/__tests__/dataset.test.ts` | Unitaria | Validación de datasets |
 | `src/services/__tests__/contract-shapes.test.ts` | Unitaria | Contratos frontend para ranking, ejercicios, offline y sync |
+| `src/services/__tests__/api-services.test.ts` | Unitaria | Endpoints y payloads de servicios frontend |
+| `src/utils/__tests__/validators.test.ts` | Unitaria | Validadores UI de auth, dataset y velocidad |
+| `src/utils/__tests__/formatters.test.ts` | Unitaria | Formateadores de puntos, duración, velocidad y texto |
+| `src/utils/__tests__/xp.utils.test.ts` | Unitaria | Cálculo de XP, niveles, progreso y tiers |
 
 ---
 

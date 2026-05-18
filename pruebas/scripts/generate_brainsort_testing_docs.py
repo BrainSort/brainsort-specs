@@ -23,6 +23,7 @@ from openpyxl.utils import get_column_letter
 ROOT = Path(__file__).resolve().parents[2]
 OUT_DIR = ROOT / "pruebas"
 EXAMPLE_DIR = OUT_DIR / "ejemplos"
+SKIPPED_OUTPUTS: set[Path] = set()
 
 PROJECT = "BrainSort"
 VERSION = "1.0"
@@ -43,7 +44,7 @@ COLORS = {
 TEST_EVIDENCE = {
     "api_unit": "11 suites / 94 tests pasados",
     "api_e2e": "7 suites / 33 tests pasados",
-    "app_unit": "7 suites / 35 tests pasados",
+    "app_unit": "12 suites / 66 tests pasados",
     "api_build": "npm run build OK",
     "app_typecheck": "npm run typecheck OK",
     "api_lint": "npm run lint: 0 errores, 135 warnings no bloqueantes existentes",
@@ -51,7 +52,58 @@ TEST_EVIDENCE = {
     "api_commit": "86b4413 base + cambios locales de contratos",
     "app_commit": "b66290b base dev + cambios locales de contratos",
     "branch": "API feature/unit-tests-qa; APP feature/contract-consistency-fixes",
-    "total_tests": "162",
+    "total_tests": "193",
+}
+
+DEFECTS = [
+    (
+        "DEF-001",
+        "Alta",
+        "APP Simulacion",
+        "Uso de Accent[400] inexistente rompia typecheck.",
+        "Cerrado",
+        TEST_EVIDENCE["app_commit"],
+        "Se ajusto el token de color y se verifico con npm run typecheck.",
+    ),
+    (
+        "DEF-002",
+        "Media",
+        "API Tests",
+        "Cobertura de bordes insuficiente en servicios de algoritmos, ejercicios y simulaciones.",
+        "Cerrado",
+        TEST_EVIDENCE["api_commit"],
+        "Se ampliaron pruebas unitarias/e2e y se corrigieron contratos API.",
+    ),
+    (
+        "DEF-003",
+        "Baja",
+        "Lint",
+        "Warnings no bloqueantes de unsafe-any/unused en codigo existente.",
+        "Aceptado",
+        "No bloquea entrega; 0 errores.",
+        "Se documenta como deuda tecnica de bajo riesgo para limpieza posterior.",
+    ),
+]
+
+MODULE_DESCRIPTIONS = {
+    "Auth": "Cubre registro, login, refresh token y separacion de usuario/administrador.",
+    "Usuarios": "Valida consulta y actualizacion de perfil del usuario autenticado.",
+    "Biblioteca": "Cubre catalogo, filtros y contratos de respuesta de la biblioteca de algoritmos.",
+    "Algoritmos": "Valida el detalle de algoritmo, pseudocodigo normalizado y manejo de inexistentes.",
+    "Simulaciones": "Cubre creacion de simulaciones, datasets predeterminados/personalizados y validaciones.",
+    "Engines": "Verifica la correctitud de los motores de ordenamiento del paquete core.",
+    "Core Math": "Valida funciones matematicas usadas para escalas, coordenadas y transiciones.",
+    "Validadores": "Cubre clases validas e invalidas para datasets de simulacion.",
+    "Ejercicios": "Valida preguntas, respuestas, feedback, puntos, racha y progreso.",
+    "Progreso": "Cubre progreso personal y ranking paginado.",
+    "Insignias": "Valida catalogo y asignacion de insignias por criterio.",
+    "Sync": "Cubre sincronizacion de sesiones offline con datos completos.",
+    "Offline": "Valida catalogo y descarga de modulos offline.",
+    "Diagnostico": "Cubre preguntas diagnosticas y evaluacion inicial.",
+    "Ruta Aprendizaje": "Valida la ruta personalizada derivada del diagnostico.",
+    "Soporte Aprendizaje": "Agrupa flujos e2e de diagnostico, ruta, insignias y offline.",
+    "Seguridad API": "Valida proteccion de endpoints privados mediante JWT.",
+    "Contratos FE": "Verifica que los servicios frontend consuman la forma real de los contratos API.",
 }
 
 AUTOMATED_FILES = [
@@ -77,9 +129,14 @@ AUTOMATED_FILES = [
     ("APP", "packages/core/src/engines/__tests__/selection-sort.test.ts", "Unitaria", 5, "Selection Sort"),
     ("APP", "packages/core/src/engines/__tests__/insertion-sort.test.ts", "Unitaria", 5, "Insertion Sort"),
     ("APP", "packages/core/src/engines/__tests__/merge-sort.test.ts", "Unitaria", 5, "Merge Sort"),
+    ("APP", "packages/core/src/engines/__tests__/linear-structures.test.ts", "Unitaria", 4, "Stack, Queue y Linked List"),
     ("APP", "packages/core/src/math/__tests__/math.test.ts", "Unitaria", 4, "Escalas, coordenadas, transiciones"),
     ("APP", "packages/core/src/validators/__tests__/dataset.test.ts", "Unitaria", 7, "Validacion de datasets"),
     ("APP", "src/services/__tests__/contract-shapes.test.ts", "Unitaria", 4, "Contratos frontend para ranking, ejercicios, offline y sync"),
+    ("APP", "src/services/__tests__/api-services.test.ts", "Unitaria", 7, "Endpoints y payloads de servicios frontend"),
+    ("APP", "src/utils/__tests__/validators.test.ts", "Unitaria", 8, "Validadores de auth, dataset y velocidad"),
+    ("APP", "src/utils/__tests__/formatters.test.ts", "Unitaria", 6, "Formato de numeros, fechas relativas, velocidad y texto"),
+    ("APP", "src/utils/__tests__/xp.utils.test.ts", "Unitaria", 6, "Formula XP, nivel, progreso y tiers"),
 ]
 
 CASES = [
@@ -106,6 +163,7 @@ CASES = [
     ("CP-ENG-002", "Engines", "Unitaria", "HU-04", "Selection Sort ordena", "Engine disponible", "[5,2,8,1]", "Ultimo estadoArray ordenado", "PASO", "Critica", "packages/core/src/engines/__tests__/selection-sort.test.ts"),
     ("CP-ENG-003", "Engines", "Unitaria", "HU-04", "Insertion Sort ordena", "Engine disponible", "[5,2,8,1]", "Ultimo estadoArray ordenado", "PASO", "Critica", "packages/core/src/engines/__tests__/insertion-sort.test.ts"),
     ("CP-ENG-004", "Engines", "Unitaria", "HU-04", "Merge Sort ordena", "Engine disponible", "[5,2,8,1]", "Ultimo estadoArray ordenado", "PASO", "Critica", "packages/core/src/engines/__tests__/merge-sort.test.ts"),
+    ("CP-ENG-005", "Engines", "Unitaria", "HU-04", "Estructuras lineales generan pasos correctos", "Stack, Queue y Linked List disponibles", "[1,2,3]", "Genera pasos de insercion, recorrido/extraccion y estado final esperado", "PASO", "Alta", "packages/core/src/engines/__tests__/linear-structures.test.ts"),
     ("CP-MATH-001", "Core Math", "Unitaria", "HU-04", "Escalas y coordenadas SVG", "Datos numericos", "dataset de barras", "Calcula posiciones y transiciones sin NaN", "PASO", "Alta", "packages/core/src/math/__tests__/math.test.ts"),
     ("CP-VAL-001", "Validadores", "Unitaria", "HU-03", "Dataset valido", "Valores enteros", "[1,2,3]", "Valida sin errores", "PASO", "Alta", "packages/core/src/validators/__tests__/dataset.test.ts"),
     ("CP-VAL-002", "Validadores", "Unitaria", "HU-03", "Dataset invalido", "Valores nulos/no numericos", "[1,null,'x']", "Retorna errores claros", "PASO", "Alta", "packages/core/src/validators/__tests__/dataset.test.ts"),
@@ -130,6 +188,10 @@ CASES = [
     ("CP-LRN-003", "Offline", "E2E", "RF-OFF", "Listar y descargar modulo offline HTTP", "Token valido y algoritmos activos", "GET /api/modules/offline y /download", "Retorna meta, pseudocode y ejercicios del modulo", "PASO", "Alta", "test/learning-support.e2e-spec.ts"),
     ("CP-LRN-004", "Seguridad API", "E2E", "RF-AUTH", "Proteger endpoints de aprendizaje", "Sin token JWT", "GET endpoints protegidos", "Retorna 401 Unauthorized", "PASO", "Critica", "test/learning-support.e2e-spec.ts"),
     ("CP-FE-SVC-001", "Contratos FE", "Unitaria", "RF-CONTRATOS", "Consumir contratos API desde frontend", "apiClient mockeado", "ranking, sync, offline, ejercicios", "Valida endpoints y forma ranking/total, completada, algoritmoId/version y feedback", "PASO", "Alta", "src/services/__tests__/contract-shapes.test.ts"),
+    ("CP-FE-SVC-002", "Servicios FE", "Unitaria", "RF-CONTRATOS", "Servicios frontend usan endpoints y payloads correctos", "apiClient mockeado", "auth, biblioteca, simulaciones, ejercicios, progreso, diagnostico, offline", "Valida rutas publicas/protegidas y payloads enviados al backend", "PASO", "Alta", "src/services/__tests__/api-services.test.ts"),
+    ("CP-FE-UTL-001", "Utilidades FE", "Unitaria", "RF-UX", "Validadores de formularios y dataset", "Funciones puras disponibles", "nombre, correo, password, rol, dataset y velocidad", "Acepta entradas validas y rechaza clases invalidas con mensajes claros", "PASO", "Alta", "src/utils/__tests__/validators.test.ts"),
+    ("CP-FE-UTL-002", "Utilidades FE", "Unitaria", "RF-UX", "Formateadores de interfaz", "Funciones puras disponibles", "puntos, porcentajes, tamanos, velocidades, duraciones y descripciones", "Formatea valores para UI en locale es-MX y trunca descripciones", "PASO", "Media", "src/utils/__tests__/formatters.test.ts"),
+    ("CP-FE-XP-001", "Gamificacion FE", "Unitaria", "RF-PRG", "Calculo local de XP, nivel y tier", "Funciones puras disponibles", "puntos acumulados y niveles limite", "Respeta formula cuadratica, nivel maximo, progreso y tier esperado", "PASO", "Alta", "src/utils/__tests__/xp.utils.test.ts"),
 ]
 
 EQUIVALENCE_ROWS = [
@@ -184,6 +246,104 @@ def add_doc_table(doc: Document, headers: list[str], rows: list[tuple | list]) -
 def add_bullets(doc: Document, items: list[str]) -> None:
     for item in items:
         doc.add_paragraph(item, style="List Bullet")
+
+
+def title_case_status(status: str) -> str:
+    return status[:1].upper() + status[1:].lower()
+
+
+def case_counts() -> dict[str, int]:
+    counts = {"Paso": 0, "Fallo": 0, "Bloqueado": 0, "Pendiente": 0}
+    for case in CASES:
+        counts[title_case_status(case[8])] = counts.get(title_case_status(case[8]), 0) + 1
+    return counts
+
+
+def module_counts() -> dict[str, dict[str, int]]:
+    modules: dict[str, dict[str, int]] = {}
+    for case in CASES:
+        status = title_case_status(case[8])
+        module = case[1]
+        modules.setdefault(module, {"Total": 0, "Paso": 0, "Fallo": 0, "Bloqueado": 0, "Pendiente": 0})
+        modules[module]["Total"] += 1
+        modules[module][status] += 1
+    return modules
+
+
+def cases_by_module() -> dict[str, list[tuple]]:
+    grouped: dict[str, list[tuple]] = {}
+    for case in CASES:
+        grouped.setdefault(case[1], []).append(case)
+    return grouped
+
+
+def execution_steps(case: tuple) -> str:
+    case_id, module, test_type, _req, _name, _pre, input_data, _expected, _status, _priority, source = case
+    command = "npm test -- --runInBand"
+    if "test/" in source and "e2e" in source:
+        command = "npm run test:e2e -- --runInBand"
+    if "packages/core" in source or "src/services/__tests__" in source:
+        command = "npm test -- --runInBand"
+    return (
+        f"1. Preparar el entorno de pruebas del modulo {module}. "
+        f"2. Ejecutar {command}. "
+        f"3. Localizar el caso {case_id} en {source}. "
+        f"4. Usar datos de entrada: {input_data}. "
+        "5. Comparar la salida observada contra el resultado esperado. "
+        "6. Registrar estado y evidencia en el informe de ciclo."
+    )
+
+
+def evidence_note(case: tuple) -> str:
+    source = case[10]
+    status = title_case_status(case[8])
+    return f"Evidencia automatizada en {source}. Resultado del ciclo: {status}."
+
+
+def add_case_card(doc: Document, case: tuple) -> None:
+    case_id, module, test_type, req, name, preconditions, input_data, expected, status, priority, source = case
+    table = doc.add_table(rows=7, cols=2)
+    table.style = "Light Grid Accent 1"
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    header = table.rows[0].cells[0].merge(table.rows[0].cells[1])
+    header.text = f"{case_id} — {name}"
+    for run in header.paragraphs[0].runs:
+        run.bold = True
+        run.font.size = Pt(9.5)
+        run.font.color.rgb = RGBColor(0x1F, 0x3A, 0x5F)
+    rows = [
+        ("Modulo / HU / Tipo / Prioridad / Estado", f"{module} | {req} | {test_type} | {priority} | {title_case_status(status)}"),
+        ("Precondiciones", preconditions),
+        ("Datos de entrada", input_data),
+        ("Pasos de ejecucion", execution_steps(case)),
+        ("Resultado esperado", expected),
+        ("Notas / Evidencia", evidence_note(case)),
+    ]
+    for idx, (label, value) in enumerate(rows, start=1):
+        table.rows[idx].cells[0].text = label
+        table.rows[idx].cells[1].text = value
+        table.rows[idx].cells[0].width = Inches(1.6)
+        for cell in table.rows[idx].cells:
+            cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.TOP
+            for paragraph in cell.paragraphs:
+                for run in paragraph.runs:
+                    run.font.size = Pt(8.3)
+        for run in table.rows[idx].cells[0].paragraphs[0].runs:
+            run.bold = True
+    doc.add_paragraph()
+
+
+def add_meta_table(doc: Document, rows: list[tuple[str, str]]) -> None:
+    table = doc.add_table(rows=0, cols=2)
+    table.style = "Light Grid Accent 1"
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    for label, value in rows:
+        cells = table.add_row().cells
+        cells[0].text = label
+        cells[1].text = value
+        for run in cells[0].paragraphs[0].runs:
+            run.bold = True
+    doc.add_paragraph()
 
 
 def build_plan(path: Path) -> None:
@@ -440,6 +600,82 @@ def style_sheet(ws, widths: list[int] | None = None) -> None:
     ws.auto_filter.ref = ws.dimensions
 
 
+def save_workbook_safely(wb: Workbook, path: Path) -> None:
+    try:
+        wb.save(path)
+    except PermissionError:
+        SKIPPED_OUTPUTS.add(path)
+        print(f"WARN: no se pudo actualizar {path}; el archivo parece estar abierto o bloqueado.")
+
+
+def build_cases_docx(path: Path) -> None:
+    doc = Document()
+    set_doc_styles(doc)
+    counts = case_counts()
+
+    title = doc.add_paragraph()
+    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = title.add_run("ESPECIFICACION DE CASOS DE PRUEBA")
+    run.bold = True
+    run.font.size = Pt(22)
+    run.font.color.rgb = RGBColor(0x1F, 0x3A, 0x5F)
+    subtitle = doc.add_paragraph()
+    subtitle.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    subtitle.add_run("BrainSort — Plataforma educativa de visualizacion y aprendizaje de algoritmos").italic = True
+    doc.add_paragraph()
+    add_meta_table(doc, [
+        ("Proyecto", f"{PROJECT} — App movil React Native/Expo y API NestJS/Fastify"),
+        ("Version", f"{VERSION} — Ciclo de regresion U4-EJ26"),
+        ("Estandar", "ISO/IEC/IEEE 29119 — ISTQB Foundation Level"),
+        ("Responsable QA", AUTHORS),
+        (
+            "Total de casos",
+            f"{len(CASES)} casos de prueba ({counts['Paso']} Paso | {counts['Fallo']} Fallo | "
+            f"{counts['Bloqueado']} Bloqueado | {counts['Pendiente']} Pendiente)",
+        ),
+    ])
+    doc.add_page_break()
+
+    doc.add_heading("0. LEYENDA Y CONVENCIONES", level=1)
+    doc.add_paragraph("Tipos de prueba: (+) caso positivo / happy path; (-) caso negativo / error; (+/-) caso mixto.")
+    add_doc_table(doc, ["Campo de la ficha", "Descripcion"], [
+        ("ID", "Identificador unico del caso. Formato: CP-MODULO-NN."),
+        ("Nombre", "Descripcion concisa del comportamiento verificado."),
+        ("HU", "Historia de usuario, requisito funcional o contrato asociado."),
+        ("Tipo", "Categoria: Unitaria, E2E, Funcional, Robustez, Seguridad o Contrato."),
+        ("Prioridad", "Critica / Alta / Media / Baja."),
+        ("Modulo", "Componente o capa del sistema bajo prueba."),
+        ("Estado", "Paso / Fallo / Bloqueado / Pendiente."),
+        ("Precondiciones", "Estado del sistema y datos requeridos antes de ejecutar el caso."),
+        ("Datos de entrada", "Valores, acciones o condiciones usados durante la ejecucion."),
+        ("Pasos de ejecucion", "Secuencia ordenada que permite reproducir la verificacion."),
+        ("Resultado esperado", "Comportamiento observable que define el exito del caso."),
+        ("Notas / Evidencia", "Archivo de prueba, suite o evidencia asociada."),
+    ])
+
+    doc.add_heading("Resumen de estados — Ciclo de regresion", level=3)
+    add_doc_table(doc, ["Estado", "Cantidad", "Significado"], [
+        ("Paso", counts["Paso"], "El resultado observado coincide con el esperado."),
+        ("Fallo", counts["Fallo"], "El resultado observado difiere del esperado."),
+        ("Bloqueado", counts["Bloqueado"], "No puede ejecutarse por ausencia de prerrequisito."),
+        ("Pendiente", counts["Pendiente"], "No ejecutado en este ciclo."),
+    ])
+
+    for index, (module, items) in enumerate(cases_by_module().items(), start=1):
+        doc.add_heading(f"{index}. MODULO: {module.upper()}", level=1)
+        doc.add_paragraph(MODULE_DESCRIPTIONS.get(module, "Modulo cubierto por pruebas automatizadas del proyecto BrainSort."))
+        doc.add_heading(f"Casos de prueba — {module}", level=2)
+        for case in items:
+            add_case_card(doc, case)
+
+    doc.add_heading("ANEXO A — CLASES DE EQUIVALENCIA Y VALORES LIMITE", level=1)
+    add_doc_table(doc, ["Campo", "Clases validas", "Clases invalidas", "Valores limite"], [
+        (row[0], row[2], row[4], f"MIN-1={row[6]} | MIN={row[7]} | NORMAL={row[8]} | MAX={row[10]} | MAX+1={row[11]}")
+        for row in EQUIVALENCE_ROWS
+    ])
+    doc.save(path)
+
+
 def build_cases(path: Path) -> None:
     wb = Workbook()
     ws = wb.active
@@ -486,7 +722,149 @@ def build_cases(path: Path) -> None:
         ws_sum.append(row)
     style_sheet(ws_sum, [32, 80])
 
-    wb.save(path)
+    save_workbook_safely(wb, path)
+
+
+def build_report_docx(path: Path) -> None:
+    doc = Document()
+    set_doc_styles(doc)
+    counts = case_counts()
+    modules = module_counts()
+
+    title = doc.add_paragraph()
+    title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = title.add_run("INFORME DE RESULTADOS DE PRUEBAS")
+    run.bold = True
+    run.font.size = Pt(22)
+    run.font.color.rgb = RGBColor(0x1F, 0x3A, 0x5F)
+    subtitle = doc.add_paragraph()
+    subtitle.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    subtitle.add_run("TEST SUMMARY REPORT — CICLO DE REGRESION U4-EJ26").italic = True
+    project_line = doc.add_paragraph()
+    project_line.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    project_line.add_run("BrainSort — Plataforma educativa de algoritmos")
+    doc.add_paragraph()
+    add_meta_table(doc, [
+        ("Proyecto", f"{PROJECT} — App movil React Native/Expo, API NestJS/Fastify y paquete core"),
+        ("Version del informe", f"{VERSION} — Ciclo de regresion"),
+        ("Fecha de emision", DATE),
+        ("Responsable QA", AUTHORS),
+        ("Estandar aplicado", "ISO/IEC/IEEE 29119 — ISTQB Foundation Level"),
+        ("Decision Go/No-Go", "GO — evidencia automatizada aprobada; sin defectos criticos abiertos"),
+    ])
+    doc.add_page_break()
+
+    doc.add_heading("1. RESUMEN EJECUTIVO", level=1)
+    doc.add_paragraph(
+        "El presente documento consolida los resultados del ciclo de pruebas de BrainSort para la entrega U4-EJ26. "
+        "El ciclo cubre los repositorios brainsort-api, brainsort-app y brainsort-specs, con pruebas unitarias, "
+        "integracion/e2e, validacion de contratos frontend-backend, build, typecheck y lint."
+    )
+    doc.add_paragraph(
+        f"Se ejecutaron {TEST_EVIDENCE['total_tests']} pruebas automatizadas con resultado satisfactorio. "
+        "No se registran defectos criticos abiertos para la entrega de evidencias; los warnings de lint se mantienen "
+        "clasificados como no bloqueantes porque no impiden compilacion, ejecucion ni pruebas."
+    )
+    doc.add_paragraph("Decision: GO para la entrega de documentacion de pruebas y codificacion de pruebas automatizadas.")
+
+    doc.add_heading("2. METRICAS GLOBALES DEL CICLO", level=1)
+    doc.add_heading("2.1 Indicadores clave de calidad", level=2)
+    add_doc_table(doc, ["Indicador", "Valor", "Meta", "Cumplido"], [
+        ("Total de casos disenados", len(CASES), "Cobertura trazable a requisitos", "Si"),
+        ("Total de pruebas automatizadas", TEST_EVIDENCE["total_tests"], "Evidencia ejecutable", "Si"),
+        ("Casos en estado Paso", f"{counts['Paso']} ({counts['Paso']}/{len(CASES)})", "100% de casos catalogados activos", "Si"),
+        ("Casos en estado Fallo", counts["Fallo"], "0 antes de entrega", "Si"),
+        ("Casos Bloqueados", counts["Bloqueado"], "0 antes de entrega", "Si"),
+        ("API unitarias", TEST_EVIDENCE["api_unit"], "Suites pasan", "Si"),
+        ("API e2e", TEST_EVIDENCE["api_e2e"], "Suites pasan", "Si"),
+        ("Frontend/core", TEST_EVIDENCE["app_unit"], "Suites pasan", "Si"),
+        ("Build/typecheck", f"{TEST_EVIDENCE['api_build']} / {TEST_EVIDENCE['app_typecheck']}", "Sin errores", "Si"),
+        ("Lint", f"{TEST_EVIDENCE['api_lint']} / {TEST_EVIDENCE['app_lint']}", "0 errores", "Si"),
+    ])
+
+    doc.add_heading("2.2 Resultados por modulo", level=2)
+    add_doc_table(doc, ["Modulo", "Total", "Paso", "Fallo", "Bloqueado", "Pendiente"], [
+        (module, data["Total"], data["Paso"], data["Fallo"], data["Bloqueado"], data["Pendiente"])
+        for module, data in modules.items()
+    ] + [("TOTAL", len(CASES), counts["Paso"], counts["Fallo"], counts["Bloqueado"], counts["Pendiente"])])
+
+    doc.add_heading("2.3 Distribucion de defectos por severidad", level=2)
+    severity_counts: dict[str, int] = {}
+    for defect in DEFECTS:
+        severity_counts[defect[1]] = severity_counts.get(defect[1], 0) + 1
+    add_doc_table(doc, ["Severidad", "Cantidad", "Estado", "Impacto en release"], [
+        ("Alta", severity_counts.get("Alta", 0), "Cerrado", "No bloqueante tras correccion"),
+        ("Media", severity_counts.get("Media", 0), "Cerrado", "No bloqueante tras regresion"),
+        ("Baja", severity_counts.get("Baja", 0), "Aceptado", "No bloqueante"),
+    ])
+
+    doc.add_heading("3. RESULTADOS DETALLADOS DE EJECUCION", level=1)
+    add_doc_table(doc, ["Suite", "Comando", "Resultado", "Observaciones"], [
+        ("API unitarias", "npm test -- --runInBand", "Paso", TEST_EVIDENCE["api_unit"]),
+        ("API E2E", "npm run test:e2e -- --runInBand", "Paso", TEST_EVIDENCE["api_e2e"]),
+        ("API build", "npm run build", "Paso", TEST_EVIDENCE["api_build"]),
+        ("API lint", "npm run lint", "Paso", TEST_EVIDENCE["api_lint"]),
+        ("APP unitarias/core", "npm test -- --runInBand", "Paso", TEST_EVIDENCE["app_unit"]),
+        ("APP typecheck", "npm run typecheck", "Paso", TEST_EVIDENCE["app_typecheck"]),
+        ("APP lint", "npm run lint", "Paso", TEST_EVIDENCE["app_lint"]),
+    ])
+
+    doc.add_heading("4. ANALISIS DE RESULTADOS POR MODULO", level=1)
+    for module, data in modules.items():
+        doc.add_heading(f"4.x Modulo {module}", level=2)
+        doc.add_paragraph(
+            f"{MODULE_DESCRIPTIONS.get(module, 'Modulo verificado por pruebas automatizadas.')} "
+            f"Resultado del ciclo: {data['Paso']} de {data['Total']} casos en estado Paso; "
+            f"{data['Fallo']} fallos, {data['Bloqueado']} bloqueados y {data['Pendiente']} pendientes."
+        )
+
+    doc.add_heading("5. REGISTRO DE DEFECTOS", level=1)
+    for defect_id, severity, module, description, state, resolution, action in DEFECTS:
+        doc.add_heading(defect_id, level=3)
+        add_doc_table(doc, ["Campo", "Detalle"], [
+            ("Modulo", module),
+            ("Severidad", severity),
+            ("Descripcion", description),
+            ("Estado", state),
+            ("Resolucion", resolution),
+            ("Accion requerida / evidencia", action),
+        ])
+
+    doc.add_heading("6. ANALISIS DE RIESGOS RESIDUALES", level=1)
+    add_doc_table(doc, ["ID Riesgo", "Descripcion", "Probabilidad", "Impacto", "Mitigacion"], [
+        ("RSK-01", "Warnings de lint existentes pueden ocultar deuda tecnica futura.", "Media", "Bajo", "Atender progresivamente unsafe-any y unused en historias tecnicas."),
+        ("RSK-02", "Cambios futuros de contrato API/FE pueden desalinear servicios.", "Media", "Mayor", "Mantener contract-shapes.test.ts y e2e de API en CI."),
+        ("RSK-03", "Ejecucion manual movil no incluida en esta evidencia automatizada.", "Baja", "Moderado", "Agregar smoke test en dispositivo antes de demo final."),
+    ])
+
+    doc.add_heading("7. TRABAJO PENDIENTE PARA CICLO SIGUIENTE", level=1)
+    add_bullets(doc, [
+        "Reducir warnings de lint sin alterar comportamiento.",
+        "Agregar ejecucion CI obligatoria para API unitarias, API e2e y frontend typecheck.",
+        "Complementar evidencia con capturas o reporte de ejecucion en dispositivo movil real.",
+        "Mantener zips de entrega sin node_modules, builds generados ni credenciales.",
+    ])
+
+    doc.add_heading("8. DECISION GO / NO-GO", level=1)
+    add_doc_table(doc, ["Decision", "Fundamento"], [
+        (
+            "GO",
+            "La aplicacion BrainSort queda autorizada para entrega academica de evidencias de pruebas: "
+            f"{TEST_EVIDENCE['total_tests']} pruebas automatizadas pasan, los contratos criticos estan alineados "
+            "y no existen defectos criticos abiertos.",
+        )
+    ])
+
+    doc.add_heading("8.1 Firmas de aprobacion", level=2)
+    add_doc_table(doc, ["Rol", "Nombre", "Decision", "Firma / Fecha"], [
+        ("QA Lead", "Equipo BrainSort", "GO", "________________"),
+        ("Product Owner", "[A completar]", "GO", "________________"),
+        ("Tech Lead", "[A completar]", "GO", "________________"),
+    ])
+
+    doc.add_heading("ANEXO A — EVIDENCIA DE CODIGO AUTOMATIZADO", level=1)
+    add_doc_table(doc, ["Repo", "Archivo", "Tipo", "Tests", "Cobertura funcional"], AUTOMATED_FILES)
+    doc.save(path)
 
 
 def build_report(path: Path) -> None:
@@ -539,12 +917,8 @@ def build_report(path: Path) -> None:
 
     ws_def = wb.create_sheet("Registro de Defectos")
     ws_def.append(["ID", "Severidad", "Modulo", "Descripcion", "Estado", "Resolucion"])
-    for row in [
-        ("DEF-001", "Alta", "APP Simulacion", "Uso de Accent[400] inexistente rompia typecheck.", "Cerrado", TEST_EVIDENCE["app_commit"]),
-        ("DEF-002", "Media", "API Tests", "Cobertura de bordes insuficiente en servicios de algoritmos, ejercicios y simulaciones.", "Cerrado", TEST_EVIDENCE["api_commit"]),
-        ("DEF-003", "Baja", "Lint", "Warnings no bloqueantes de unsafe-any/unused en codigo existente.", "Aceptado", "No bloquea entrega; 0 errores."),
-    ]:
-        ws_def.append(row)
+    for defect_id, severity, module, description, state, resolution, _action in DEFECTS:
+        ws_def.append([defect_id, severity, module, description, state, resolution])
     style_sheet(ws_def, [12, 12, 24, 70, 14, 55])
 
     ws_ev = wb.create_sheet("Evidencia Codigo")
@@ -564,7 +938,7 @@ def build_report(path: Path) -> None:
         ws_con.append(row)
     style_sheet(ws_con, [28, 90])
 
-    wb.save(path)
+    save_workbook_safely(wb, path)
 
 
 def generate_all() -> None:
@@ -572,20 +946,29 @@ def generate_all() -> None:
     EXAMPLE_DIR.mkdir(parents=True, exist_ok=True)
     outputs = [
         OUT_DIR / "3.1-Plan-de-Pruebas-BrainSort.docx",
+        OUT_DIR / "3.2-Diseno-de-Casos-de-Prueba-BrainSort.docx",
         OUT_DIR / "3.2-Casos-de-Prueba-BrainSort.xlsx",
+        OUT_DIR / "3.3-Informe-de-Prueba-BrainSort.docx",
         OUT_DIR / "3.3-Informe-de-Prueba-BrainSort.xlsx",
         EXAMPLE_DIR / "3.1-Plan-de-Pruebas-EJEMPLO.docx",
+        EXAMPLE_DIR / "3.2-Diseno-de-Casos-de-Prueba-EJEMPLO.docx",
         EXAMPLE_DIR / "3.2-Casos-de-Prueba-EJEMPLO.xlsx",
+        EXAMPLE_DIR / "3.3-Informe-de-Prueba-EJEMPLO.docx",
         EXAMPLE_DIR / "3.3-Informe-de-Prueba-EJEMPLO.xlsx",
     ]
     build_plan(outputs[0])
-    build_cases(outputs[1])
-    build_report(outputs[2])
-    build_plan(outputs[3])
-    build_cases(outputs[4])
-    build_report(outputs[5])
+    build_cases_docx(outputs[1])
+    build_cases(outputs[2])
+    build_report_docx(outputs[3])
+    build_report(outputs[4])
+    build_plan(outputs[5])
+    build_cases_docx(outputs[6])
+    build_cases(outputs[7])
+    build_report_docx(outputs[8])
+    build_report(outputs[9])
     for output in outputs:
-        print(f"OK: {output}")
+        status = "SKIP" if output in SKIPPED_OUTPUTS else "OK"
+        print(f"{status}: {output}")
 
 
 if __name__ == "__main__":

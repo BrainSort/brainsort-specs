@@ -61,10 +61,11 @@ BrainSort requiere un proceso de pruebas formal que valide la correcta implement
 | Offline | ✅ 4 tests | ✅ Cubierto en `learning-support.e2e-spec.ts` | Media |
 | Diagnostics | ✅ 5 tests | ✅ Cubierto en `learning-support.e2e-spec.ts` | Media |
 | Learning Path | ✅ 3 tests | ✅ Cubierto en `learning-support.e2e-spec.ts` | Media |
-| Engines (FE) | ✅ 20 tests (4 engines × 5) | — | Crítica |
+| Engines (FE) | ✅ 24 tests (4 engines sort + estructuras lineales) | — | Crítica |
 | Math (FE) | ✅ 4 tests | — | Alta |
-| Validators (FE) | ✅ 7 tests | — | Alta |
-| Service contracts (FE) | ✅ 4 tests | — | Alta |
+| Validators (FE) | ✅ 15 tests (core + UI) | — | Alta |
+| Formatters/XP (FE) | ✅ 12 tests | — | Media |
+| Service contracts/API services (FE) | ✅ 11 tests | — | Alta |
 
 ## 4. Criterios de Aceptación
 
@@ -73,7 +74,7 @@ BrainSort requiere un proceso de pruebas formal que valide la correcta implement
 | Cobertura de líneas (services) | Jest `--coverage` | ≥ 80% |
 | Cobertura de líneas (controllers) | Jest `--coverage` | ≥ 70% |
 | Casos críticos | Tests marcados como Crítica | 100% PASADOS |
-| Total de tests | 162 pruebas automatizadas ejecutadas | 100% pasando |
+| Total de tests | 193 pruebas automatizadas ejecutadas | 100% pasando |
 | Defectos bloqueantes | Severidad Crítica abiertos | 0 |
 | FPS simulación | Bubble Sort 15 elem, 2.0x | ≥ 24 FPS |
 | Tiempo de carga | Desde tap hasta barras visibles | < 3 segundos |

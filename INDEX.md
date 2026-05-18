@@ -28,6 +28,7 @@ graph TD
 | Archivo | Descripción |
 |---|---|
 | [`constitution.md`](./constitution.md) | Principios innegociables del proyecto (Stack, UI/UX, Reglas). Todo Agente IA debe leer esto primero. |
+| [`UI_UX_ENHANCEMENT_SPEC.md`](./UI_UX_ENHANCEMENT_SPEC.md) | Dirección visual, sistema de diseño y reglas de componentes UX para la interfaz de BrainSort. |
 
 ## 2. Características (Features)
 
@@ -95,4 +96,3 @@ La carpeta [`MANUAL DE USO/`](./MANUAL%20DE%20USO/) contiene las guías de ejecu
 ---
 
 > **Metodología:** Las especificaciones aquí documentadas son "Living Documents" (Documentos Vivos). Si una decisión de arquitectura o requerimiento de negocio cambia durante el ciclo de vida de BrainSort, los archivos `.plan.md` y `.spec.md` afectados deben actualizarse antes de escribir el código.
-
