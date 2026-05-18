@@ -156,6 +156,16 @@
 - [x] **T-BE-061**: Implementar `selection-sort.engine.ts` — Engine auto-contenido de Selection Sort: `pseudocode` (6 líneas), `execute()` con mapeo de líneas
 - [x] **T-BE-062**: Implementar `insertion-sort.engine.ts` — Engine auto-contenido de Insertion Sort: `pseudocode` (7 líneas), `execute()` con mapeo de líneas
 - [x] **T-BE-063**: Crear `engines/registry.ts` — Registro centralizado `Record<string, AlgorithmDefinition>` con función `getEngine(nombre)` que lanza `NotFoundException` si el engine no existe. Timeout de seguridad: si un engine excede 10 segundos, abortar con error 408 (HU-06)
+- [ ] **T-BE-101**: Implementar `merge-sort.engine.ts` — Engine auto-contenido de Merge Sort con pasos de división, merge y mapeo de pseudocódigo.
+- [ ] **T-BE-102**: Implementar `quick-sort.engine.ts` — Engine auto-contenido de Quick Sort con selección de pivote, partición, swaps y mapeo de pseudocódigo.
+- [ ] **T-BE-103**: Implementar `heap-sort.engine.ts` — Engine auto-contenido de Heap Sort con heapify, extracción de máximo/mínimo y mapeo de pseudocódigo.
+- [ ] **T-BE-104**: Implementar `binary-search.engine.ts` — Engine auto-contenido de Binary Search con punteros `low`, `mid`, `high` y pasos de comparación.
+- [ ] **T-BE-105**: Implementar `linear-search.engine.ts` — Engine auto-contenido de Linear Search con pasos secuenciales y estado encontrado/no encontrado.
+- [ ] **T-BE-106**: Implementar engines o visualizaciones operacionales para `Deque` y `Priority Queue`.
+- [ ] **T-BE-107**: Registrar todos los engines nuevos en `src/simulations/engines/registry.ts` y verificar que `GET /api/algoritmos/:id` obtiene pseudocódigo correcto.
+- [ ] **T-BE-108**: Actualizar `prisma/seed.ts` para incluir metadatos, dificultad, categoría y tags de los 7 algoritmos/estructuras nuevos.
+- [ ] **T-BE-109**: Garantizar que el seed sea idempotente para algoritmos nuevos usando `upsert` por `nombre`.
+- [ ] **T-BE-110**: Crear pruebas unitarias para los engines nuevos con datasets normales, límites y casos ya ordenados/no encontrados según corresponda.
 
 ---
 
@@ -173,6 +183,11 @@
   5. Recalcular `posiciónRanking`
 - [x] **T-BE-067**: Crear `answer-exercise.dto.ts` con campo `respuesta`
 - [x] **T-BE-068**: Crear `exercise-result.dto.ts` con campos: `correcto`, `feedbackPositivo`/`feedbackNegativo`, `puntosGanados`, `rachaDias`, `posicionRanking`, `nivelActual`
+- [ ] **T-BE-111**: Ampliar `seed.ts` para crear mínimo 3 ejercicios por cada algoritmo activo.
+- [ ] **T-BE-112**: Crear ejercicios para Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque y Priority Queue.
+- [ ] **T-BE-113**: Validar cobertura mínima de ejercicios: algoritmo activo requiere al menos 3 ejercicios asociados.
+- [ ] **T-BE-114**: Implementar endpoints administrativos para gestión de ejercicios: `POST /api/ejercicios`, `PATCH /api/ejercicios/:id`, `DELETE /api/ejercicios/:id`.
+- [ ] **T-BE-115**: Agregar validación anti-duplicados de preguntas en seed y CRUD administrativo de ejercicios.
 
 ---
 
@@ -518,6 +533,12 @@
 - [ ] **T-FE-122**: Crear `ManageAlgorithmsScreen.tsx` — CRUD de algoritmos
 - [ ] **T-FE-123**: Crear `ManageExercisesScreen.tsx` — CRUD de ejercicios de predicción por algoritmo
 - [ ] **T-FE-124**: Crear `ViewUsersScreen.tsx` — Lista paginada de usuarios registrados (solo lectura)
+- [ ] **T-FE-131**: Actualizar `LibraryScreen.tsx` para soportar 13+ algoritmos con grid responsive, filtros por categoría, tags y búsqueda.
+- [ ] **T-FE-132**: Mostrar estado "Próximamente" o no navegable cuando un algoritmo exista en DB pero no tenga engine disponible.
+- [ ] **T-FE-133**: Actualizar `AlgorithmCard.tsx` para mostrar progreso de ejercicios por algoritmo cuando exista más de un ejercicio asociado.
+- [ ] **T-FE-134**: Actualizar `ExerciseScreen.tsx` para listar múltiples ejercicios por algoritmo y permitir elegir dificultad.
+- [ ] **T-FE-135**: Mostrar estado "Práctica en preparación" si el algoritmo activo no cumple la cobertura mínima de ejercicios.
+- [ ] **T-FE-136**: Integrar `ManageExercisesScreen.tsx` con los endpoints administrativos de creación, edición y eliminación de ejercicios.
 
 ---
 
@@ -802,6 +823,37 @@
 ---
 ---
 
+# 📚 FASE 6.1: Expansión de Catálogo y Banco de Ejercicios
+
+> **Specs**: [`library-simulation.spec.md`](../features/library-simulation.spec.md) §3.1 y [`gamification-exercises.spec.md`](../features/gamification-exercises.spec.md) §2-§3
+> **Objetivo**: ampliar la app más allá del catálogo semilla, agregando más algoritmos, engines de simulación y ejercicios por dificultad.
+
+## 📁 Backend (`brainsort-api`)
+
+- [ ] **T-BE-116**: Definir catálogo expandido mínimo en documentación y seed: 13 algoritmos/estructuras activos.
+- [ ] **T-BE-117**: Validar que cada algoritmo activo tenga metadatos completos: `nombre`, `descripcion`, `dificultad`, `complejidadTiempo`, `complejidadEspacio`, `categoria`, `tags`.
+- [ ] **T-BE-118**: Sincronizar catálogo expandido con módulos offline para que `GET /api/modules/offline/:id/download` incluya ejercicios nuevos.
+- [ ] **T-BE-119**: Crear script o prueba de integridad que falle si un algoritmo activo no tiene engine cuando debe ser simulable.
+- [ ] **T-BE-120**: Crear script o prueba de integridad que falle si un algoritmo activo tiene menos de 3 ejercicios.
+
+## 📁 Frontend (`brainsort-app`)
+
+- [ ] **T-FE-137**: Verificar visualmente la biblioteca con 13+ tarjetas en desktop, tablet y móvil.
+- [ ] **T-FE-138**: Actualizar rutas de aprendizaje para incluir algoritmos nuevos en secuencias por nivel.
+- [ ] **T-FE-139**: Ajustar copy de biblioteca y progreso para no asumir que solo existen 6 algoritmos.
+- [ ] **T-FE-140**: Agregar pruebas de UI para filtros, búsqueda y navegación con catálogo expandido.
+
+## 📁 Criterios de Aceptación
+
+- [ ] **T-CA-001**: `GET /api/biblioteca` retorna los 6 algoritmos base más los nuevos elementos activos sin cambiar el contrato.
+- [ ] **T-CA-002**: Cada algoritmo nuevo tiene al menos 3 ejercicios consultables por `GET /api/ejercicios/:algoId`.
+- [ ] **T-CA-003**: Cada engine nuevo genera pasos con `numeroPaso`, `tipoOperacion`, `indicesActivos`, `estadoArray` y `lineaPseudocodigo`.
+- [ ] **T-CA-004**: La biblioteca permite buscar por nombre, categoría y tag en el catálogo expandido.
+- [ ] **T-CA-005**: El flujo E2E funciona para al menos un algoritmo nuevo de Ordenamiento, uno de Búsqueda y una Estructura Lineal.
+
+---
+---
+
 # 🧪 FASE 7: Pruebas de Software — Documentación y Código Automatizado
 
 > **Ref**: Entregable U4-EJ26 — Línea base de Pruebas
@@ -896,6 +948,16 @@
 - [x] **T-QA-019**: Crear `packages/core/src/engines/__tests__/selection-sort.test.ts` — Tests del engine Selection Sort (misma estructura que Bubble Sort)
 
 - [x] **T-QA-020**: Crear `packages/core/src/engines/__tests__/insertion-sort.test.ts` — Tests del engine Insertion Sort (misma estructura que Bubble Sort)
+
+- [ ] **T-QA-027**: Crear tests unitarios de engines nuevos: Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque y Priority Queue.
+
+- [ ] **T-QA-028**: Crear test de integridad de catálogo: todo `Algoritmo.activo = true` debe tener metadatos completos, tags y categoría válida.
+
+- [ ] **T-QA-029**: Crear test de integridad de ejercicios: todo `Algoritmo.activo = true` debe tener al menos 3 ejercicios asociados.
+
+- [ ] **T-QA-030**: Crear tests E2E para `GET /api/biblioteca` con catálogo expandido y filtros por categoría/tag.
+
+- [ ] **T-QA-031**: Crear tests E2E para `GET /api/ejercicios/:algoId` verificando múltiples ejercicios por dificultad.
 
 ### Pruebas Unitarias de Validadores
 
