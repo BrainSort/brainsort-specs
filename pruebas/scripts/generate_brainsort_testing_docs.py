@@ -45,6 +45,7 @@ TEST_EVIDENCE = {
     "api_unit": "11 suites / 94 tests pasados",
     "api_e2e": "7 suites / 33 tests pasados",
     "app_unit": "12 suites / 66 tests pasados",
+    "app_e2e": "1 suite Playwright / 3 tests pasados",
     "api_build": "npm run build OK",
     "app_typecheck": "npm run typecheck OK",
     "api_lint": "npm run lint: 0 errores, 135 warnings no bloqueantes existentes",
@@ -52,7 +53,7 @@ TEST_EVIDENCE = {
     "api_commit": "86b4413 base + cambios locales de contratos",
     "app_commit": "b66290b base dev + cambios locales de contratos",
     "branch": "API feature/unit-tests-qa; APP feature/contract-consistency-fixes",
-    "total_tests": "193",
+    "total_tests": "196",
 }
 
 DEFECTS = [
@@ -137,6 +138,7 @@ AUTOMATED_FILES = [
     ("APP", "src/utils/__tests__/validators.test.ts", "Unitaria", 8, "Validadores de auth, dataset y velocidad"),
     ("APP", "src/utils/__tests__/formatters.test.ts", "Unitaria", 6, "Formato de numeros, fechas relativas, velocidad y texto"),
     ("APP", "src/utils/__tests__/xp.utils.test.ts", "Unitaria", 6, "Formula XP, nivel, progreso y tiers"),
+    ("APP", "e2e/app-flows.spec.ts", "E2E Web", 3, "Login, ruta de aprendizaje y perfil en Expo Web con Playwright"),
 ]
 
 CASES = [
@@ -192,6 +194,9 @@ CASES = [
     ("CP-FE-UTL-001", "Utilidades FE", "Unitaria", "RF-UX", "Validadores de formularios y dataset", "Funciones puras disponibles", "nombre, correo, password, rol, dataset y velocidad", "Acepta entradas validas y rechaza clases invalidas con mensajes claros", "PASO", "Alta", "src/utils/__tests__/validators.test.ts"),
     ("CP-FE-UTL-002", "Utilidades FE", "Unitaria", "RF-UX", "Formateadores de interfaz", "Funciones puras disponibles", "puntos, porcentajes, tamanos, velocidades, duraciones y descripciones", "Formatea valores para UI en locale es-MX y trunca descripciones", "PASO", "Media", "src/utils/__tests__/formatters.test.ts"),
     ("CP-FE-XP-001", "Gamificacion FE", "Unitaria", "RF-PRG", "Calculo local de XP, nivel y tier", "Funciones puras disponibles", "puntos acumulados y niveles limite", "Respeta formula cuadratica, nivel maximo, progreso y tier esperado", "PASO", "Alta", "src/utils/__tests__/xp.utils.test.ts"),
+    ("CP-FE-E2E-001", "Login UI", "E2E Web", "RF-AUTH", "Login desde pantalla web", "Expo Web levantado y API mockeada", "correo y contrasena validos", "Autentica y muestra navegacion principal", "PASO", "Critica", "e2e/app-flows.spec.ts"),
+    ("CP-FE-E2E-002", "Ruta UI", "E2E Web", "RF-RUTA", "Ruta de aprendizaje visible", "Sesion dev activa y API mockeada", "click en tab Ruta", "Muestra secuencia recomendada con algoritmos", "PASO", "Alta", "e2e/app-flows.spec.ts"),
+    ("CP-FE-E2E-003", "Perfil UI", "E2E Web", "RF-USR", "Perfil muestra y actualiza nombre", "Sesion dev activa y API mockeada", "editar nombre y guardar", "Muestra datos de usuario y persiste nombre local editado", "PASO", "Alta", "e2e/app-flows.spec.ts"),
 ]
 
 EQUIVALENCE_ROWS = [
@@ -555,6 +560,7 @@ def build_plan(path: Path) -> None:
         ("API unitarios", TEST_EVIDENCE["api_unit"]),
         ("API E2E", TEST_EVIDENCE["api_e2e"]),
         ("Frontend core", TEST_EVIDENCE["app_unit"]),
+        ("Frontend E2E Web", TEST_EVIDENCE["app_e2e"]),
         ("Tasa de exito automatizada", "100%"),
         ("Defectos criticos abiertos", "0"),
     ])
@@ -714,6 +720,7 @@ def build_cases(path: Path) -> None:
         ("API unitarios", TEST_EVIDENCE["api_unit"]),
         ("API E2E", TEST_EVIDENCE["api_e2e"]),
         ("Frontend core", TEST_EVIDENCE["app_unit"]),
+        ("Frontend E2E Web", TEST_EVIDENCE["app_e2e"]),
         ("Rama evidencia", TEST_EVIDENCE["branch"]),
         ("Commit API", TEST_EVIDENCE["api_commit"]),
         ("Commit APP", TEST_EVIDENCE["app_commit"]),
@@ -778,6 +785,7 @@ def build_report_docx(path: Path) -> None:
         ("API unitarias", TEST_EVIDENCE["api_unit"], "Suites pasan", "Si"),
         ("API e2e", TEST_EVIDENCE["api_e2e"], "Suites pasan", "Si"),
         ("Frontend/core", TEST_EVIDENCE["app_unit"], "Suites pasan", "Si"),
+        ("Frontend E2E Web", TEST_EVIDENCE["app_e2e"], "Login, ruta y perfil", "Si"),
         ("Build/typecheck", f"{TEST_EVIDENCE['api_build']} / {TEST_EVIDENCE['app_typecheck']}", "Sin errores", "Si"),
         ("Lint", f"{TEST_EVIDENCE['api_lint']} / {TEST_EVIDENCE['app_lint']}", "0 errores", "Si"),
     ])
@@ -805,6 +813,7 @@ def build_report_docx(path: Path) -> None:
         ("API build", "npm run build", "Paso", TEST_EVIDENCE["api_build"]),
         ("API lint", "npm run lint", "Paso", TEST_EVIDENCE["api_lint"]),
         ("APP unitarias/core", "npm test -- --runInBand", "Paso", TEST_EVIDENCE["app_unit"]),
+        ("APP E2E Web", "npm run test:e2e", "Paso", TEST_EVIDENCE["app_e2e"]),
         ("APP typecheck", "npm run typecheck", "Paso", TEST_EVIDENCE["app_typecheck"]),
         ("APP lint", "npm run lint", "Paso", TEST_EVIDENCE["app_lint"]),
     ])
@@ -895,6 +904,7 @@ def build_report(path: Path) -> None:
         ("API build", "npm run build", "PASO", TEST_EVIDENCE["api_build"]),
         ("API lint", "npm run lint", "PASO", TEST_EVIDENCE["api_lint"]),
         ("APP unitarias core", "npm test -- --runInBand", "PASO", TEST_EVIDENCE["app_unit"]),
+        ("APP E2E Web", "npm run test:e2e", "PASO", TEST_EVIDENCE["app_e2e"]),
         ("APP typecheck", "npm run typecheck", "PASO", TEST_EVIDENCE["app_typecheck"]),
         ("APP lint", "npm run lint", "PASO", TEST_EVIDENCE["app_lint"]),
     ]:
