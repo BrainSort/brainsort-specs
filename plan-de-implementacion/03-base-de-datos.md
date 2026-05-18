@@ -272,6 +272,17 @@ model RespuestaEjercicio {
 }
 ```
 
+## 1.1 Expansión Planificada de Datos Semilla
+
+La línea base de seed puede contener un subconjunto mínimo para validar el flujo de biblioteca, simulación y gamificación. La siguiente fase debe ampliar explícitamente los datos semilla:
+
+- Mantener los 6 elementos actualmente usados por la app: Bubble Sort, Insertion Sort, Selection Sort, Linked List, Queue y Stack.
+- Agregar al menos 7 elementos nuevos: Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque y Priority Queue.
+- Cada `Algoritmo` nuevo debe incluir `tags` normalizados, `dificultad`, `categoria`, `complejidadTiempo` y `complejidadEspacio`.
+- Cada `Algoritmo.activo = true` debe tener al menos 3 registros en `EjercicioPrediccion`.
+- El seed debe usar `upsert` por `nombre` para algoritmos y una estrategia anti-duplicados para ejercicios.
+- La ejecución repetida de `npx prisma db seed` no debe duplicar ejercicios ni cambiar IDs innecesariamente.
+
 ---
 
 ## 2. Mapeo: Modelo del Dominio → Prisma

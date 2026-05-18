@@ -19,6 +19,8 @@ Los estudiantes necesitan un incentivo atractivo para practicar algoritmos. Brai
 - Depende de la Simulación actual (según Glosario).
 - Atributos según Modelo del Dominio: `pregunta`, `respuestaCorrecta`, `dificultad`, `feedbackPositivo`, `feedbackNegativo`.
 - **Nota**: El modelo de dominio NO define un campo `opciones`. Las opciones de respuesta múltiple son una decisión de implementación de UI, no del dominio.
+- La siguiente fase debe ampliar el banco de ejercicios: cada algoritmo activo debe tener al menos 3 ejercicios asociados, distribuidos por dificultad cuando aplique.
+- Los ejercicios deben cubrir más que memorización: predicción de siguiente estado, identificación de complejidad, operación ejecutada y detección de error común.
 
 ### Insignias
 - Atributos: `nombre`, `descripción`, `imagen`, `criterioDesbloqueo`, `fechaObtención`.
@@ -29,6 +31,11 @@ Los estudiantes necesitan un incentivo atractivo para practicar algoritmos. Brai
 - **ProgresoUsuario** con los 4 atributos del modelo: puntosTotales, nivelActual, rachaDías, posiciónRanking.
 - **Insignias** con criterios de desbloqueo y fechaObtención.
 - **EjercicioPredicción** asociado a un Algoritmo específico.
+- Banco ampliado de ejercicios por algoritmo activo:
+  - mínimo 1 ejercicio Fácil,
+  - mínimo 1 ejercicio Medio,
+  - mínimo 1 ejercicio Difícil cuando el algoritmo tenga suficiente complejidad pedagógica,
+  - feedback positivo y negativo específico al error esperado.
 - Mensaje de finalización con opciones "Reiniciar", "Siguiente Algoritmo", "Ver Código" (HU-07).
 - Mensaje de éxito desaparece automáticamente después de 5 segundos (HU-07).
 
@@ -39,3 +46,5 @@ Los estudiantes necesitan un incentivo atractivo para practicar algoritmos. Brai
 ## 4. Edge Cases & Error Handling
 - Envíos rápidos múltiples a un ejercicio: debounce hasta que regrese la respuesta del backend.
 - El mensaje de finalización no debe bloquear la interfaz de navegación principal (HU-07).
+- Si un algoritmo no tiene ejercicios suficientes, la UI debe mostrar estado "Práctica en preparación" y no bloquear la simulación.
+- El seed de ejercicios debe ser idempotente: no duplicar preguntas en ejecuciones repetidas.

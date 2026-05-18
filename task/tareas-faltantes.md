@@ -131,3 +131,16 @@
 - [ ] **Algoritmo de Enrutamiento**: ¿Qué reglas exactas determinan la secuencia de la `RutaAprendizaje` generada en base al puntaje del diagnóstico?
 - [ ] **Tags en Algoritmos**: Definir un catálogo inicial de tags para los algoritmos (ej. `["divide-y-venceras", "recursividad", "in-place", "estable"]`).
 - [ ] **Re-evaluación**: ¿Puede el usuario volver a tomar el test diagnóstico para reajustar su ruta de aprendizaje más adelante?
+
+---
+
+## 10. Expansión de Catálogo y Banco de Ejercicios
+
+> **Propósito**: La app ya tiene una línea base funcional con algoritmos semilla. La siguiente fase requiere ampliar contenido sin romper la biblioteca, simulación, práctica y módulos offline.
+
+- [ ] **Catálogo Final de la Fase**: Confirmar si la expansión mínima será exactamente 13 elementos activos: Bubble Sort, Insertion Sort, Selection Sort, Linked List, Queue, Stack, Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque y Priority Queue.
+- [ ] **Cobertura por Categoría**: Definir si se agregan más categorías además de `Ordenamiento`, `Busqueda` y `EstructurasLineales`.
+- [ ] **Cobertura de Ejercicios**: Confirmar mínimo de 3 ejercicios por algoritmo activo y distribución deseada por dificultad (`Facil`, `Medio`, `Dificil`).
+- [ ] **Contenido de Ejercicios**: Definir si los ejercicios serán solo de predicción de estado o también de complejidad, identificación de operación y errores comunes.
+- [ ] **Algoritmos No Simulables**: Definir si se permite publicar algoritmos sin engine como `activo = false` / "Próximamente", o si todo algoritmo visible debe ser simulable.
+- [ ] **Administración de Contenido**: Confirmar si el CRUD de ejercicios será obligatorio en el panel admin durante esta fase o si bastará con seed/migraciones.

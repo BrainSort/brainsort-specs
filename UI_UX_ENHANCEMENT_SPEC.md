@@ -7,6 +7,9 @@
 **Personalidad visual de la app:**
 BrainSort debe sentirse como una herramienta educativa "Premium", inmersiva y tecnológica. Su modo por defecto debe ser un *Dark Mode* profundo que haga resaltar las animaciones vibrantes de los algoritmos de ordenamiento.
 
+**Dirección vigente — Neon Learning Dashboard:**
+A partir del rediseño de la Biblioteca, la interfaz principal debe seguir un estilo de dashboard técnico/neón: fondo azul-negro profundo, panel lateral fijo en desktop, tarjetas con bordes luminosos, métricas superiores, chips de filtro y pequeñas ilustraciones SVG por algoritmo. La experiencia debe sentirse cercana a una consola de aprendizaje moderna, no a una lista genérica de cards.
+
 **Referencias de estilo:**
 - Herramientas modernas de productividad para desarrolladores (ej. VS Code themes oscuros, Vercel, Linear).
 - Plataformas Ed-Tech de alta gama.
@@ -38,13 +41,36 @@ Basado estrictamente en los archivos en `brainsort-app/src/styles/` (`colors.ts`
   - Error / Intercambio: `#D0021B` (Rojo)
   - Info / Inactivo: `#4A90D9` (Azul)
 
+#### Paleta aplicada al dashboard principal
+
+Estos valores concretan el estilo usado en `LibraryScreen` y deben guiar pantallas de biblioteca, ruta y progreso:
+
+| Token visual | Valor | Uso |
+|---|---:|---|
+| Fondo principal | `#020811` | Fondo de dashboard y viewport web |
+| Fondo sidebar | `#05121F` / `rgba(5,18,31,.98)` | Navegación lateral desktop |
+| Panel/card | `rgba(10,24,39,.90)` | Tarjetas de algoritmo |
+| Panel elevado | `rgba(11,24,38,.78)` | Search, filtros, stats |
+| Borde sutil | `rgba(126,157,183,.22)` | Separación de panels |
+| Cian foco | `#00CDD6` / `#20D8E2` | Filtros activos, SVG técnico, focus |
+| Azul CTA | `#237FFF` | Gradiente de acción primaria |
+| Verde progreso | `#A6FF2E` | Progreso, métricas Big-O destacadas |
+| Verde dificultad fácil | `#5BBE37` | Badge `Fácil` |
+| Cian dificultad media | `#19BFD2` | Badge `Medio` |
+| Texto primario | `#F6FBFF` | Titulares y nombres de algoritmo |
+| Texto secundario | `#C4CDD5` | Descripciones de tarjetas |
+| Texto muted | `#9AA9B6` | Subtítulos y helper text |
+
+No usar paletas beige, moradas dominantes, grises planos sin cian, ni fondos claros para el producto principal salvo pantallas explícitamente administrativas o documentos.
+
 ### Tipografía
-- **Fuente recomendada**: `Inter` (cargada vía expo-font), y fallbacks a `Courier New` / `monospace` para código.
+- **Fuente recomendada**: `Inter` cuando esté disponible. En web usar fallback `Inter, "Segoe UI", Arial, sans-serif`; en móvil usar fuente de sistema (`System` / `sans-serif`). Para código usar `Courier New` / `monospace`.
 - **h1**: 36pt (`4xl`), peso Extra-Bold u 800. Altura de línea *tight*.
 - **h2**: 28pt (`3xl`), peso Bold o 700.
 - **h3**: 22pt (`2xl`), peso SemiBold o 600.
 - **Body**: 16pt (Lg) o 14pt (Md), peso Regular o 400. Altura de línea *normal*.
 - **Caption**: 10pt (xs), peso Regular o 400.
+- **Dashboard desktop**: títulos de pantalla entre 32-36px, tarjetas entre 20-24px, tags entre 9-12px. Mantener `letterSpacing: 0` para evitar ruido visual.
 
 ### Espaciado
 Basado en una unidad de 4dp (`Spacing` object en `spacing.ts`):
@@ -109,6 +135,20 @@ Basado en una unidad de 4dp (`Spacing` object en `spacing.ts`):
 ### LibraryScreen (Dashboard Principal)
 - **Propósito**: Explorar los algoritmos disponibles.
 - **Importante**: La cuadrícula de tarjetas de algoritmo (`AlgorithmCard`).
+- **Layout desktop vigente**:
+  - Sidebar izquierdo fijo con marca BrainSort, navegación y paneles de progreso.
+  - Header con título, subtítulo, buscador y CTA "Continuar ruta".
+  - Banda de métricas: temas disponibles, completados, en progreso, tiempo invertido.
+  - Filtros tipo chip: Todos, Ordenamiento, Búsqueda, Estructuras lineales.
+  - Grid 3x2 para el catálogo semilla de 6 algoritmos; al crecer a 13+ algoritmos, mantener grid 3 columnas con scroll vertical.
+- **Tarjetas de algoritmo**:
+  - Fondo oscuro elevado, borde sutil y glow controlado.
+  - Bubble Sort destacado con borde verde y estrella.
+  - Cada tarjeta incluye ilustración SVG técnica específica, badge de dificultad, descripción corta, tags, complejidad y progreso.
+  - Evitar emojis como iconografía principal dentro de las cards; usar SVG técnico o iconos coherentes.
+- **Responsive**:
+  - Desktop: sidebar + contenido; ocultar bottom tabs.
+  - Móvil: sin sidebar; conservar bottom tabs y apilar tarjetas en una columna.
 - **Mejoras**: Usar efecto Skeleton para indicar que se está cargando la biblioteca. Mostrar insignias sutiles de dificultad en cada tarjeta. Si no hay algoritmos, mostrar un Empty State amigable.
 
 ### AlgorithmDetailScreen & SimulationScreen

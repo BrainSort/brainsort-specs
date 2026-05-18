@@ -86,13 +86,40 @@ sequenceDiagram
 
 **In-Scope:**
 - Biblioteca de algoritmos categorizada con tarjetas descriptivas.
+- La biblioteca debe poder crecer por fases. La línea base actual contiene 6 algoritmos semilla: Bubble Sort, Insertion Sort, Selection Sort, Linked List, Queue y Stack.
+- La siguiente fase de contenido debe agregar nuevos algoritmos sin romper el contrato `GET /api/biblioteca`, manteniendo `nombre`, `descripcion`, `dificultad`, `complejidadTiempo`, `complejidadEspacio`, `categoria` y `tags`.
+- Cada algoritmo nuevo debe tener engine auto-contenido cuando sea simulable: `meta`, `pseudocode` y `execute(data)`.
 - Motor de simulación visual paso a paso con controles Play/Pausa.
 - Velocidad ajustable en rango **[0.25x, 2.0x]** en incrementos de 0.25x (según Glosario).
 - Datos de entrada: **Predeterminados** (auto-generados) y **Personalizados** (del usuario) — según Modelo del Dominio.
 - La línea base implementada expone consulta de biblioteca y detalle de algoritmo. El CRUD administrativo de algoritmos queda como extensión planificada y no forma parte de los endpoints actuales verificados en U4-EJ26.
 
+### 3.1 Expansión del Catálogo de Algoritmos
+
+La expansión debe priorizar algoritmos y estructuras que aporten variedad pedagógica y que puedan conectarse a ejercicios predictivos.
+
+**Catálogo objetivo mínimo de la siguiente fase:**
+
+| Categoría | Algoritmos/Estructuras a agregar | Requisito de simulación |
+|---|---|---|
+| Ordenamiento | Merge Sort, Quick Sort, Heap Sort | Engine visual paso a paso obligatorio |
+| Búsqueda | Binary Search, Linear Search | Engine visual paso a paso obligatorio |
+| Estructuras Lineales | Deque, Priority Queue | Engine o visualización operacional obligatoria |
+
+**Criterios de aceptación:**
+
+- `GET /api/biblioteca` debe retornar los nuevos elementos activos junto con los 6 existentes.
+- Los filtros por categoría y búsqueda deben cubrir nombres, categorías y tags de los nuevos elementos.
+- Ningún algoritmo nuevo puede aparecer en la biblioteca si no tiene al menos:
+  - metadatos completos,
+  - tags,
+  - dificultad,
+  - descripción de máximo 140 caracteres,
+  - al menos 3 ejercicios asociados.
+- Los algoritmos marcados como "Próximamente" pueden existir en base de datos, pero deben ser `activo = false` o mostrar estado no navegable en UI.
+
 **Out-of-Scope:**
-- Algoritmos de búsqueda en primera versión.
+- Algoritmos de grafos avanzados (A*, Dijkstra, Bellman-Ford) hasta que exista una visualización de grafos dedicada.
 
 ## 4. Contratos de Operación (Según BrainSort-Contratos.docx)
 - **CO1 - getLibrary()**: Crea instancia de BibliotecaDeAlgoritmos, lista de algoritmos con descripciones, tarjeta por algoritmo, rutas de aprendizaje. (Pre: Se solicitó la biblioteca).

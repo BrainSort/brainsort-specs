@@ -13,7 +13,7 @@ El motor de simulación calcula los pasos del algoritmo. El frontend actúa como
 // Response -> 200 OK
 {
   "categorias": ["Ordenamiento", "Búsqueda", "Estructuras Lineales"],
-  "totalAlgoritmos": 8,
+  "totalAlgoritmos": 13,
   "algoritmos": [
     {
       "nombre": "Bubble Sort",
@@ -25,6 +25,8 @@ El motor de simulación calcula los pasos del algoritmo. El frontend actúa como
   ]
 }
 ```
+
+> **Nota de expansión de catálogo**: La línea base implementada puede retornar 6 algoritmos semilla. La siguiente fase debe elevar el catálogo mínimo a 13 elementos activos agregando Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque y Priority Queue, sin cambiar el shape del contrato.
 
 **CO3 - Obtener Simulación (getSimulation):**
 ```json
@@ -68,6 +70,17 @@ El motor de simulación calcula los pasos del algoritmo. El frontend actúa como
 - **Simulación**: `velocidadReproducción` (Float), `estadoActual` (String: Pausa/Play), `pasoActual` (Integer).
 - **ConjuntoDeDatos**: `valores` (Array), `tipoOrigen` (String: **Predeterminado/Personalizado**), `tamaño` (Integer).
 - **Algoritmo**: `nombre`, `descripción`, `complejidadTiempo` (String Big-O), `complejidadEspacio` (String Big-O), `categoría`. Pseudocódigo vive en el engine (CDR-001).
+
+## 3.1 Catálogo y Seed Expandido
+
+La expansión del catálogo debe actualizar `seed.ts` y los engines de simulación con los siguientes requisitos:
+
+- Mantener los 6 algoritmos existentes: Bubble Sort, Insertion Sort, Selection Sort, Linked List, Queue y Stack.
+- Agregar como mínimo 7 elementos nuevos: Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque y Priority Queue.
+- Cada registro de `Algoritmo` debe incluir `tags` normalizados. Ejemplos: `divide-y-venceras`, `recursividad`, `in-place`, `estable`, `busqueda`, `heap`, `fifo`, `prioridad`.
+- Cada algoritmo simulable debe estar registrado en `engines/registry.ts`.
+- El seed debe ser idempotente mediante `upsert` por `nombre`.
+- Los datos de biblioteca y offline deben generarse desde la misma fuente de verdad para evitar diferencias entre modo online y offline.
 
 ## 4. Frontend Rendering Strategy
 - Velocidad ajustable: múltiplos de 0.25 en rango [0.25, 2.0] (según Glosario).
