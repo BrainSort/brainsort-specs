@@ -43,7 +43,7 @@ BrainSort requiere un proceso de pruebas formal que valide la correcta implement
 |---|---|---|---|
 | **Unitarias** | Services individuales con mocks de Prisma y dependencias | Jest + @nestjs/testing | `src/**/*.service.spec.ts` |
 | **Integración** | Flujos HTTP completos endpoint-a-endpoint | Fastify inject + Jest | `test/*.e2e-spec.ts` |
-| **Sistema** | Ejecución local app + API, Swagger y Expo Web | Manual / navegador | Documentado en informe |
+| **Sistema** | Ejecución local app + API, Swagger y Expo Web | Playwright / navegador | `brainsort-app/e2e/app-flows.spec.ts` + informe |
 | **Rendimiento** | FPS durante animación, tiempo de carga | Validación manual exploratoria | Mejora futura si se formaliza medición |
 
 ### 3.2 Enfoque por Módulo
@@ -66,6 +66,7 @@ BrainSort requiere un proceso de pruebas formal que valide la correcta implement
 | Validators (FE) | ✅ 15 tests (core + UI) | — | Alta |
 | Formatters/XP (FE) | ✅ 12 tests | — | Media |
 | Service contracts/API services (FE) | ✅ 11 tests | — | Alta |
+| Login/Ruta/Perfil UI (FE) | — | ✅ 3 tests Playwright | Crítica |
 
 ## 4. Criterios de Aceptación
 
@@ -74,7 +75,7 @@ BrainSort requiere un proceso de pruebas formal que valide la correcta implement
 | Cobertura de líneas (services) | Jest `--coverage` | ≥ 80% |
 | Cobertura de líneas (controllers) | Jest `--coverage` | ≥ 70% |
 | Casos críticos | Tests marcados como Crítica | 100% PASADOS |
-| Total de tests | 193 pruebas automatizadas ejecutadas | 100% pasando |
+| Total de tests | 196 pruebas automatizadas ejecutadas | 100% pasando |
 | Defectos bloqueantes | Severidad Crítica abiertos | 0 |
 | FPS simulación | Bubble Sort 15 elem, 2.0x | ≥ 24 FPS |
 | Tiempo de carga | Desde tap hasta barras visibles | < 3 segundos |

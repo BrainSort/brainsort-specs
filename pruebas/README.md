@@ -174,6 +174,7 @@ El código de pruebas automatizadas se encuentra en los repositorios de código:
 | `src/utils/__tests__/validators.test.ts` | Unitaria | Validadores UI de auth, dataset y velocidad |
 | `src/utils/__tests__/formatters.test.ts` | Unitaria | Formateadores de puntos, duración, velocidad y texto |
 | `src/utils/__tests__/xp.utils.test.ts` | Unitaria | Cálculo de XP, niveles, progreso y tiers |
+| `e2e/app-flows.spec.ts` | E2E Web | Login, ruta de aprendizaje y perfil con Playwright sobre Expo Web |
 
 ---
 
