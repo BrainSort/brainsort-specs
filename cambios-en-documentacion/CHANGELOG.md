@@ -4,6 +4,21 @@
 
 ---
 
+## CDR-011: Simulación Legible y Controles de Datos Sincronizados
+
+**Fecha**: 2026-05-19
+**Documentación original afectada**: `features/library-simulation.spec.md`, `plan-de-implementacion/02-frontend-app.md`, `plan-de-implementacion/04-contratos-api.md`
+
+### ¿Qué cambió?
+- Merge Sort ahora documenta el paso `Merge` con pseudocódigo extendido: copias `izq/der`, índices `i/j/k`, comparación, copia desde izquierda/derecha y sobrantes.
+- `PseudocodePanel` debe mantener visible la línea activa mediante auto-scroll al índice real de la línea resaltada.
+- El input de datos personalizados debe reflejar siempre el dataset activo y el botón de regeneración se integra como dado dentro del campo.
+
+### ¿Por qué?
+Las animaciones recursivas y de combinación necesitaban más contexto educativo. Además, el usuario debe ver siempre qué datos está simulando y poder regenerarlos sin un botón ancho adicional que distraiga de la simulación.
+
+---
+
 ## CDR-001: ~~Engine Auto-Contenido (Pseudocódigo migrado de DB a Engine)~~ ⛔ REVERTIDO por CDR-009
 
 **Fecha**: 2026-04-16  
@@ -189,3 +204,36 @@ La Historia de Usuario HU-01 especifica que cada tarjeta de algoritmo en la bibl
 Es importante notar que **ambos** modelos tienen un campo `dificultad`:
 - `Algoritmo.dificultad`: Describe la dificultad general del algoritmo (para tarjetas de biblioteca, HU-01).
 - `EjercicioPrediccion.dificultad`: Describe la dificultad específica del ejercicio (para cálculo de puntos, gamificación).
+
+---
+
+## CDR-010: Visualización Enriquecida y Ejercicios Gamificados de Catálogo Expandido
+
+**Fecha**: 2026-05-19
+**Documentación original afectada**: `BrainSort-Modelo_del_Dominio.docx`, `BrainSort-Historias_de_Usuario.docx` HU-04/HU-07
+**Archivos SPECS modificados**:
+- `features/library-simulation.spec.md`
+- `features/gamification-exercises.spec.md`
+- `plan-de-implementacion/03-base-de-datos.md`
+- `plan-de-implementacion/04-contratos-api.md`
+- `task/task_breakdown.md`
+- `task/tareas-faltantes.md`
+
+### ¿Qué cambió?
+Se formalizó la expansión de catálogo a 14 elementos activos, agregando Segment Tree como estructura de árbol y enriqueciendo la simulación con datos visuales provenientes de DB.
+
+Nuevos campos/contratos:
+- `Algoritmo.visualizacion Json?`: roles, colores y etiquetas por línea de pseudocódigo.
+- `SimulationStep.marcadores[]`: etiquetas visuales como `j`, `pivot`, `mid`, `espera`.
+- `SimulationStep.nodosArbol[]`: nodos explícitos para visualizaciones de árboles.
+- `EjercicioPrediccion.tipo`: `PrediccionTexto`, `CompletarPseudocodigo`, `OrdenarBarras`.
+- `EjercicioPrediccion.opciones` y `contenido`: datos estructurados para ejercicios gamificados.
+
+### ¿Por qué?
+Las simulaciones necesitaban mostrar variables sobre barras y distinguir valores en espera durante recursión sin hardcodear lógica pedagógica en el frontend. Además, las prácticas debían parecerse más a ejercicios gamificados tipo Duolingo y evitar preguntas 100% abiertas difíciles de evaluar automáticamente.
+
+### Impacto
+- El frontend consume `marcadores` para pintar etiquetas y colores.
+- Segment Tree usa `nodosArbol` para no dibujar árboles desde arreglos dispersos.
+- La pantalla de ejercicios no muestra la sección de simulación del algoritmo.
+- El seed debe evitar ejercicios abiertos sin `opciones` o `contenido` verificable.

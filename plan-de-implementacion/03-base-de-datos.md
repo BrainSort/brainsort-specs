@@ -119,8 +119,10 @@ model Algoritmo {
   dificultad        String    // Ej: 'Facil', 'Medio', 'Dificil' - para visualización HU-01
   complejidadTiempo String    // Notación Big O, ej: "O(n²)"
   complejidadEspacio String   // Notación Big O, ej: "O(1)"
-  // pseudocodigo: Migrado al engine file (CDR-001). Ver engines/{nombre}.engine.ts
   categoria         CategoriaAlgoritmo
+  tags              String[]
+  pseudocodigo      Json?     // Array de {numero: number, codigo: string}
+  visualizacion     Json?     // Config de marcadores visuales por línea/rol
   activo            Boolean   @default(true)
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
@@ -136,6 +138,7 @@ enum CategoriaAlgoritmo {
   Ordenamiento
   Busqueda
   EstructurasLineales
+  EstructurasArboles
 }
 
 // ═══════════════════════════════════════
@@ -146,9 +149,12 @@ enum CategoriaAlgoritmo {
 // ═══════════════════════════════════════
 model EjercicioPrediccion {
   id                String   @id @default(uuid())
+  tipo              TipoEjercicio @default(PrediccionTexto)
   pregunta          String   @db.Text
   respuestaCorrecta String
   dificultad        DificultadEjercicio
+  opciones          Json?
+  contenido         Json?
   feedbackPositivo  String   @db.Text
   feedbackNegativo  String   @db.Text
   createdAt         DateTime @default(now())
@@ -165,6 +171,12 @@ enum DificultadEjercicio {
   Facil
   Medio
   Dificil
+}
+
+enum TipoEjercicio {
+  PrediccionTexto
+  CompletarPseudocodigo
+  OrdenarBarras
 }
 
 // ═══════════════════════════════════════
@@ -277,9 +289,11 @@ model RespuestaEjercicio {
 La línea base de seed puede contener un subconjunto mínimo para validar el flujo de biblioteca, simulación y gamificación. La siguiente fase debe ampliar explícitamente los datos semilla:
 
 - Mantener los 6 elementos actualmente usados por la app: Bubble Sort, Insertion Sort, Selection Sort, Linked List, Queue y Stack.
-- Agregar al menos 7 elementos nuevos: Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque y Priority Queue.
+- Agregar los elementos de la expansión: Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque, Priority Queue y Segment Tree.
 - Cada `Algoritmo` nuevo debe incluir `tags` normalizados, `dificultad`, `categoria`, `complejidadTiempo` y `complejidadEspacio`.
-- Cada `Algoritmo.activo = true` debe tener al menos 3 registros en `EjercicioPrediccion`.
+- Cada `Algoritmo` simulable debe incluir `pseudocodigo` en JSON con `{numero, codigo}`.
+- Cada algoritmo con marcadores visuales debe incluir `visualizacion` en JSON con roles, etiquetas por línea y configuración de recursión cuando aplique.
+- Los registros de `EjercicioPrediccion` deben usar tipos cerrados o semi-cerrados (`CompletarPseudocodigo`, `OrdenarBarras`, `PrediccionTexto`) y no preguntas 100% abiertas.
 - El seed debe usar `upsert` por `nombre` para algoritmos y una estrategia anti-duplicados para ejercicios.
 - La ejecución repetida de `npx prisma db seed` no debe duplicar ejercicios ni cambiar IDs innecesariamente.
 
@@ -293,7 +307,7 @@ La línea base de seed puede contener un subconjunto mínimo para validar el flu
 | Usuario | `Usuario` | `rol` como Enum. `contraseña` hasheada con bcrypt. |
 | Administrador | `Administrador` | Entidad **separada** con `credencialesAdmin` y `últimoAcceso`. |
 | BibliotecaDeAlgoritmos | — | Concepto virtual. Es una query sobre `Algoritmo` agrupada por `categoría`. `totalAlgoritmos` se calcula con `COUNT`. |
-| Algoritmo | `Algoritmo` | `nombre` único. `dificultad` para HU-01. `categoría` como Enum. `pseudocódigo` migrado al engine file (CDR-001). |
+| Algoritmo | `Algoritmo` | `nombre` único. `dificultad` para HU-01. `categoría` como Enum. `pseudocodigo` en DB como JSON Array (CDR-009). `visualizacion` en DB para marcadores por línea/rol. |
 | Simulación | `SesionSimulacion` | El estado efímero (velocidad, paso, play/pause) vive en el **frontend**. Solo se persiste el progreso de la sesión. |
 | ConjuntoDeDatos | — | Efímero (generado en cada simulación). No se persiste. Los `valores`, `tipoOrigen` y `tamaño` se envían en la request y se procesan en memoria. |
 | EjercicioPredicción | `EjercicioPrediccion` | FK a `Algoritmo`. `dificultad` como Enum. |
@@ -319,8 +333,8 @@ La línea base de seed puede contener un subconjunto mínimo para validar el flu
 ### ¿Por qué BibliotecaDeAlgoritmos no es una tabla?
 El Modelo del Dominio define `BibliotecaDeAlgoritmos` con `categorías[]` y `totalAlgoritmos`. Pero estos son **valores derivados**: las categorías son los valores únicos del campo `categoría` de `Algoritmo`, y `totalAlgoritmos` es un `COUNT(*)`. No hay datos propios que justifiquen una tabla separada.
 
-### ¿Por qué `pseudocódigo` no está en la DB?
-El Modelo del Dominio original define `Algoritmo.pseudocódigo: Text`. Para 3 algoritmos funciona, pero BrainSort escalará a **120+ algoritmos**. El pseudocódigo debe estar sincronizado con el mapeo de líneas del engine (para que `lineaPseudocodigo` en cada `SimulationStep` sea correcto). Mantener ambos separados (DB + engine) es insostenible. Solución: el engine **posee** el pseudocódigo. Ver CDR-001 en `cambios-en-documentacion/CHANGELOG.md`.
+### ¿Por qué `pseudocódigo` y `visualizacion` están en la DB?
+El pseudocódigo se persistió en `Algoritmo.pseudocodigo` como JSON Array para permitir correcciones de contenido sin redeploy del backend (CDR-009). El engine conserva únicamente el mapeo numérico `lineaPseudocodigo`. La configuración `visualizacion` también vive en DB para que etiquetas de variables, colores y estados de recursión no queden hardcodeados en el frontend.
 
 ### ¿Por qué ConjuntoDeDatos no se persiste?
 Los `valores` son generados dinámicamente (predeterminados: aleatorios de 8-15 elementos; personalizados: ingresados por el usuario). Son transitorios y se procesan en memoria. Almacenarlos no aporta valor.
@@ -350,7 +364,7 @@ async function main() {
     },
   });
 
-  // 2. Seed de algoritmos (metadatos únicamente — pseudocódigo vive en engines/)
+  // 2. Seed de algoritmos (metadatos + tags + pseudocódigo JSON + visualización)
   const algoritmos = [
     {
       nombre: 'Bubble Sort',

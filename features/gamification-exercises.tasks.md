@@ -6,8 +6,9 @@
 - [ ] Implementar endpoint administrativo `PATCH /api/ejercicios/{id}` para editar pregunta, respuesta, dificultad y feedback.
 - [ ] Implementar endpoint administrativo `DELETE /api/ejercicios/{id}` para desactivar o eliminar ejercicios.
 - [x] Implementar el endpoint `GET /api/progreso/ranking` en `controllers/` (top usuarios por `puntosTotales DESC`).
-- [ ] Actualizar `seed.ts` para crear mínimo 3 ejercicios por algoritmo activo.
-- [ ] Agregar ejercicios para algoritmos nuevos: Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque y Priority Queue.
+- [x] Actualizar `seed.ts` para crear ejercicios gamificados por algoritmo activo usando tipos cerrados o semi-cerrados.
+- [x] Agregar ejercicios para algoritmos nuevos: Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque, Priority Queue y Segment Tree.
+- [x] Eliminar de la seed las preguntas 100% abiertas que no tienen opciones o contenido evaluable.
 - [ ] Validar cobertura de ejercicios por algoritmo: bloquear publicación de algoritmo activo si tiene menos de 3 ejercicios.
 - [ ] Implementar lógica de puntos: 5pts simulación completa, 10/25/50pts ejercicios (Easy/Med/Hard).
 - [ ] Implementar cálculo de racha (streak): validación server-time con ciclos UTC de 24 horas.
@@ -28,9 +29,10 @@
   - [ ] Icono animado 🔥 para racha de días consecutivos.
   - [ ] Mostrar insignias bloqueadas/desbloqueadas (estilo PlayStation Trophies).
 - [x] Desarrollar la Tabla de Posiciones pública (top 100 learners).
-- [ ] Desarrollar el Componente de Ejercicio Predictivo:
-  - [ ] Prompt: "Dado array [X] en paso Y de Algoritmo Z, predice el siguiente estado."
-  - [ ] 4 opciones de selección múltiple.
+- [x] Desarrollar el Componente de Ejercicio Predictivo:
+  - [x] Prompt: "Dado array [X] en paso Y de Algoritmo Z, predice el siguiente estado."
+  - [x] Opciones de selección múltiple para `CompletarPseudocodigo`.
+  - [x] Interacción de barras para `OrdenarBarras`.
   - [x] Feedback inmediato con animaciones verde (correcto) / rojo (incorrecto).
   - [x] Mostrar puntos ganados y racha actualizada.
 - [ ] Agregar selector/listado de ejercicios por algoritmo cuando existan múltiples ejercicios disponibles.
@@ -38,6 +40,7 @@
 - [ ] Crear UI administrativa para alta/edición de ejercicios por algoritmo (`ManageExercisesScreen`).
 - [x] Implementar debounce en el botón de respuesta (bloquear hasta respuesta del backend).
 - [x] Manejar el estado y mostrar indicadores de carga/error.
+- [x] Ocultar la sección "Simulación del algoritmo" dentro de la pantalla de ejercicios.
 - [ ] Confirmar compatibilidad y color coding con `constitution.md`.
 
 ## Integration

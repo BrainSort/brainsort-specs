@@ -55,7 +55,8 @@ sequenceDiagram
 - Generar arreglo aleatorio de **8 a 15 elementos** (números enteros).
 - Datos representados visualmente (barras de altura proporcional al valor).
 - Datos generados no deben estar ya ordenados ni vacíos.
-- Botón "Generar nuevos datos" para refrescar arreglo aleatorio.
+- Control de "generar nuevos datos" integrado como botón de dado dentro del input de datos personalizados.
+- El input de datos personalizados debe reflejar siempre el dataset activo: datos iniciales, datos generados y datos aplicados manualmente.
 
 ### HU-04: Controlar y Visualizar la Animación
 - Barra de control con botón "Play/Pausa".
@@ -86,12 +87,13 @@ sequenceDiagram
 
 **In-Scope:**
 - Biblioteca de algoritmos categorizada con tarjetas descriptivas.
-- La biblioteca debe poder crecer por fases. La línea base actual contiene 6 algoritmos semilla: Bubble Sort, Insertion Sort, Selection Sort, Linked List, Queue y Stack.
-- La siguiente fase de contenido debe agregar nuevos algoritmos sin romper el contrato `GET /api/biblioteca`, manteniendo `nombre`, `descripcion`, `dificultad`, `complejidadTiempo`, `complejidadEspacio`, `categoria` y `tags`.
+- La biblioteca debe poder crecer por fases. La línea base expandida contiene 14 elementos activos: Bubble Sort, Insertion Sort, Selection Sort, Linked List, Queue, Stack, Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque, Priority Queue y Segment Tree.
+- La expansión de contenido no debe romper el contrato `GET /api/biblioteca`, manteniendo `nombre`, `descripcion`, `dificultad`, `complejidadTiempo`, `complejidadEspacio`, `categoria` y `tags`.
 - Cada algoritmo nuevo debe tener engine auto-contenido cuando sea simulable: `meta`, `pseudocode` y `execute(data)`.
 - Motor de simulación visual paso a paso con controles Play/Pausa.
 - Velocidad ajustable en rango **[0.25x, 2.0x]** en incrementos de 0.25x (según Glosario).
 - Datos de entrada: **Predeterminados** (auto-generados) y **Personalizados** (del usuario) — según Modelo del Dominio.
+- El control de datos personalizados muestra el dataset activo en formato CSV y permite regenerarlo desde un botón de dado embebido en el campo.
 - La línea base implementada expone consulta de biblioteca y detalle de algoritmo. El CRUD administrativo de algoritmos queda como extensión planificada y no forma parte de los endpoints actuales verificados en U4-EJ26.
 
 ### 3.1 Expansión del Catálogo de Algoritmos
@@ -105,6 +107,7 @@ La expansión debe priorizar algoritmos y estructuras que aporten variedad pedag
 | Ordenamiento | Merge Sort, Quick Sort, Heap Sort | Engine visual paso a paso obligatorio |
 | Búsqueda | Binary Search, Linear Search | Engine visual paso a paso obligatorio |
 | Estructuras Lineales | Deque, Priority Queue | Engine o visualización operacional obligatoria |
+| Estructuras de Árboles | Segment Tree | Engine visual paso a paso obligatorio con nodos explícitos |
 
 **Criterios de aceptación:**
 
@@ -115,8 +118,58 @@ La expansión debe priorizar algoritmos y estructuras que aporten variedad pedag
   - tags,
   - dificultad,
   - descripción de máximo 140 caracteres,
-  - al menos 3 ejercicios asociados.
+  - ejercicios asociados en formatos cerrados o semi-cerrados.
 - Los algoritmos marcados como "Próximamente" pueden existir en base de datos, pero deben ser `activo = false` o mostrar estado no navegable en UI.
+
+### 3.2 Visualización Enriquecida por Datos
+
+La simulación no debe depender de etiquetas hardcodeadas en el frontend. Cada algoritmo puede persistir una configuración `visualizacion` en DB con roles, colores y etiquetas por línea de pseudocódigo.
+
+**Reglas actuales:**
+
+- Los pasos pueden incluir `marcadores[]` con `index`, `label`, `role` y `color`.
+- Las barras deben mostrar el texto de la variable activa (`i`, `j`, `pivot`, `mid`, `key`, etc.) usando `marcadores[]`.
+- Las llamadas recursivas en espera deben representarse con `role = "esperaRecursion"` y color configurado en DB.
+- Las visualizaciones de árbol pueden incluir `nodosArbol[]` para no inferir el layout desde un arreglo plano.
+- Segment Tree debe usar `nodosArbol[]` con `index`, `value`, `level`, `position` y `label` de rango (`[inicio,fin]`).
+- `PseudocodePanel` debe mantener visible la línea activa al cambiar de paso, calculando la posición real de la línea dentro del panel y no solo el número de línea.
+
+### 3.3 Pseudocódigo de Merge Sort
+
+Merge Sort debe exponer el paso `Merge` con detalle suficiente para comprender la combinación de mitades, no solo como una llamada opaca:
+
+```text
+1 MergeSort(arreglo, L, R)
+2   Si L == R: retornar
+3   M = piso((L + R) / 2)
+4   MergeSort(arreglo, L, M)
+5   MergeSort(arreglo, M + 1, R)
+6   Merge(arreglo, L, M, R)
+7     izq = copia de arreglo[L..M]
+8     der = copia de arreglo[M+1..R]
+9     i = 0; j = 0; k = L
+10    Mientras i < tam(izq) y j < tam(der)
+11      Si izq[i] <= der[j]: arreglo[k] = izq[i]; i++
+12      Si no: arreglo[k] = der[j]; j++
+13      k++
+14    Copiar sobrantes de izq o der al arreglo
+```
+
+### 3.4 Pseudocódigo de Segment Tree
+
+Segment Tree debe mostrar exclusivamente el pseudocódigo de construcción cuando la simulación ejecuta `build`:
+
+```text
+1 build(nodo, inicio, fin)
+2   Si inicio == fin: tree[nodo] = arreglo[inicio]
+3   mid = piso((inicio + fin) / 2)
+4   build(2*nodo, inicio, mid)
+5   build(2*nodo+1, mid+1, fin)
+6   tree[nodo] = tree[2*nodo] + tree[2*nodo+1]
+7   retornar tree[nodo]
+```
+
+No se deben mezclar líneas de `query` en esta simulación de construcción.
 
 **Out-of-Scope:**
 - Algoritmos de grafos avanzados (A*, Dijkstra, Bellman-Ford) hasta que exista una visualización de grafos dedicada.
