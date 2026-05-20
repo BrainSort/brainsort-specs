@@ -292,11 +292,12 @@ AppNavigator
 3. SimulationScreen
    ├── Carga datos predeterminados: arreglo aleatorio 8-15 elementos (HU-03)
    ├── Barras de altura proporcional al valor (HU-03)
-   ├── Botón "Generar nuevos datos" (HU-03 flujo alt.)
+   ├── Input de datos personalizados sincronizado con el dataset activo
+   ├── Botón de dado embebido en el input para generar nuevos datos (HU-03 flujo alt.)
    ├── Barra de control: Play/Pausa (HU-04)
    ├── Colores: Azul(base), Amarillo(comparar), Rojo(intercambiar), Verde(final)
    ├── Slider de velocidad: [0.25, 2.0] × 0.25 (Glosario)
-   ├── Panel de pseudocódigo sincronizado con paso actual
+   ├── Panel de pseudocódigo sincronizado con paso actual y auto-scroll a la línea activa
    ├── Animación fluida ≥24 FPS (HU-04 DoD)
    ├── Timeout de seguridad contra bucles infinitos (HU-06)
    ├── Al finalizar: todos verdes + ícono ✓ para daltónicos (HU-06)
@@ -340,11 +341,13 @@ visualization/ (react-native-svg - renderizado)
 ```
 
 ### Flujo de una Animación
-1. `useSimulationEngine` genera todos los `SimulationStep[]` desde `packages/core`.
+1. `useSimulationEngine` solicita `POST /api/simulaciones` y recibe `SimulationStep[]`, `pseudocode[]`, `marcadores[]` y, cuando aplica, `nodosArbol[]`.
 2. `useAnimationController` usa `requestAnimationFrame` para avanzar por los pasos.
-3. En cada frame: calcula las coordenadas SVG con D3.js scales.
-4. `BarRenderer` re-renderiza las barras con las nuevas posiciones y colores.
-5. `PseudocodePanel` resalta la línea correspondiente a `lineaPseudocodigo`.
+3. En cada frame: calcula las coordenadas de barras o estructura según la categoría del algoritmo.
+4. `BarChart`, `LinearStructureCanvas` o `TreeStructureCanvas` re-renderizan el estado con colores y etiquetas desde `marcadores[]`.
+5. `PseudocodePanel` resalta la línea correspondiente a `lineaPseudocodigo` y hace scroll al índice real de esa línea para mantenerla visible.
+
+Para Segment Tree y futuras estructuras de árbol, el frontend debe usar `nodosArbol[]` como layout explícito en vez de inferir un heap completo desde `estadoArray`.
 
 **Rendimiento**: D3.js solo calcula números (nunca toca el DOM). react-native-svg renderiza de forma nativa en ambas plataformas. El hilo principal nunca se bloquea.
 

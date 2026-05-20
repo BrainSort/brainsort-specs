@@ -182,8 +182,8 @@ Todos los endpoints usan el prefijo `/api`.
 ```json
 {
   "data": {
-    "categorias": ["Ordenamiento", "Busqueda", "EstructurasLineales"],
-    "totalAlgoritmos": 8,
+    "categorias": ["Ordenamiento", "Busqueda", "EstructurasLineales", "EstructurasArboles"],
+    "totalAlgoritmos": 14,
     "algoritmos": [
       {
         "id": "uuid-bubble",
@@ -291,10 +291,20 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
       "pasoActual": 0
     },
     "pseudocode": [
-      { "line": 1, "text": "PARA i = 0 HASTA n-1", "indent": 0 },
-      { "line": 2, "text": "PARA j = 0 HASTA n-i-1", "indent": 1 },
-      { "line": 3, "text": "SI arreglo[j] > arreglo[j+1]", "indent": 2 },
-      { "line": 4, "text": "INTERCAMBIAR(arreglo[j], arreglo[j+1])", "indent": 3 }
+      { "line": 1, "text": "MergeSort(arreglo, L, R)", "indent": 0 },
+      { "line": 2, "text": "Si L == R: retornar", "indent": 1 },
+      { "line": 3, "text": "M = piso((L + R) / 2)", "indent": 1 },
+      { "line": 4, "text": "MergeSort(arreglo, L, M)", "indent": 1 },
+      { "line": 5, "text": "MergeSort(arreglo, M + 1, R)", "indent": 1 },
+      { "line": 6, "text": "Merge(arreglo, L, M, R)", "indent": 1 },
+      { "line": 7, "text": "izq = copia de arreglo[L..M]", "indent": 2 },
+      { "line": 8, "text": "der = copia de arreglo[M+1..R]", "indent": 2 },
+      { "line": 9, "text": "i = 0; j = 0; k = L", "indent": 2 },
+      { "line": 10, "text": "Mientras i < tam(izq) y j < tam(der)", "indent": 2 },
+      { "line": 11, "text": "Si izq[i] <= der[j]: arreglo[k] = izq[i]; i++", "indent": 3 },
+      { "line": 12, "text": "Si no: arreglo[k] = der[j]; j++", "indent": 3 },
+      { "line": 13, "text": "k++", "indent": 3 },
+      { "line": 14, "text": "Copiar sobrantes de izq o der al arreglo", "indent": 2 }
     ],
     "totalPasos": 12,
     "pasos": [
@@ -303,7 +313,11 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
         "tipoOperacion": "comparacion",
         "indicesActivos": [0, 1],
         "estadoArray": [5, 2, 8, 1, 9, 3],
-        "lineaPseudocodigo": 3
+        "lineaPseudocodigo": 3,
+        "marcadores": [
+          { "index": 0, "label": "j", "role": "activo", "color": "#F5A623" },
+          { "index": 1, "label": "j+1", "role": "activo", "color": "#F5A623" }
+        ]
       },
       {
         "numeroPaso": 2,
@@ -314,6 +328,30 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
       }
     ]
   }
+}
+```
+
+**Campos opcionales de `pasos[]`:**
+
+| Campo | Tipo | Uso |
+|---|---|---|
+| `marcadores` | `{ index, label, role, color }[]` | Etiquetas y colores derivados de `Algoritmo.visualizacion`; permite mostrar variables sobre barras y estados de recursión en espera. |
+| `nodosArbol` | `{ index, value, level, position, label }[]` | Layout explícito para árboles. Segment Tree lo usa para evitar inferir nodos desde un arreglo plano. |
+
+**Ejemplo Segment Tree:**
+
+```json
+{
+  "numeroPaso": 24,
+  "tipoOperacion": "final",
+  "indicesActivos": [0],
+  "estadoArray": [11, 3, 8, 2, 1, 5, 3],
+  "lineaPseudocodigo": 7,
+  "nodosArbol": [
+    { "index": 0, "value": 11, "level": 0, "position": 0, "label": "[0,3]" },
+    { "index": 1, "value": 3, "level": 1, "position": 0, "label": "[0,1]" },
+    { "index": 2, "value": 8, "level": 1, "position": 1, "label": "[2,3]" }
+  ]
 }
 ```
 
@@ -345,13 +383,22 @@ Si `tipoOrigen === "Predeterminado"`: el backend genera arreglo aleatorio de 8-1
   "data": [
     {
       "id": "uuid-ej-1",
+      "tipo": "OrdenarBarras",
       "pregunta": "Dado el arreglo [5, 2, 8, 1], ¿cuál es el resultado después de la primera pasada completa de Bubble Sort?",
       "dificultad": "Facil",
-      "algoritmoId": "uuid-bubble"
+      "algoritmoId": "uuid-bubble",
+      "opciones": null,
+      "contenido": {
+        "inicial": [5, 2, 8, 1],
+        "pasoObjetivo": "Primer intercambio",
+        "objetivo": [2, 5, 8, 1]
+      }
     }
   ]
 }
 ```
+
+Los tipos soportados por la seed expandida son `CompletarPseudocodigo`, `OrdenarBarras` y `PrediccionTexto`. No se deben sembrar preguntas 100% abiertas sin datos de evaluación automática.
 
 ### POST `/api/ejercicios/:id/responder`
 **Acceso**: Autenticado

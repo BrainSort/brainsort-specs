@@ -202,9 +202,9 @@ export class RegisterDto {
 6. Retornar simulación completa con todos los pasos.
 7. Asociar avance de simulación con la cuenta del usuario.
 
-**Engines** (carpeta `engines/`) — Patrón **Engine Auto-Contenido** (ver `cambios-en-documentacion/CHANGELOG.md` CDR-001):
+**Engines** (carpeta `engines/`) — Patrón **Engine + contenido en DB** (ver `cambios-en-documentacion/CHANGELOG.md` CDR-009 y CDR-010):
 
-> Cada archivo engine define **todo** sobre un algoritmo: metadatos, pseudocódigo con mapeo de líneas, y lógica de ejecución. Esto permite escalar a 120+ algoritmos sin mantener mapeos separados.
+> Cada engine define metadatos operativos y lógica de ejecución. El texto del pseudocódigo y la configuración visual viven en DB para permitir correcciones de contenido sin redeploy. El engine solo emite `lineaPseudocodigo` y datos de paso.
 
 ```typescript
 // engine.interface.ts
@@ -216,14 +216,22 @@ export interface AlgorithmDefinition {
     complejidadEspacio: string;
     categoria: string;
   };
-  pseudocode: PseudocodeLine[];
   execute(data: number[]): SimulationStep[];
 }
 
-export interface PseudocodeLine {
-  line: number;      // Índice desde 1
-  text: string;      // Texto legible
-  indent: number;    // Nivel de indentación (0, 1, 2...)
+export interface SimulationMarker {
+  index: number;
+  label: string;
+  role: string;
+  color: string;
+}
+
+export interface SimulationTreeNode {
+  index: number;
+  value: number | null;
+  level: number;
+  position: number;
+  label?: string;
 }
 
 export interface SimulationStep {
@@ -231,7 +239,9 @@ export interface SimulationStep {
   tipoOperacion: 'comparacion' | 'intercambio' | 'insercion' | 'final';
   indicesActivos: number[];
   estadoArray: number[];
-  lineaPseudocodigo: number;  // Referencia a PseudocodeLine.line
+  lineaPseudocodigo: number;  // Referencia al número en Algoritmo.pseudocodigo
+  marcadores?: SimulationMarker[];
+  nodosArbol?: SimulationTreeNode[];
 }
 ```
 
@@ -240,12 +250,20 @@ export interface SimulationStep {
 import { BubbleSort } from './bubble-sort.engine';
 import { SelectionSort } from './selection-sort.engine';
 import { InsertionSort } from './insertion-sort.engine';
+import { MergeSort, QuickSort, HeapSort, BinarySearch, LinearSearch, Deque, PriorityQueue, SegmentTree } from './advanced-engines';
 
 const ENGINES: Record<string, AlgorithmDefinition> = {
   'Bubble Sort': BubbleSort,
   'Selection Sort': SelectionSort,
   'Insertion Sort': InsertionSort,
-  // ... se agregan más aquí al escalar
+  'Merge Sort': MergeSort,
+  'Quick Sort': QuickSort,
+  'Heap Sort': HeapSort,
+  'Binary Search': BinarySearch,
+  'Linear Search': LinearSearch,
+  Deque,
+  'Priority Queue': PriorityQueue,
+  'Segment Tree': SegmentTree,
 };
 
 export function getEngine(nombre: string): AlgorithmDefinition {
@@ -255,7 +273,7 @@ export function getEngine(nombre: string): AlgorithmDefinition {
 }
 ```
 
-Cada engine implementa `AlgorithmDefinition`. **Timeout de seguridad**: si un engine excede 10 segundos, abortar con error (según HU-06). La respuesta de simulación ahora incluye `pseudocode[]` (generado desde el engine, NO desde la DB).
+Cada engine implementa `AlgorithmDefinition`. **Timeout de seguridad**: si un engine excede 10 segundos, abortar con error (según HU-06). La respuesta de simulación incluye `pseudocode[]` normalizado desde `Algoritmo.pseudocodigo` en DB y puede incluir `marcadores[]`/`nodosArbol[]` derivados de `Algoritmo.visualizacion` o del engine.
 
 ### 2.5 ExercisesModule
 **Responsabilidad**: CRUD y evaluación de ejercicios de predicción.

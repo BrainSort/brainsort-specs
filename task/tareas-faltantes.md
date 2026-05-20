@@ -134,13 +134,17 @@
 
 ---
 
-## 10. Expansión de Catálogo y Banco de Ejercicios
+## 10. ~~Expansión de Catálogo y Banco de Ejercicios~~ ✅ RESUELTO
 
 > **Propósito**: La app ya tiene una línea base funcional con algoritmos semilla. La siguiente fase requiere ampliar contenido sin romper la biblioteca, simulación, práctica y módulos offline.
+>
+> **Resuelto en**: `features/library-simulation.spec.md` §3.1-§3.3, `features/gamification-exercises.spec.md` §2-§3 y `plan-de-implementacion/04-contratos-api.md` §4-§5.
+>
+> **Resumen**: La fase expandida queda definida con 14 elementos activos incluyendo Segment Tree, ejercicios gamificados cerrados/semi-cerrados (`CompletarPseudocodigo`, `OrdenarBarras`, `PrediccionTexto`), visualización enriquecida desde DB (`visualizacion`, `marcadores`) y soporte explícito de árboles (`nodosArbol`).
 
-- [ ] **Catálogo Final de la Fase**: Confirmar si la expansión mínima será exactamente 13 elementos activos: Bubble Sort, Insertion Sort, Selection Sort, Linked List, Queue, Stack, Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque y Priority Queue.
-- [ ] **Cobertura por Categoría**: Definir si se agregan más categorías además de `Ordenamiento`, `Busqueda` y `EstructurasLineales`.
-- [ ] **Cobertura de Ejercicios**: Confirmar mínimo de 3 ejercicios por algoritmo activo y distribución deseada por dificultad (`Facil`, `Medio`, `Dificil`).
-- [ ] **Contenido de Ejercicios**: Definir si los ejercicios serán solo de predicción de estado o también de complejidad, identificación de operación y errores comunes.
-- [ ] **Algoritmos No Simulables**: Definir si se permite publicar algoritmos sin engine como `activo = false` / "Próximamente", o si todo algoritmo visible debe ser simulable.
-- [ ] **Administración de Contenido**: Confirmar si el CRUD de ejercicios será obligatorio en el panel admin durante esta fase o si bastará con seed/migraciones.
+- [x] **Catálogo Final de la Fase**: 14 elementos activos: Bubble Sort, Insertion Sort, Selection Sort, Linked List, Queue, Stack, Merge Sort, Quick Sort, Heap Sort, Binary Search, Linear Search, Deque, Priority Queue y Segment Tree.
+- [x] **Cobertura por Categoría**: Se agrega `EstructurasArboles` para Segment Tree además de `Ordenamiento`, `Busqueda` y `EstructurasLineales`.
+- [x] **Cobertura de Ejercicios**: Se priorizan ejercicios cerrados/semi-cerrados por algoritmo y dificultad (`Facil`, `Medio`, `Dificil`).
+- [x] **Contenido de Ejercicios**: Incluye completar pseudocódigo, ordenar barras y predicción validable automáticamente.
+- [x] **Algoritmos No Simulables**: Todo algoritmo visible en esta fase debe tener engine o visualización operacional; elementos futuros pueden usar `activo = false` / "Próximamente".
+- [x] **Administración de Contenido**: Para esta fase basta con seed/migraciones idempotentes; CRUD admin de ejercicios queda como extensión posterior.
