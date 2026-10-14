@@ -135,47 +135,47 @@ export interface CreateSimulationDto {
 ### Task 4.0 — BE-04: Refactorizar `LinearSearch` con soporte de objetivo y nuevos pasos
 - **Archivos**: `src/simulations/engines/advanced-engines.ts` (o `linear-search.engine.ts`)
 - **Subtasks**:
-  - [ ] Refactorizar `LinearSearch` para consumir `input.data` e `input.objetivo` (con fallback de seguridad en caso de invocaciones legacy).
-  - [ ] Emitir en cada iteración del bucle `tipoOperacion: 'comparacion'` con `indicesActivos: [i]`.
-  - [ ] Si `data[i] === target`: emitir paso final con `tipoOperacion: 'encontrado'`, `indicesActivos: [i]` y terminar.
-  - [ ] Si se agota el arreglo sin coincidencias: emitir paso final con `tipoOperacion: 'no_encontrado'`, `indicesActivos: []`.
+  - [x] Refactorizar `LinearSearch` para consumir `input.data` e `input.objetivo` (con fallback de seguridad en caso de invocaciones legacy).
+  - [x] Emitir en cada iteración del bucle `tipoOperacion: 'comparacion'` con `indicesActivos: [i]`.
+  - [x] Si `data[i] === target`: emitir paso final con `tipoOperacion: 'encontrado'`, `indicesActivos: [i]` y terminar.
+  - [x] Si se agota el arreglo sin coincidencias: emitir paso final con `tipoOperacion: 'no_encontrado'`, `indicesActivos: []`.
 - **Aceptación**: Produce la secuencia exacta de pasos definida en los fixtures dorados (objetivo en extremos, intermedio y ausente).
 
 ### Task 5.0 — BE-05: Refactorizar `BinarySearch` eliminando ordenación silenciosa y soportando descarte
 - **Archivos**: `src/simulations/engines/advanced-engines.ts` (o `binary-search.engine.ts`)
 - **Subtasks**:
-  - [ ] Eliminar la llamada interna silenciosa `.sort()` en `BinarySearch`. Si los datos no vienen ordenados, lanzar error de validación de dominio.
-  - [ ] Calcular punto medio con fórmula determinista `mid = Math.floor((low + high) / 2)`.
-  - [ ] Emitir `tipoOperacion: 'comparacion'` en `indicesActivos: [mid]`, registrando `rango: { bajo: low, medio: mid, alto: high }`.
-  - [ ] Si `data[mid] === target`: emitir `tipoOperacion: 'encontrado'` con `indicesActivos: [mid]` y finalizar.
-  - [ ] Si no coincide: emitir `tipoOperacion: 'descarte'` indicando el sub-rango descartado con marcadores visuales, actualizar límites (`low = mid + 1` o `high = mid - 1`) y continuar.
-  - [ ] Si `low > high`: emitir paso final con `tipoOperacion: 'no_encontrado'`.
+  - [x] Eliminar la llamada interna silenciosa `.sort()` en `BinarySearch`. Si los datos no vienen ordenados, lanzar error de validación de dominio.
+  - [x] Calcular punto medio con fórmula determinista `mid = Math.floor((low + high) / 2)`.
+  - [x] Emitir `tipoOperacion: 'comparacion'` en `indicesActivos: [mid]`, registrando `rango: { bajo: low, medio: mid, alto: high }`.
+  - [x] Si `data[mid] === target`: emitir `tipoOperacion: 'encontrado'` con `indicesActivos: [mid]` y finalizar.
+  - [x] Si no coincide: emitir `tipoOperacion: 'descarte'` indicando el sub-rango descartado con marcadores visuales, actualizar límites (`low = mid + 1` o `high = mid - 1`) y continuar.
+  - [x] Si `low > high`: emitir paso final con `tipoOperacion: 'no_encontrado'`.
 - **Aceptación**: Pasa los fixtures dorados sin reordenar datos internamente; emite transiciones semánticas de descarte y encontrado/no encontrado.
 
 ### Task 6.0 — BE-06: Implementar `BfsEngine` (Recorrido en Anchura)
 - **Archivos**: `src/simulations/engines/bfs.engine.ts`, exportado en `registry.ts`
 - **Subtasks**:
-  - [ ] Implementar `BfsEngine` utilizando una cola FIFO explícita (`cola = [nodoInicio]`).
-  - [ ] Mantener lista cronológica de nodos visitados y conjunto de visitados.
-  - [ ] Emitir pasos de tipo `PasoGrafo`: `visita` con `nodoActual`, `frontera` (cola actual) y `visitados`.
-  - [ ] Al descubrir vecinos no visitados, explorar en **orden ascendente por ID de nodo** y emitir `encolar` con `aristaActiva: [nodoActual, vecino]`.
-  - [ ] Al vaciar la cola, emitir paso final con `tipoOperacion: 'final'`, `nodoActual: null` y la lista completa de visitados.
+  - [x] Implementar `BfsEngine` utilizando una cola FIFO explícita (`cola = [nodoInicio]`).
+  - [x] Mantener lista cronológica de nodos visitados y conjunto de visitados.
+  - [x] Emitir pasos de tipo `PasoGrafo`: `visita` con `nodoActual`, `frontera` (cola actual) y `visitados`.
+  - [x] Al descubrir vecinos no visitados, explorar en **orden ascendente por ID de nodo** y emitir `encolar` con `aristaActiva: [nodoActual, vecino]`.
+  - [x] Al vaciar la cola, emitir paso final con `tipoOperacion: 'final'`, `nodoActual: null` y la lista completa de visitados.
 - **Aceptación**: Pasa los fixtures dorados para grafos lineales, árboles, grafos con ciclos y componentes no conexas.
 
 ### Task 7.0 — BE-07: Implementar `DfsEngine` (Recorrido en Profundidad Iterativo)
 - **Archivos**: `src/simulations/engines/dfs.engine.ts`, exportado en `registry.ts`
 - **Subtasks**:
-  - [ ] Implementar `DfsEngine` de forma **iterativa con pila explícita LIFO** (`pila = [nodoInicio]`).
-  - [ ] Explorar vecinos no visitados en orden determinista y emitir pasos semánticos de `visita`, `apilar`, `desapilar`.
-  - [ ] Al vaciar la pila, emitir paso final con `tipoOperacion: 'final'`.
+  - [x] Implementar `DfsEngine` de forma **iterativa con pila explícita LIFO** (`pila = [nodoInicio]`).
+  - [x] Explorar vecinos no visitados en orden determinista y emitir pasos semánticos de `visita`, `apilar`, `desapilar`.
+  - [x] Al vaciar la pila, emitir paso final con `tipoOperacion: 'final'`.
 - **Aceptación**: Pasa los fixtures dorados; el orden de visita difiere de BFS sobre grafos con ciclos demostrando la naturaleza de profundidad.
 
 ### Task 8.0 — BE-08: Adaptar `registry.ts` para soporte multi-input y registro de nuevos engines
 - **Archivos**: `src/simulations/engines/registry.ts`, `src/simulations/simulations.module.ts`
 - **Subtasks**:
-  - [ ] Registrar en `ENGINES: Record<string, AlgorithmDefinition>` los nuevos motores `'Breadth-First Search'` y `'Depth-First Search'`.
-  - [ ] Adaptar la firma `executeWithTimeout(nombre: string, input: SimulationInput | number[]): Promise<SimulationStep[]>` envolviendo arreglos planos para mantener retrocompatibilidad.
-  - [ ] Mantener y validar el timeout de seguridad de 10 segundos contra bucles infinitos (HU-06).
+  - [x] Registrar en `ENGINES: Record<string, AlgorithmDefinition>` los nuevos motores `'Breadth-First Search'` y `'Depth-First Search'`.
+  - [x] Adaptar la firma `executeWithTimeout(nombre: string, input: SimulationInput | number[]): Promise<SimulationStep[]>` envolviendo arreglos planos para mantener retrocompatibilidad.
+  - [x] Mantener y validar el timeout de seguridad de 10 segundos contra bucles infinitos (HU-06).
 - **Aceptación**: Permite ejecutar indistintamente motores de arreglo y motores de grafo con captura adecuada de timeouts.
 
 ---
@@ -185,18 +185,18 @@ export interface CreateSimulationDto {
 ### Task 9.0 — BE-09: Validación y generación de datos en `SimulationsService` (CO3)
 - **Archivos**: `src/simulations/simulations.service.ts`
 - **Subtasks**:
-  - [ ] En búsquedas: validar que `objetivo` esté presente y sea un entero entre 0 y 999.
-  - [ ] Para Búsqueda Binaria con `Personalizado`: validar que `valores` esté ordenado ascendentemente; si no lo está, lanzar `BadRequestException('Para la Búsqueda Binaria, el conjunto de datos personalizado debe estar ordenado ascendentemente')`.
-  - [ ] Para Búsqueda Binaria con `Predeterminado`: generar arreglo aleatorio de 8 a 15 elementos y **ordenarlo ascendentemente** antes de simular, seleccionando un objetivo coherente.
-  - [ ] Para Grafos: validar estructura de `grafo` (`nodos` $\ge 2$, `aristas` válidas, `nodoInicio` existente); en `Predeterminado`, asignar un grafo estándar predefinido.
-  - [ ] Construir `SimulationInput`, delegar a `executeWithTimeout` y mapear los pasos en la respuesta respetando la unión discriminada.
+  - [x] En búsquedas: validar que `objetivo` esté presente y sea un entero entre 0 y 999.
+  - [x] Para Búsqueda Binaria con `Personalizado`: validar que `valores` esté ordenado ascendentemente; si no lo está, lanzar `BadRequestException('Para la Búsqueda Binaria, el conjunto de datos personalizado debe estar ordenado ascendentemente')`.
+  - [x] Para Búsqueda Binaria con `Predeterminado`: generar arreglo aleatorio de 8 a 15 elementos y **ordenarlo ascendentemente** antes de simular, seleccionando un objetivo coherente.
+  - [x] Para Grafos: validar estructura de `grafo` (`nodos` $\ge 2$, `aristas` válidas, `nodoInicio` existente); en `Predeterminado`, asignar un grafo estándar predefinido.
+  - [x] Construir `SimulationInput`, delegar a `executeWithTimeout` y mapear los pasos en la respuesta respetando la unión discriminada.
 - **Aceptación**: Petición de Búsqueda Binaria desordenada retorna 400 descriptivo; peticiones válidas de búsqueda y grafos retornan simulación estructurada según CO3.
 
 ### Task 10.0 — BE-10: Exportación de contrato Swagger / OpenAPI
 - **Archivos**: `src/main.ts`
 - **Subtasks**:
-  - [ ] Verificar que los endpoints de simulación documenten la unión discriminada de pasos y los nuevos DTOs en `/docs` y `/docs-json`.
-  - [ ] Exportar el archivo JSON de OpenAPI actualizado para su consumo en frontend.
+  - [x] Verificar que los endpoints de simulación documenten la unión discriminada de pasos y los nuevos DTOs en `/docs` y `/docs-json`.
+  - [x] Exportar el archivo JSON de OpenAPI actualizado para su consumo en frontend.
 - **Aceptación**: Endpoint `/docs-json` emite el contrato enriquecido sin errores de tipado en Swagger.
 
 ---
@@ -206,27 +206,27 @@ export interface CreateSimulationDto {
 ### Task 11.0 — BE-11: Biblioteca con categoría Grafos y Búsqueda
 - **Archivos**: `src/algorithms/algorithms.service.ts`
 - **Subtasks**:
-  - [ ] Asegurar que `GET /api/biblioteca` devuelva dinámicamente las categorías disponibles (incluyendo `Busqueda` y `Grafos`), calculando `totalAlgoritmos` y tarjetas con `descripcion <= 140` caracteres.
+  - [x] Asegurar que `GET /api/biblioteca` devuelva dinámicamente las categorías disponibles (incluyendo `Busqueda` y `Grafos`), calculando `totalAlgoritmos` y tarjetas con `descripcion <= 140` caracteres.
 - **Aceptación**: La respuesta agrupa los 4 algoritmos bajo sus categorías correspondientes.
 
 ### Task 12.0 — BE-12: Nuevos ejercicios de predicción y retos
 - **Archivos**: `src/exercises/exercises.service.ts`, `src/exercises/dto/answer-exercise.dto.ts`
 - **Subtasks**:
-  - [ ] Ampliar la evaluación de ejercicios para validar respuestas de tipo secuencia de visita (para BFS/DFS), comparando arreglos de IDs de nodos en orden exacto.
-  - [ ] Asegurar que un ejercicio completado correctamente otorgue puntos una sola vez (idempotencia en puntaje).
+  - [x] Ampliar la evaluación de ejercicios para validar respuestas de tipo secuencia de visita (para BFS/DFS), comparando arreglos de IDs de nodos en orden exacto.
+  - [x] Asegurar que un ejercicio completado correctamente otorgue puntos una sola vez (idempotencia en puntaje).
 - **Aceptación**: Responder ejercicio de orden de visita con secuencia correcta otorga puntos; respuesta incorrecta devuelve feedback negativo sin sumar puntos.
 
 ### Task 13.0 — BE-13: Progreso e insignias
 - **Archivos**: `src/progress/progress.service.ts`, `src/badges/badges.service.ts`
 - **Subtasks**:
-  - [ ] Registrar criterios de desbloqueo para las nuevas insignias de Búsqueda y Grafos al completar simulaciones o ejercicios.
+  - [x] Registrar criterios de desbloqueo para las nuevas insignias de Búsqueda y Grafos al completar simulaciones o ejercicios.
 - **Aceptación**: Insignias otorgadas correctamente en `GET /api/insignias/me`.
 
 ### Task 14.0 — BE-14: Sincronización offline (Sync)
 - **Archivos**: `src/sync/sync.service.ts`, `src/offline/offline.service.ts`
 - **Subtasks**:
-  - [ ] Incluir módulos de búsqueda y grafos en `GET /api/modules/offline`.
-  - [ ] Asegurar que `POST /api/progress/sync` acepte respuestas a ejercicios de secuencias de grafos con `clientEventId` idempotente.
+  - [x] Incluir módulos de búsqueda y grafos en `GET /api/modules/offline`.
+  - [x] Asegurar que `POST /api/progress/sync` acepte respuestas a ejercicios de secuencias de grafos con `clientEventId` idempotente.
 - **Aceptación**: El reenvío de un mismo evento offline no duplica puntos ni altera la racha de días.
 
 ---
