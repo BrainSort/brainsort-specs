@@ -91,6 +91,7 @@ enum CategoriaAlgoritmo {
   Busqueda
   EstructurasLineales
   EstructurasArboles
+  Grafos
 }
 
 // ═══════════════════════════════════════
@@ -129,6 +130,7 @@ enum TipoEjercicio {
   PrediccionTexto
   CompletarPseudocodigo
   OrdenarBarras
+  SecuenciaGrafos
 }
 
 // ═══════════════════════════════════════

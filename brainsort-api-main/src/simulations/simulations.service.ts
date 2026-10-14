@@ -114,18 +114,42 @@ export class SimulationsService {
         algoritmo.pseudocodigo as unknown as RawPseudocodeLine[],
       ),
       totalPasos: steps.length,
-      pasos: steps.map((step) => ({
-        numeroPaso: step.numeroPaso,
-        tipoOperacion: step.tipoOperacion,
-        indicesActivos: step.indicesActivos,
-        estadoArray: step.estadoArray,
-        lineaPseudocodigo: step.lineaPseudocodigo,
-        marcadores: this.buildMarkers(
-          step,
-          algoritmo.visualizacion as VisualizationConfig | null,
-        ),
-        nodosArbol: step.nodosArbol,
-      })),
+      pasos: steps.map((step) => {
+        if ('tipoEstructura' in step && step.tipoEstructura === 'grafo') {
+          return {
+            numeroPaso: step.numeroPaso,
+            tipoOperacion: step.tipoOperacion,
+            tipoEstructura: 'grafo' as const,
+            nodoActual: step.nodoActual,
+            visitados: step.visitados,
+            frontera: step.frontera,
+            aristaActiva: step.aristaActiva,
+            lineaPseudocodigo: step.lineaPseudocodigo,
+            marcadores: this.buildMarkers(
+              step,
+              algoritmo.visualizacion as VisualizationConfig | null,
+            ),
+            contexto: step.contexto,
+          };
+        }
+
+        const arrayStep = step as any;
+        return {
+          numeroPaso: arrayStep.numeroPaso,
+          tipoOperacion: arrayStep.tipoOperacion,
+          tipoEstructura: 'array' as const,
+          indicesActivos: arrayStep.indicesActivos ?? [],
+          estadoArray: arrayStep.estadoArray ?? [],
+          rango: arrayStep.rango,
+          lineaPseudocodigo: arrayStep.lineaPseudocodigo,
+          marcadores: this.buildMarkers(
+            step,
+            algoritmo.visualizacion as VisualizationConfig | null,
+          ),
+          nodosArbol: arrayStep.nodosArbol,
+          contexto: arrayStep.contexto,
+        };
+      }),
     };
   }
 
@@ -157,7 +181,12 @@ export class SimulationsService {
     const lineLabels = labelsByLine[String(step.lineaPseudocodigo)] ?? [];
     const markers: SimulationMarker[] = [...(step.marcadores ?? [])];
 
-    step.indicesActivos.forEach((index, position) => {
+    const indicesActivos =
+      'indicesActivos' in step && Array.isArray(step.indicesActivos)
+        ? step.indicesActivos
+        : [];
+
+    indicesActivos.forEach((index, position) => {
       markers.push({
         index,
         label: lineLabels[position] ?? `v${position + 1}`,
@@ -167,7 +196,7 @@ export class SimulationsService {
     });
 
     step.contexto?.waitingIndices?.forEach((index) => {
-      if (step.indicesActivos.includes(index)) return;
+      if (indicesActivos.includes(index)) return;
       if (markers.some((marker) => marker.index === index)) return;
       markers.push({
         index,

@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 
 type ExerciseSeed = {
   algoritmo: string;
-  tipo: 'PrediccionTexto' | 'CompletarPseudocodigo' | 'OrdenarBarras';
+  tipo: 'PrediccionTexto' | 'CompletarPseudocodigo' | 'OrdenarBarras' | 'SecuenciaGrafos';
   pregunta: string;
   respuestaCorrecta: string;
   dificultad: 'Facil' | 'Medio' | 'Dificil';
@@ -80,6 +80,22 @@ function visualizationConfig(nombre: string): Prisma.InputJsonValue {
         7: ['nodo'],
       },
       recursion: { waitingRole: 'esperaRecursion', waitingLabel: 'espera' },
+    },
+    'Breadth-First Search': {
+      roles: {
+        ...visualizationRoles,
+        visita: { color: '#F5A623', label: 'visitando' },
+        frontera: { color: '#00D4FF', label: 'cola' },
+      },
+      lineLabels: { 3: ['u'], 4: ['v'], 6: ['v'] },
+    },
+    'Depth-First Search': {
+      roles: {
+        ...visualizationRoles,
+        visita: { color: '#F5A623', label: 'visitando' },
+        frontera: { color: '#FF8C00', label: 'pila' },
+      },
+      lineLabels: { 3: ['u'], 5: ['v'], 6: ['v'] },
     },
   };
 
@@ -408,6 +424,40 @@ async function main() {
         { numero: 7, codigo: '  retornar tree[nodo]' },
       ],
     },
+    {
+      nombre: 'Breadth-First Search',
+      descripcion: 'Recorre un grafo por niveles usando una cola FIFO, explorando todos los vecinos inmediatos antes de descender.',
+      dificultad: 'Medio' as const,
+      complejidadTiempo: 'O(V + E)',
+      complejidadEspacio: 'O(V)',
+      categoria: 'Grafos' as const,
+      tags: ['Grafos', 'Recorrido', 'BFS', 'Cola'],
+      pseudocodigo: [
+        { numero: 1, codigo: 'cola = [nodoInicio]; visitados = {nodoInicio}' },
+        { numero: 2, codigo: 'Mientras cola no esté vacía:' },
+        { numero: 3, codigo: '  u = desencolar()' },
+        { numero: 4, codigo: '  Para cada vecino v de u:' },
+        { numero: 5, codigo: '    Si v no en visitados:' },
+        { numero: 6, codigo: '      visitados.agregar(v); encolar(v)' },
+      ],
+    },
+    {
+      nombre: 'Depth-First Search',
+      descripcion: 'Recorre un grafo descendiendo lo más profundo posible por cada rama antes de retroceder, usando una pila.',
+      dificultad: 'Medio' as const,
+      complejidadTiempo: 'O(V + E)',
+      complejidadEspacio: 'O(V)',
+      categoria: 'Grafos' as const,
+      tags: ['Grafos', 'Recorrido', 'DFS', 'Pila'],
+      pseudocodigo: [
+        { numero: 1, codigo: 'pila = [nodoInicio]; visitados = {}' },
+        { numero: 2, codigo: 'Mientras pila no esté vacía:' },
+        { numero: 3, codigo: '  u = desapilar()' },
+        { numero: 4, codigo: '  Si u no en visitados: visitados.agregar(u)' },
+        { numero: 5, codigo: '  Para cada vecino v de u:' },
+        { numero: 6, codigo: '    Si v no en visitados: apilar(v)' },
+      ],
+    },
   ];
 
   for (const algo of algoritmosExpandidos) {
@@ -564,6 +614,64 @@ async function main() {
       feedbackPositivo: '¡Correcto! Como 40 > 20, el nuevo high se mueve a mid - 1 (índice 2, valor 30).',
       feedbackNegativo: 'Dado que 40 es mayor que 20, el elemento debe estar a la izquierda de mid. El nuevo límite superior (high) debe actualizarse a mid - 1.',
     },
+    {
+      algoritmo: 'Breadth-First Search',
+      tipo: 'CompletarPseudocodigo',
+      pregunta: '¿Qué estructura de datos utiliza BFS para explorar los nodos nivel por nivel?',
+      respuestaCorrecta: 'Cola (FIFO)',
+      dificultad: 'Facil',
+      opciones: ['Cola (FIFO)', 'Pila (LIFO)', 'Arreglo estático', 'Árbol binario'],
+      contenido: { antes: 'Estructura principal: ', despues: '' },
+      feedbackPositivo: '¡Correcto! BFS utiliza una cola FIFO para recorrer los nodos en orden de distancia.',
+      feedbackNegativo: 'Recuerda que para explorar primero los nodos más cercanos se necesita una cola FIFO.',
+    },
+    {
+      algoritmo: 'Breadth-First Search',
+      tipo: 'SecuenciaGrafos',
+      pregunta: 'Dado el grafo con nodos [A, B, C, D] y aristas [A-B, A-C, B-D, C-D], ¿cuál es el orden de visita iniciando en A explorando vecinos en orden alfabético?',
+      respuestaCorrecta: JSON.stringify(['A', 'B', 'C', 'D']),
+      dificultad: 'Medio',
+      contenido: {
+        grafo: {
+          nodos: ['A', 'B', 'C', 'D'],
+          aristas: [['A', 'B'], ['A', 'C'], ['B', 'D'], ['C', 'D']],
+          dirigido: false,
+        },
+        nodoInicio: 'A',
+        secuenciaEsperada: ['A', 'B', 'C', 'D'],
+      },
+      feedbackPositivo: '¡Exacto! Desde A se visitan sus vecinos B y C, y luego se visita D desde la cola.',
+      feedbackNegativo: 'Recuerda que BFS visita todos los vecinos directos antes de pasar al siguiente nivel.',
+    },
+    {
+      algoritmo: 'Depth-First Search',
+      tipo: 'CompletarPseudocodigo',
+      pregunta: '¿Qué estructura de datos permite implementar DFS de forma iterativa?',
+      respuestaCorrecta: 'Pila (LIFO)',
+      dificultad: 'Facil',
+      opciones: ['Pila (LIFO)', 'Cola (FIFO)', 'Lista circular', 'Cola de prioridad'],
+      contenido: { antes: 'Estructura iterativa: ', despues: '' },
+      feedbackPositivo: '¡Correcto! Una pila LIFO reproduce el orden del backtracking en profundidad.',
+      feedbackNegativo: 'DFS desciende por una rama y retrocede usando una pila LIFO o la pila de llamadas.',
+    },
+    {
+      algoritmo: 'Depth-First Search',
+      tipo: 'SecuenciaGrafos',
+      pregunta: 'Dado el grafo con nodos [A, B, C, D] y aristas [A-B, B-C, C-D, A-D], ¿cuál es la secuencia de visita en profundidad iniciando en A si se visita primero B?',
+      respuestaCorrecta: JSON.stringify(['A', 'B', 'C', 'D']),
+      dificultad: 'Medio',
+      contenido: {
+        grafo: {
+          nodos: ['A', 'B', 'C', 'D'],
+          aristas: [['A', 'B'], ['B', 'C'], ['C', 'D'], ['A', 'D']],
+          dirigido: false,
+        },
+        nodoInicio: 'A',
+        secuenciaEsperada: ['A', 'B', 'C', 'D'],
+      },
+      feedbackPositivo: '¡Correcto! DFS profundiza por A -> B -> C -> D antes de retroceder.',
+      feedbackNegativo: 'DFS sigue la cadena de vecinos hasta que no puede avanzar más profundo.',
+    },
   ];
 
   const moreExerciseSeeds: ExerciseSeed[] = [
@@ -616,6 +724,8 @@ async function main() {
     { nombre: 'Explorador', descripcion: 'Visualizaste 3 algoritmos diferentes', imagen: '/badges/explorer.svg', criterioDesbloqueo: 'Visualizar 3 algoritmos' },
     { nombre: 'Racha de 7', descripcion: 'Estudiaste 7 días consecutivos', imagen: '/badges/streak-7.svg', criterioDesbloqueo: 'rachaDias >= 7' },
     { nombre: 'Maestro del Orden', descripcion: 'Completaste todos los algoritmos de Ordenamiento', imagen: '/badges/sort-master.svg', criterioDesbloqueo: 'Completar todos los algoritmos de Ordenamiento' },
+    { nombre: 'Explorador de Grafos', descripcion: 'Completaste simulaciones y ejercicios de BFS y DFS', imagen: '/badges/graph-explorer.svg', criterioDesbloqueo: 'Completar algoritmos de Grafos' },
+    { nombre: 'Rastreador Eficiente', descripcion: 'Dominaste la Búsqueda Binaria y la Búsqueda Lineal', imagen: '/badges/search-master.svg', criterioDesbloqueo: 'Completar algoritmos de Busqueda' },
   ];
 
   for (const badge of insignias) {
